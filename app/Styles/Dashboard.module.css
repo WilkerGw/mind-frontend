@@ -1,0 +1,297 @@
+.dashboard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: auto;
+  padding-top: 5rem;
+}
+
+.titleContainer {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.searchBar {
+  width: 90%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 0.3rem;
+  font-size: 16px;
+  margin: 0 auto;
+}
+
+.filtros {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.3rem;
+  margin-bottom: 2rem;
+}
+
+.labelFilter {
+  display: flex;
+  align-items: center;
+  padding: 0.5rem 1rem;
+  border-radius: 0.3rem;
+  background: linear-gradient(to right, #5e5e5e, #9e9e9e);
+  color: #eeeeeea6;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+.title {
+  text-transform: uppercase;
+  color: #5e5e5e;
+  font-size: 1.3rem;
+}
+
+.formTitle {
+  text-align: center;
+  margin-block: 2rem;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  border-radius: 8px;
+  width: 100%;
+  height: auto;
+}
+
+.detalhesContainer {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: auto;
+}
+
+.detalhesHeader {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  border-radius: 0.3rem;
+  margin-bottom: 1rem;
+  color: #5e5e5e;
+}
+
+.btnContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: end;
+  gap: 1rem;
+  width: 20%;
+}
+
+.detalhesContainer {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  width: 100%;
+  gap: 1rem;
+}
+
+.detalhesGrid {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  gap: 1rem;
+}
+
+.detalhesAgendamentoCont {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+.lista {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 70%;
+  margin: 0 auto;
+}
+
+.titleLista {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  text-transform: uppercase;
+  color: #5e5e5e;
+  font-weight: lighter;
+  font-size: 1rem;
+  padding: 1rem;
+  border-bottom: 1px solid #5e5e5e59;
+}
+
+.listaBtnsContainer {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1rem;
+  gap: 0.2rem;
+}
+
+.dataAgendamento {
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.dataAgendamento p {
+  font-size: 0.9rem;
+}
+
+.pName {
+  font-size: 0.9rem;
+  margin-bottom: 0.3rem;
+}
+
+.pTelephone,
+.pHour,
+.pCpf,
+.pCode,
+.pBirthDate {
+  font-size: 0.9rem;
+  opacity: 0.8;
+}
+
+.statusAberto {
+  color: #f38e21;
+}
+
+.statusPago {
+  color: #008000;
+}
+
+.statusAtrasado {
+  color: #ff0000;
+}
+
+.whatsButton {
+  width: 2rem;
+  transition: all 0.7s ease;
+}
+
+.whatsButton:hover {
+  transform: rotate(20deg);
+}
+
+.statsContainer {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  padding: 0.5rem;
+  border-radius: 0.3rem;
+  position: relative;
+  width: 100%;
+}
+
+.totalTitle {
+  color: #5e5e5e;
+  text-transform: uppercase;
+  font-size: 1rem;
+  font-weight: 100;
+  margin-bottom: 1rem;
+}
+
+.dateContainer {
+  background-color: #eeeeee;
+  padding: 0.5rem;
+  border-radius: 0.3rem;
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  display: none;
+}
+
+.dateText {
+  color: #5e5e5e;
+}
+
+.totalPanel {
+  padding: 0.5rem;
+  border-radius: 0.3rem;
+  width: 10rem;
+  border: 1px solid #5e5e5e2d;
+  text-align: center;
+
+}
+
+.ptotalValue {
+  font-size: 1rem;
+  padding-left: 0.3rem;
+  margin-top: 0.2rem;
+  font-weight: lighter;
+}
+
+.red {
+  color: red;
+}
+
+.orange {
+  color: orange;
+}
+
+.green {
+  color: green;
+}
+
+.default {
+  color: black;
+}
+
+@media (min-width: 768px) {
+  .dashboard {
+    width: 70%;
+    padding: 0;
+  }
+
+  .totalValue {
+    font-size: 1rem;
+  }
+
+  .title {
+    font-size: 1.3rem;
+  }
+
+  .form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    border-radius: 8px;
+    width: 100%;
+    height: auto;
+  }
+
+  .statusAberto {
+    color: #f38e21;
+  }
+
+  .statusPago {
+    color: #008000;
+  }
+
+  .statusAtrasado {
+    color: #ff0000;
+  }
+
+  .btnContainer {
+    flex-direction: row;
+    justify-content: end;
+  }
+
+  .listaBtnsContainer {
+    gap: 1rem;
+    justify-content: end;
+  }
+}

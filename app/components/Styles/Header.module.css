@@ -1,0 +1,166 @@
+/* Layout mobile-first */
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background: linear-gradient(to right, #5e5e5e, #9e9e9e);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  z-index: 1000;
+  padding: 0.5rem;
+}
+
+.containerLogo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 1rem;
+}
+
+.logo {
+  width: 4rem;
+}
+
+/* Botão hamburguer (mobile-first) */
+.menuToggle {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 2.5rem;
+  cursor: pointer;
+  z-index: 1000;
+  padding: 0rem;
+}
+
+.menuToggle:focus {
+  outline: none;
+}
+
+/* Menu mobile (mobile-first) */
+.mobileNav {
+  position: fixed;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100vh;
+  background-color: #5e5e5e;
+  padding-top: 60px; /* Espaço para o header */
+  transition: left 0.3s ease-in-out;
+  overflow-y: auto;
+}
+
+.mobileNav.active {
+  left: 0;
+}
+
+.mobileNav .navLinks {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 70%;
+  gap: 2rem;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  font-size: 1.3rem;
+}
+
+.mobileNav .navLink {
+  display: block;
+  padding: 1rem;
+  color: #eeeeee;
+  text-align: center;
+  font-size: 1.3rem;
+  transition: color 0.3s ease;
+}
+
+.mobileNav .navLink:hover {
+  color: #ffdd56;
+}
+
+/* Navegação desktop (apenas visível em telas grandes) */
+.desktopNav {
+  display: none;
+}
+
+.desktopNav .navLinks {
+  display: flex;
+  gap: 2rem;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.desktopNav .navLink {
+  color: white;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.desktopNav .navLink:hover {
+  color: #ffdd56;
+}
+
+.link {
+  display: flex;
+  justify-content: start;
+  padding: 0.3rem;
+  border-radius: 0.3rem;
+  transition: all 0.3s ease;
+  padding: 0.3rem 0.5rem;
+  width: 50%;
+  gap: 1rem;
+  color: #eeeeee;
+  cursor: pointer;
+}
+
+.activeLink {
+  box-shadow: 0 0 5px #ffdd56;
+}
+
+.icon {
+  transition: color 0.3s ease;
+  cursor: pointer;
+}
+
+.activeIcon {
+  color: #ffdd56;
+}
+
+@media (min-width: 768px) {
+  .header {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 15%;
+    height: 100vh;
+    position: fixed;
+  }
+
+  .menuToggle {
+    display: none;
+  }
+
+  .mobileNav {
+    display: none;
+  }
+
+  .desktopNav {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+  }
+  .navLinks {
+    flex-direction: column;
+  }
+  .containerLogo {
+    position: absolute;
+    top: 0;
+  }
+  .link {
+    width: 100%;
+  }
+}

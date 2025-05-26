@@ -1,0 +1,48 @@
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+}
+
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: sans-serif;
+  color: #5e5e5e;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  background: linear-gradient(to right, #5e5e5e, #9e9e9e);
+  border: none;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 0.3rem;
+  color: #eeeeee;
+}
+
+button:hover {
+  cursor: pointer;
+  background: linear-gradient(to right, #9e9e9e, #5e5e5e);
+}
+
+section {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: auto;
+  padding: .5rem;
+}
+
+div {
+  width: 100%;
+  height: auto;
+}

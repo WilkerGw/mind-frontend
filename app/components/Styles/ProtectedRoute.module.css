@@ -1,0 +1,11 @@
+.logoutBtn {
+    position: fixed;
+    bottom: 1rem;
+    right: 1rem;
+    color: #eeeeee;
+    cursor: pointer;
+    background: linear-gradient(to right, #5e5e5e, #9e9e9e);
+    border: none;
+    padding: .5rem 1.5rem;
+    border-radius: 0.5rem;
+}
