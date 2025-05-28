@@ -78,8 +78,31 @@ export default function Agendamento() {
     }
   };
 
+  const formatDate = (dateString) => {
+    if (!dateString) return "Não informada";
+    try {
+      const date = new Date(dateString);
+      const day = String(date.getUTCDate()).padStart(2, "0");
+      const month = String(date.getUTCMonth() + 1).padStart(2, "0");
+      const year = date.getUTCFullYear();
+      return `${day}/${month}/${year}`;
+    } catch (e) {
+      return "Data inválida";
+    }
+  };
+
   const formatPhoneNumber = (phoneNumber) => {
-    return phoneNumber.replace(/\D/g, '');
+    return phoneNumber.replace(/\D/g, "");
+  };
+
+  const getDataColorClass = (dateString) => {
+    const currentDate = new Date();
+    const agendamentoDate = new Date(dateString);
+    if (agendamentoDate < currentDate) {
+      return styles.pDateRed; // Classe para data passada
+    } else {
+      return styles.pDateGreen; // Classe para data futura
+    }
   };
 
   if (loading) return <p>Carregando...</p>;
@@ -130,10 +153,21 @@ export default function Agendamento() {
                 <div className={styles.dataAgendamento}>
                   <p className={styles.pName}>{agendamento.name}</p>
                   <p className={styles.pTelephone}>{agendamento.telephone}</p>
+                  <div className={styles.agenDataContainer}>
+                    <p className={styles.txtDate}>Data do agendamento:</p>
+                    <p className={getDataColorClass(agendamento.date)}>
+                      {formatDate(agendamento.date)}
+                    </p>
+                  </div>
                   <p className={styles.pHour}>{agendamento.hour}</p>
                 </div>
                 <div className={styles.listaBtnsContainer}>
-                  <Link href={`https://wa.me/55${formatPhoneNumber(agendamento.telephone)}`} target="_blank">
+                  <Link
+                    href={`https://wa.me/55  ${formatPhoneNumber(
+                      agendamento.telephone
+                    )}`}
+                    target="_blank"
+                  >
                     <img
                       src="./images/whatsapp.png"
                       alt="botao whatsapp"

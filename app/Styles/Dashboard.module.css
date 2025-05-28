@@ -201,7 +201,6 @@
   text-transform: uppercase;
   font-size: 1rem;
   font-weight: 100;
-  margin-bottom: 1rem;
 }
 
 .dateContainer {
@@ -219,12 +218,11 @@
 }
 
 .totalPanel {
+  border: 1px solid #5e5e5e3a;
   padding: 0.5rem;
   border-radius: 0.3rem;
-  width: 10rem;
-  border: 1px solid #5e5e5e2d;
+  width: 12rem;
   text-align: center;
-
 }
 
 .ptotalValue {
@@ -248,6 +246,69 @@
 
 .default {
   color: black;
+}
+
+.pDateRed {
+  color: red;
+}
+
+.pDateGreen {
+  color: green;
+}
+
+.agenDataContainer {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.txtDate {
+  font-size: 0.7rem !important;
+}
+
+.birthdayPanel {
+  border: 1px solid #5e5e5e3a;
+  border-radius: 0.2rem;
+  padding: 1rem;
+}
+
+.birthdayList {
+  list-style-type: none;
+  padding-left: 0;
+}
+
+.birthdayItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.3rem 0;
+  font-size: 0.95rem;
+  gap: 1rem;
+}
+
+.iconeContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  border-bottom: 1px solid #5e5e5e3a;
+}
+
+.dashIcon {
+  width: 1.5rem;
+  margin-bottom: 0.3rem;
+}
+
+.birthdayToday {
+  color: #008000;
+}
+
+.birthdayUpcoming {
+  color: #ffa500;
+}
+
+.birthdayPassed {
+  color: #ff0000;
 }
 
 @media (min-width: 768px) {
@@ -293,5 +354,24 @@
   .listaBtnsContainer {
     gap: 1rem;
     justify-content: end;
+  }
+
+  .birthdayPanel {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-radius: 8px;
+    max-width: 300px;
+    padding: 1rem;
+  }
+
+  .birthdayList {
+    list-style-type: none;
+    padding-left: 0;
+  }
+
+  .birthdayItem {
+    padding: 0.3rem 0;
+    font-size: 0.95rem;
   }
 }

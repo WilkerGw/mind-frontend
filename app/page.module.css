@@ -64,3 +64,9 @@
   width: 10rem;
   margin-bottom: 2rem;
 }
+
+@media screen and (min-width: 768px) {
+  .loginContainer {
+    width: 400px;
+  }
+}

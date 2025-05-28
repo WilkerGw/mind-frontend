@@ -64,9 +64,9 @@ export default function AgendamentoDetails() {
   // Função para formatar a data no formato brasileiro
   const formatDate = (dateString) => {
     const date = new Date(dateString);
-    const dia = String(date.getDate()).padStart(2, '0');
-    const mes = String(date.getMonth() + 1).padStart(2, '0'); // Mês é zero-based
-    const ano = date.getFullYear();
+    const dia = String(date.getUTCDate()).padStart(2, '0');
+    const mes = String(date.getUTCMonth() + 1).padStart(2, '0'); // Mês é zero-based
+    const ano = date.getUTCFullYear();
     return `${dia}/${mes}/${ano}`;
   };
 

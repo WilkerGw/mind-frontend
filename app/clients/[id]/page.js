@@ -38,42 +38,42 @@ export default function ClientDetails() {
         const response = await fetch(`/api/clients/${id}`);
         console.log("Response Status:", response.status); // Log status
         if (!response.ok) {
-          let errorData;
-          try {
-            errorData = await response.json();
-            console.error("Erro da API (JSON):", errorData); // Log erro JSON
-          } catch (jsonError) {
-            // Se a resposta não for JSON válido
-            errorData = { error: await response.text() };
-            console.error("Erro da API (Texto):", errorData.error); // Log erro Texto
+          const contentType = response.headers.get("content-type");
+
+          if (contentType && contentType.includes("application/json")) {
+            const jsonError = await response.json();
+            throw new Error(jsonError.error || `Erro ${response.status}`);
+          } else {
+            const textError = await response.text();
+            throw new Error(
+              textError || `Erro ${response.status} - Resposta não JSON`
+            );
           }
-          throw new Error(
-            errorData.error || `Erro ${response.status} ao buscar cliente`
-          );
         }
-        const data = await response.json();
+
+        const data = await response.json(); // Apenas uma leitura
         console.log("Data recebida:", data); // Log dados recebidos
 
         // Normaliza os dados para garantir a estrutura correta
         const normalizedData = {
           ...data,
           longe: data.longe || {
-            esfericoDireito: '',
-            cilindricoDireito: '',
-            eixoDireito: '',
-            esfericoEsquerdo: '',
-            cilindricoEsquerdo: '',
-            eixoEsquerdo: '',
-            adicao: ''
+            esfericoDireito: "",
+            cilindricoDireito: "",
+            eixoDireito: "",
+            esfericoEsquerdo: "",
+            cilindricoEsquerdo: "",
+            eixoEsquerdo: "",
+            adicao: "",
           },
           perto: data.perto || {
-            esfericoDireito: '',
-            cilindricoDireito: '',
-            eixoDireito: '',
-            esfericoEsquerdo: '',
-            cilindricoEsquerdo: '',
-            eixoEsquerdo: '',
-            adicao: ''
+            esfericoDireito: "",
+            cilindricoDireito: "",
+            eixoDireito: "",
+            esfericoEsquerdo: "",
+            cilindricoEsquerdo: "",
+            eixoEsquerdo: "",
+            adicao: "",
           },
           birthDate: formatDate(data.birthDate),
           vencimentoReceita: formatDate(data.vencimentoReceita),

@@ -1,65 +1,51 @@
-// src/app/api/clients/[id]/route.js
 import axios from 'axios';
 import { NextResponse } from 'next/server';
 
-const API_BASE_URL = process.env.BACKEND_API_URL || 'http://localhost:5000/api/clients';
-
-// GET /api/clients/:id - Buscar cliente por ID
+// Buscar cliente por ID
 export async function GET(request, { params }) {
   const { id } = params;
-  if (!id) {
-    return NextResponse.json({ error: 'ID do cliente é obrigatório' }, { status: 400 });
-  }
 
   try {
-    const response = await axios.get(`${API_BASE_URL}/${id}`);
+    const response = await axios.get(`http://localhost:5000/api/clients/${id}`);
     return NextResponse.json(response.data);
   } catch (error) {
-    console.error(`API Route GET /${id} Error:`, error.response?.data || error.message);
-    const status = error.response?.status || 500;
-    const message = error.response?.data?.error || error.message || 'Erro ao buscar cliente';
-    return NextResponse.json({ error: message }, { status });
+    console.error("Erro ao buscar cliente:", error.message);
+    return NextResponse.json(
+      { error: "Cliente não encontrado" },
+      { status: 404 }
+    );
   }
 }
 
-// PUT /api/clients/:id - Atualizar cliente
+// Atualizar cliente
 export async function PUT(request, { params }) {
   const { id } = params;
-   if (!id) {
-    return NextResponse.json({ error: 'ID do cliente é obrigatório' }, { status: 400 });
-  }
+  const data = await request.json();
 
   try {
-    const data = await request.json();
-    const response = await axios.put(`${API_BASE_URL}/${id}`, data);
+    const response = await axios.put(`http://localhost:5000/api/clients/${id}`, data);
     return NextResponse.json(response.data);
   } catch (error) {
-    console.error(`API Route PUT /${id} Error:`, error.response?.data || error.message);
-    const status = error.response?.status || 400; // Default to 400 for update errors
-    const message = error.response?.data?.error || error.message || 'Erro ao atualizar cliente';
-     // Se for erro de conflito (CPF existente), retornar 409
-     if (error.response?.status === 409) {
-        return NextResponse.json({ error: message }, { status: 409 });
-     }
-    return NextResponse.json({ error: message }, { status });
+    console.error("Erro ao atualizar cliente:", error.message);
+    return NextResponse.json(
+      { error: error.response?.data?.error || "Erro ao atualizar cliente" },
+      { status: error.response?.status || 500 }
+    );
   }
 }
 
-// DELETE /api/clients/:id - Excluir cliente
+// Excluir cliente
 export async function DELETE(request, { params }) {
   const { id } = params;
-   if (!id) {
-    return NextResponse.json({ error: 'ID do cliente é obrigatório' }, { status: 400 });
-  }
 
   try {
-    const response = await axios.delete(`${API_BASE_URL}/${id}`);
-    // O backend agora retorna 200 com mensagem, então repassamos
-    return NextResponse.json(response.data, { status: response.status }); // ou status 204 se o backend retornar 204
+    await axios.delete(`http://localhost:5000/api/clients/${id}`);
+    return NextResponse.json({ message: "Cliente excluído com sucesso" });
   } catch (error) {
-    console.error(`API Route DELETE /${id} Error:`, error.response?.data || error.message);
-    const status = error.response?.status || 500;
-    const message = error.response?.data?.error || error.message || 'Erro ao excluir cliente';
-    return NextResponse.json({ error: message }, { status });
+    console.error("Erro ao excluir cliente:", error.message);
+    return NextResponse.json(
+      { error: error.response?.data?.error || "Erro ao excluir cliente" },
+      { status: error.response?.status || 500 }
+    );
   }
 }
