@@ -17,6 +17,7 @@ export default function NewSale() {
     notes: '',
     total: 0
   });
+
   const [clients, setClients] = useState([]);
   const [productsList, setProductsList] = useState([]);
 
@@ -172,18 +173,15 @@ export default function NewSale() {
         alert('Preencha todos os campos obrigatórios!');
         return;
       }
-
       const client = clients.find(c => c.cpf === formData.clientCPF);
       if (!client) {
         alert('Cliente não encontrado!');
         return;
       }
-
       const formattedProducts = formData.products.map(product => ({
         product: product.product,
         quantity: product.quantity
       }));
-
       const saleData = {
         client: client._id,
         products: formattedProducts,
@@ -195,13 +193,11 @@ export default function NewSale() {
         notes: formData.notes,
         total: formData.total
       };
-
       const response = await fetch('/api/sales', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(saleData)
       });
-
       if (response.ok) {
         alert('Venda cadastrada com sucesso!');
         router.push('/sales');
@@ -355,7 +351,7 @@ export default function NewSale() {
           <p><strong>Total Geral:</strong> R$ {formData.total.toFixed(2)}</p>
           <button type="submit">Salvar Venda</button>
         </form>
-          </div>
+      </div>
     </section>
-  );
+  );
 }

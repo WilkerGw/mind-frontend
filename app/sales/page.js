@@ -47,7 +47,7 @@ export default function Sales() {
           <ul className={styles.lista}>
             {sales.map((sale) => (
               <li key={sale._id} className={styles.titleLista}>
-                {sale.client?.fullName || 'Cliente não especificado'} - {new Date(sale.saleDate).toLocaleDateString('pt-BR')}
+                {sale.client?.fullName || 'Cliente não especificado'} - {new Date(`${sale.saleDate}T00:00:00Z`).toLocaleDateString('pt-BR')}
                 {/* Adicione mais campos conforme necessário */}
               </li>
             ))}
