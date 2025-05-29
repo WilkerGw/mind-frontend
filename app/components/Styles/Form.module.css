@@ -18,7 +18,7 @@
   flex-direction: column;
   gap: 1rem;
   border-radius: 8px;
-  width: 100%;
+  width: 50%;
   height: auto;
 }
 
@@ -47,4 +47,34 @@
   background-color: #5e5e5e;
   color: #eeeeee;
   font-size: 1rem;
+}
+
+.labelContainer {
+  width: 6rem;
+  text-align: center;
+}
+
+.containerLonge, .containerPerto {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  position: relative;
+  padding: 5rem 1rem 1rem 1rem;
+  width: 100%;
+  border: 1px solid #cccccc38;
+  border-radius: 8px;
+}
+
+.titlePerto, .titleLonge {
+  position: absolute;
+  top: 1rem;
+  border-bottom: 1px solid #ccc;
+}
+
+.direitoLonge, .esquerdoLonge, .direitoPerto, .esquerdoPerto {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
