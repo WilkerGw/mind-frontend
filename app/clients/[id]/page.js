@@ -2,8 +2,20 @@
 import { useEffect, useState } from "react";
 import { useRouter, useParams } from "next/navigation";
 import Link from "next/link";
-import styles from "../../Styles/Dashboard.module.css";
+import styles from "./ClientDetails.module.css";
 import ClientForm from "../../components/ClientForm";
+import {
+  Button,
+  Typography,
+  Grid,
+  Paper,
+  TextField,
+  IconButton,
+  Tooltip,
+} from "@mui/material";
+import DeleteIcon from "@mui/icons-material/Delete";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+
 // Função auxiliar para formatar data
 const formatDate = (dateString) => {
   if (!dateString) return "Não informada";
@@ -17,6 +29,7 @@ const formatDate = (dateString) => {
     return "Data inválida";
   }
 };
+
 export default function ClientDetails() {
   const router = useRouter();
   const params = useParams();
@@ -24,6 +37,7 @@ export default function ClientDetails() {
   const [client, setClient] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+
   useEffect(() => {
     if (!id) {
       setLoading(false);
@@ -89,6 +103,7 @@ export default function ClientDetails() {
     };
     fetchClient();
   }, [id]); // Dependência: re-executa se o ID mudar
+
   const handleDelete = async () => {
     if (!id || !client) return;
     if (
@@ -110,26 +125,31 @@ export default function ClientDetails() {
       }
     }
   };
+
   if (loading) return <p className={styles.loading}>Carregando...</p>;
   if (error) return <p className={styles.error}>Erro: {error}</p>;
   if (!client) return <p>Cliente não encontrado.</p>; // Caso após loading/error
+
   return (
     <section>
       <div className={styles.dashboard}>
         <div className={styles.detalhesHeader}>
-          <h1 className={styles.title}>{client.fullName}</h1>
+          <h1 className={styles.title}>
+            {client.fullName}
+          </h1>
           <div className={styles.btnContainer}>
-            <button onClick={handleDelete} className={styles.btnExcluir}>
-              Excluir
-            </button>
-            <button onClick={() => router.back()} className={styles.btnVoltar}>
-              Voltar
-            </button>
+            <Tooltip title="Voltar">
+              <IconButton onClick={() => router.back()} color="primary">
+                <ArrowBackIcon />
+              </IconButton>
+            </Tooltip>
+            <Tooltip title="Excluir Cliente">
+              <IconButton onClick={handleDelete} color="error">
+                <DeleteIcon />
+              </IconButton>
+            </Tooltip>
           </div>
         </div>
-        <div className={styles.detalhesGrid}>
-          {/* Informações Pessoais */}
-          <h2>Informações Pessoais</h2>
           <ClientForm
             onSubmit={(data) => {
               fetch(`/api/clients/${id}`, {
@@ -154,7 +174,6 @@ export default function ClientDetails() {
             }}
             initialData={client}
           />
-        </div>
       </div>
     </section>
   );

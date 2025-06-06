@@ -1,7 +1,7 @@
 'use client';
 import ProductForm from '../../components/ProductForm';
 import { useRouter } from 'next/navigation';
-import styles from '../../components/Styles/Form.module.css';
+import styles from '../../components/Styles/FormAgendamento.module.css';
 
 export default function NewProduct() {
   const router = useRouter();

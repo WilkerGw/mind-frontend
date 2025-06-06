@@ -1,7 +1,7 @@
 "use client";
 import ClientForm from "../../components/ClientForm";
 import { useRouter } from "next/navigation";
-import styles from "../../Styles/Dashboard.module.css";
+import styles from "./page.module.css";
 import { useState } from "react";
 
 export default function NewClient() {

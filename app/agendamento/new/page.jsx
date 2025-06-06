@@ -1,7 +1,6 @@
 "use client";
 import AgendamentoForm from "../../components/AgendamentoForm";
 import { useRouter } from "next/navigation";
-import styles from "../../components/Styles/Form.module.css";
 
 export default function newAgendamento() {
   const router = useRouter();

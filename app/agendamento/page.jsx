@@ -1,8 +1,22 @@
 "use client";
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import styles from "../Styles/Dashboard.module.css";
+import styles from "./page.module.css";
 import ProtectedRoute from "../components/ProtectedRoute";
+import {
+  Button,
+  Checkbox,
+  FormControlLabel,
+  FormGroup,
+  Typography,
+  List,
+  ListItem,
+  ListItemText,
+  IconButton,
+  Tooltip,
+} from "@mui/material";
+import DeleteIcon from "@mui/icons-material/Delete";
+import WhatsAppIcon from "@mui/icons-material/WhatsApp";
 
 export default function Agendamento() {
   const [agendamentos, setAgendamentos] = useState([]);
@@ -105,88 +119,117 @@ export default function Agendamento() {
     }
   };
 
-  if (loading) return <p>Carregando...</p>;
-  if (error) return <p>{error}</p>;
+  if (loading) return <Typography variant="body1">Carregando...</Typography>;
+  if (error) return <Typography variant="body1">{error}</Typography>;
 
   return (
     <ProtectedRoute>
       <section>
         <div className={styles.dashboard}>
           <div className={styles.titleContainer}>
-            <h1 className={styles.title}>Agendamentos</h1>
-            <Link href="/agendamento/new">
-              <button className={styles.btnNovo}>Novo Agendamento</button>
+            <Typography variant="h3" className={styles.title}>
+              Agendamentos
+            </Typography>
+            <Link href="/agendamento/new" passHref>
+              <Button variant="contained" color="success">
+                Novo Agendamento
+              </Button>
             </Link>
           </div>
           <div className={styles.filtros}>
-            <label className={styles.labelFilter}>
-              Contactado
-              <input
-                type="checkbox"
-                name="contactado"
-                checked={filtro.contactado}
-                onChange={handleFiltroChange}
+            <FormGroup row>
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    name="contactado"
+                    checked={filtro.contactado}
+                    onChange={handleFiltroChange}
+                    color="primary"
+                  />
+                }
+                label="Contactado"
               />
-            </label>
-            <label className={styles.labelFilter}>
-              Compareceu
-              <input
-                type="checkbox"
-                name="compareceu"
-                checked={filtro.compareceu}
-                onChange={handleFiltroChange}
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    name="compareceu"
+                    checked={filtro.compareceu}
+                    onChange={handleFiltroChange}
+                    color="primary"
+                  />
+                }
+                label="Compareceu"
               />
-            </label>
-            <label className={styles.labelFilter}>
-              Faltou
-              <input
-                type="checkbox"
-                name="faltou"
-                checked={filtro.faltou}
-                onChange={handleFiltroChange}
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    name="faltou"
+                    checked={filtro.faltou}
+                    onChange={handleFiltroChange}
+                    color="primary"
+                  />
+                }
+                label="Faltou"
               />
-            </label>
+            </FormGroup>
           </div>
-          <ul className={styles.lista}>
+          <List className={styles.lista}>
             {agendamentosFiltrados.map((agendamento) => (
-              <li key={agendamento._id} className={styles.titleLista}>
-                <div className={styles.dataAgendamento}>
-                  <p className={styles.pName}>{agendamento.name}</p>
-                  <p className={styles.pTelephone}>{agendamento.telephone}</p>
-                  <div className={styles.agenDataContainer}>
-                    <p className={styles.txtDate}>Data do agendamento:</p>
-                    <p className={getDataColorClass(agendamento.date)}>
-                      {formatDate(agendamento.date)}
-                    </p>
-                  </div>
-                  <p className={styles.pHour}>{agendamento.hour}</p>
-                </div>
-                <div className={styles.listaBtnsContainer}>
-                  <Link
-                    href={`https://wa.me/55  ${formatPhoneNumber(
-                      agendamento.telephone
-                    )}`}
-                    target="_blank"
-                  >
-                    <img
-                      src="./images/whatsapp.png"
-                      alt="botao whatsapp"
-                      className={styles.whatsButton}
-                    />
-                  </Link>
-                  <Link href={`/agendamento/${agendamento._id}`}>
-                    <button>Detalhes</button>
-                  </Link>
-                  <button
-                    onClick={() => handleDelete(agendamento._id)}
-                    className={styles.btnExcluir}
-                  >
-                    Excluir
-                  </button>
-                </div>
-              </li>
+              <ListItem key={agendamento._id} className={styles.titleLista}>
+                <ListItemText
+                  primary={
+                    <div className={styles.dataAgendamento}>
+                      <Typography variant="h5" className={styles.pName}>
+                        {agendamento.name}
+                      </Typography>
+                      <Typography variant="body1" className={styles.pTelephone}>
+                        {agendamento.telephone}
+                      </Typography>
+                      <div className={styles.agenDataContainer}>
+                        <Typography variant="caption" className={styles.txtDate}>
+                          Data do agendamento:
+                        </Typography>
+                        <Typography
+                          variant="caption"
+                          className={getDataColorClass(agendamento.date)}
+                        >
+                          {formatDate(agendamento.date)}
+                        </Typography>
+                      </div>
+                      <Typography variant="body1" className={styles.pHour}>
+                        {agendamento.hour}
+                      </Typography>
+                    </div>
+                  }
+                  secondary={
+                    <div className={styles.listaBtnsContainer}>
+                      <Tooltip title="Enviar mensagem no WhatsApp">
+                        <IconButton
+                          href={`https://wa.me/55${formatPhoneNumber(agendamento.telephone)}`} 
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          color="primary"
+                        >
+                          <WhatsAppIcon />
+                        </IconButton>
+                      </Tooltip>
+                      <Link href={`/agendamento/${agendamento._id}`} passHref>
+                        <Button variant="outlined" color="primary">
+                          Detalhes
+                        </Button>
+                      </Link>
+                      <IconButton
+                        onClick={() => handleDelete(agendamento._id)}
+                        color="error"
+                      >
+                        <DeleteIcon />
+                      </IconButton>
+                    </div>
+                  }
+                />
+              </ListItem>
             ))}
-          </ul>
+          </List>
         </div>
       </section>
     </ProtectedRoute>

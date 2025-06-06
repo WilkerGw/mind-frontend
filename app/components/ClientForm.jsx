@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
-import styles from "../components/Styles/Form.module.css";
 import { mask } from "remask";
+
+import styles from "../components/Styles/FormAgendamento.module.css";
 
 const ClientForm = ({ onSubmit, initialData }) => {
   const [formData, setFormData] = useState({
@@ -78,7 +79,7 @@ const ClientForm = ({ onSubmit, initialData }) => {
   const fetchAddressByCep = async (cep) => {
     setCepLoading(true);
     try {
-      const response = await fetch(`https://viacep.com.br/ws/${cep}/json/`);
+      const response = await fetch(`https://viacep.com.br/ws/${cep}/json/`);     
       const data = await response.json();
 
       if (data.erro) {

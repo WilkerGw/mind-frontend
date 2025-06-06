@@ -1,0 +1,109 @@
+/* ClientDetails.module.css */
+
+.dashboard {
+  padding: 2rem;
+  background-color: #f4f4f9;
+  min-height: 100vh;
+  font-family: 'Arial', sans-serif;
+}
+
+.detalhesHeader {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: start;
+  margin-bottom: 2rem;
+}
+
+.title {
+  text-align: start;
+  color: #333;
+}
+
+.btnContainer {
+  display: flex;
+  gap: 1rem;
+}
+
+.btnExcluir {
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  background-color: #ff4d4f;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.btnExcluir:hover {
+  background-color: #ff1a1a;
+}
+
+.btnVoltar {
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  background-color: #1890ff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.btnVoltar:hover {
+  background-color: #137cbd;
+}
+
+
+
+.detalhesGrid h2 {
+  font-size: 2rem;
+  color: #333;
+  margin-top: 0;
+}
+
+.formContainer {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1rem;
+}
+
+.formGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.formLabel {
+  font-size: 1rem;
+  color: #555;
+}
+
+.formInput {
+  padding: 0.75rem 1rem;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.formInput:focus {
+  border-color: #1890ff;
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(24, 144, 255, 0.2);
+}
+
+.formButton {
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  background-color: #25d366;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.formButton:hover {
+  background-color: #21b85c;
+}

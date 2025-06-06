@@ -47,7 +47,6 @@
 .title {
   text-transform: uppercase;
   color: #5e5e5e;
-  font-size: 1.3rem;
 }
 
 .formTitle {
@@ -322,7 +321,6 @@
   }
 
   .title {
-    font-size: 1.3rem;
   }
 
   .form {

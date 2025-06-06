@@ -1,8 +1,9 @@
 "use client";
+
 import { useEffect, useState } from "react";
 import { useRouter, useParams } from "next/navigation";
-import Link from "next/link"; // Importar o Link do next/link
-import styles from "../../Styles/Dashboard.module.css";
+import Link from "next/link";
+import styles from "./page.module.css";
 
 export default function AgendamentoDetails() {
   const router = useRouter();
@@ -22,7 +23,7 @@ export default function AgendamentoDetails() {
       try {
         const response = await fetch(`/api/agendamento/${id}`);
         if (!response.ok) {
-          const errorData = await response.text(); // Alterado para .text() para obter o conteúdo da resposta
+          const errorData = await response.text();
           throw new Error(errorData || "Erro ao buscar agendamento");
         }
         const data = await response.json();
@@ -49,7 +50,7 @@ export default function AgendamentoDetails() {
         const updatedAgendamento = await response.json();
         setAgendamento(updatedAgendamento);
       } else {
-        const errorData = await response.text(); // Alterado para .text() para obter o conteúdo da resposta
+        const errorData = await response.text();
         throw new Error(errorData || "Erro ao atualizar agendamento");
       }
     } catch (error) {
@@ -58,60 +59,76 @@ export default function AgendamentoDetails() {
     }
   };
 
-  if (loading) return <p>Carregando...</p>;
-  if (error) return <p>{error}</p>;
+  if (loading) return <p className={styles.loading}>Carregando...</p>;
+  if (error) return <p className={styles.error}>{error}</p>;
 
-  // Função para formatar a data no formato brasileiro
   const formatDate = (dateString) => {
     const date = new Date(dateString);
-    const dia = String(date.getUTCDate()).padStart(2, '0');
-    const mes = String(date.getUTCMonth() + 1).padStart(2, '0'); // Mês é zero-based
+    const dia = String(date.getUTCDate()).padStart(2, "0");
+    const mes = String(date.getUTCMonth() + 1).padStart(2, "0");
     const ano = date.getUTCFullYear();
     return `${dia}/${mes}/${ano}`;
   };
 
   return (
-    <section>
+    <section className={styles.container}>
       <div className={styles.detalhesContainer}>
-        <h1 className={styles.titleLista}>{agendamento.name}</h1>
-        <div>
-          <div className={styles.detalhesAgendamentoCont}>
-            <p>Telefone/WhatsApp: {agendamento.telephone}</p>
-            <p>Data: {formatDate(agendamento.date)}</p> {/* Formata a data aqui */}
-            <p>Hora: {agendamento.hour}</p>
-            <p>Observação: {agendamento.observation}</p>
+        <h1 className={styles.title}>{agendamento.name}</h1>
+        <div className={styles.infoContainer}>
+          <div className={styles.detalhesAgendamento}>
+            <p>
+              <span className={styles.label}>Telefone/WhatsApp: </span>
+              {agendamento.telephone}
+            </p>
+            <p>
+              <span className={styles.label}>Data: </span>
+              {formatDate(agendamento.date)}
+            </p>
+            <p>
+              <span className={styles.label}>Hora: </span>
+              {agendamento.hour}
+            </p>
+            <p>
+              <span className={styles.label}>Observação: </span>
+              {agendamento.observation || "Nenhuma observação"}
+            </p>
           </div>
-          <div className={styles.listaBtnsContainer}>
-            <label className={styles.labelFilter}>
-              Contactado
-              <input
-                type="checkbox"
-                name="contactado"
-                checked={agendamento.contactado || false}
-                onChange={handleCheckboxChange}
-              />
-            </label>
-            <label className={styles.labelFilter}>
-              Compareceu
-              <input
-                type="checkbox"
-                name="compareceu"
-                checked={agendamento.compareceu || false}
-                onChange={handleCheckboxChange}
-              />
-            </label>
-            <label className={styles.labelFilter}>
-              Faltou
-              <input
-                type="checkbox"
-                name="faltou"
-                checked={agendamento.faltou || false}
-                onChange={handleCheckboxChange}
-              />
-            </label>
+          <div className={styles.checkboxContainer}>
+            <div className={styles.checkboxGroup}>
+              <label className={styles.checkboxLabel}>
+                Contactado
+                <input
+                  type="checkbox"
+                  name="contactado"
+                  checked={agendamento.contactado || false}
+                  onChange={handleCheckboxChange}
+                />
+                <span className={styles.checkboxCheck}></span>
+              </label>
+              <label className={styles.checkboxLabel}>
+                Compareceu
+                <input
+                  type="checkbox"
+                  name="compareceu"
+                  checked={agendamento.compareceu || false}
+                  onChange={handleCheckboxChange}
+                />
+                <span className={styles.checkboxCheck}></span>
+              </label>
+              <label className={styles.checkboxLabel}>
+                Faltou
+                <input
+                  type="checkbox"
+                  name="faltou"
+                  checked={agendamento.faltou || false}
+                  onChange={handleCheckboxChange}
+                />
+                <span className={styles.checkboxCheck}></span>
+              </label>
+            </div>
           </div>
           <Link href="/agendamento">
-            <button>Voltar</button>
+            <button className={styles.backButton}>Voltar</button>
           </Link>
         </div>
       </div>

@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import styles from "../Styles/Dashboard.module.css";
+import styles from "./page.module.css"; // Certifique-se do caminho correto
 import ProtectedRoute from "../components/ProtectedRoute";
 
 const formatDate = (dateString) => {
@@ -21,7 +21,7 @@ export default function Clients() {
   const [clients, setClients] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [searchTerm, setSearchTerm] = useState("");
+  const [searchTerm, setSearchTerm] = useState(""); // Declaração do estado searchTerm
 
   useEffect(() => {
     const fetchClients = async () => {
@@ -90,7 +90,7 @@ export default function Clients() {
                 </div>
                 <div className={styles.listaBtnsContainer}>
                   <Link
-                    href={`https://wa.me/55 ${formatPhoneNumber(client.phone)}`}
+                    href={`https://wa.me/55${formatPhoneNumber(client.phone)}`} 
                     target="_blank"
                   >
                     <img

@@ -1,7 +1,7 @@
 'use client';
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
-import styles from '../Styles/Dashboard.module.css';
+import styles from './page.module.css';
 import ProtectedRoute from '../components/ProtectedRoute';
 
 export default function Sales() {
@@ -34,6 +34,11 @@ export default function Sales() {
   if (loading) return <p>Carregando...</p>;
   if (error) return <p>{error}</p>;
 
+  // Função para formatar o valor em moeda brasileira
+  const formatCurrency = (value) => {
+    return new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(value);
+  };
+
   return (
     <ProtectedRoute>
       <section>
@@ -47,8 +52,7 @@ export default function Sales() {
           <ul className={styles.lista}>
             {sales.map((sale) => (
               <li key={sale._id} className={styles.titleLista}>
-                {sale.client?.fullName || 'Cliente não especificado'} - {new Date(`${sale.saleDate}T00:00:00Z`).toLocaleDateString('pt-BR')}
-                {/* Adicione mais campos conforme necessário */}
+                {sale.client?.fullName || 'Cliente não especificado'} - {new Date(`${sale.saleDate}T00:00:00Z`).toLocaleDateString('pt-BR')} - {formatCurrency(sale.total)}
               </li>
             ))}
           </ul>

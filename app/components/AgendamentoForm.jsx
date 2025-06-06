@@ -1,5 +1,5 @@
 import React, { useState, useCallback } from 'react';
-import styles from '../components/styles/Form.module.css';
+import styles from '../components/Styles/FormAgendamento.module.css';
 
 const AgendamentoForm = ({ onSubmit }) => {
   const [formData, setFormData] = useState({
@@ -14,7 +14,7 @@ const AgendamentoForm = ({ onSubmit }) => {
     const cleaned = ('' + tel).replace(/\D/g, '');
     const match = cleaned.match(/^(\d{2})(\d{1})(\d{4})(\d{4})$/);
     if (match) {
-      return '(' + match[1] + ') ' + match[2] + ' ' + match[3] + '-' + match[4];
+      return `(${match[1]}) ${match[2]} ${match[3]}-${match[4]}`;
     }
     return tel;
   }, []);
@@ -50,8 +50,10 @@ const AgendamentoForm = ({ onSubmit }) => {
             value={formData.name}
             onChange={handleChange}
             required
+            placeholder="Nome Completo"
           />
         </label>
+
         <label>
           Telefone/WhatsApp
           <input
@@ -60,8 +62,10 @@ const AgendamentoForm = ({ onSubmit }) => {
             value={formData.telephone}
             onChange={handleChange}
             required
+            placeholder="(99) 9 9999-9999"
           />
         </label>
+
         <label>
           Data
           <input
@@ -72,6 +76,7 @@ const AgendamentoForm = ({ onSubmit }) => {
             required
           />
         </label>
+
         <label>
           Hora
           <input
@@ -82,16 +87,19 @@ const AgendamentoForm = ({ onSubmit }) => {
             required
           />
         </label>
+
         <label>
           Observação
-          <input
-            type="text"
+          <textarea
             name="observation"
             value={formData.observation}
             onChange={handleChange}
+            placeholder="Digite suas observações"
+            rows={4}
           />
         </label>
-        <button type="submit">Enviar</button>
+
+        <button type="submit">Agendar Consulta</button>
       </form>
     </section>
   );

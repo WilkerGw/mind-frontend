@@ -1,7 +1,7 @@
 'use client';
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
-import styles from '../Styles/Dashboard.module.css';
+import styles from './page.module.css';
 import ProtectedRoute from '../components/ProtectedRoute';
 
 export default function Products() {
@@ -45,7 +45,7 @@ export default function Products() {
               <li key={product._id} className={styles.titleLista}>
                 <div class={styles.dataContainer}><p class={styles.pName}>{product.name}</p><p class={styles.pCode}>{product.code}</p></div>
                 <Link href={`/products/${product._id}`}>
-                  <button>Detalhes</button>
+                  <button className={styles.btnNovo}>Detalhes</button>
                 </Link>
               </li>
             ))}
