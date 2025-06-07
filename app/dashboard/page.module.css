@@ -1,0 +1,123 @@
+/* Dashboard.module.css */
+
+.dashboard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background-color: #f4f4f9;
+  padding: 20px;
+  font-family: 'Arial', sans-serif;
+}
+
+.statsContainer {
+  width: 100%;
+  max-width: 800px;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.dateContainer {
+  width: 100%;
+  text-align: right;
+  margin-bottom: 20px;
+}
+
+.dateText {
+  font-size: 14px;
+  color: #666;
+}
+
+.totalPanel {
+  width: 100%;
+  background-color: #f9fafb;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  margin-bottom: 20px;
+  padding: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.iconeContainer {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.dashIcon {
+  width: 30px;
+  height: 30px;
+  margin-right: 10px;
+}
+
+.totalTitle {
+  font-size: 18px;
+  margin: 0;
+}
+
+.totalValue {
+  text-align: right;
+}
+
+.ptotalValue {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.red {
+  color: #ff4d4d;
+}
+
+.orange {
+  color: #ffa500;
+}
+
+.green {
+  color: #4caf50;
+}
+
+.birthdayPanel {
+  width: 100%;
+  max-width: 800px;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+}
+
+.birthdayList {
+  list-style: none;
+  padding: 0;
+}
+
+.birthdayItem {
+  margin-bottom: 10px;
+  font-size: 16px;
+}
+
+.birthdayToday {
+  color: #ff4d4d;
+  font-weight: bold;
+}
+
+.birthdayPassed {
+  color: #666;
+}
+
+.birthdayUpcoming {
+  color: #4caf50;
+}
+
+.birthdayError {
+  color: #ff4d4d;
+  font-style: italic;
+}

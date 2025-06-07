@@ -3,6 +3,20 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import styles from "./page.module.css"; // Certifique-se do caminho correto
 import ProtectedRoute from "../components/ProtectedRoute";
+import {
+  Button,
+  Checkbox,
+  FormControlLabel,
+  FormGroup,
+  Typography,
+  List,
+  ListItem,
+  ListItemText,
+  IconButton,
+  Tooltip,
+} from "@mui/material";
+import WhatsAppIcon from "@mui/icons-material/WhatsApp";
+
 
 const formatDate = (dateString) => {
   if (!dateString) return "Não informada";
@@ -89,16 +103,16 @@ export default function Clients() {
                   <p className={styles.pTelephone}>{client.phone}</p>
                 </div>
                 <div className={styles.listaBtnsContainer}>
-                  <Link
-                    href={`https://wa.me/55${formatPhoneNumber(client.phone)}`} 
-                    target="_blank"
-                  >
-                    <img
-                      src="./images/whatsapp.png"
-                      alt="botao whatsapp"
-                      className={styles.whatsButton}
-                    />
-                  </Link>
+                  <Tooltip title="">
+                        <IconButton
+                          href={`https://wa.me/55${formatPhoneNumber(client.phone)}`} 
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          color="primary"
+                        >
+                          <WhatsAppIcon />
+                        </IconButton>
+                      </Tooltip>
                   <Link href={`/clients/${client._id}`}>
                     <button>Detalhes</button>
                   </Link>

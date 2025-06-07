@@ -138,7 +138,7 @@ export default function ClientDetails() {
             {client.fullName}
           </h1>
           <div className={styles.btnContainer}>
-            <Tooltip title="Voltar">
+            <Tooltip title="Voltar" className={styles.tooltip}>
               <IconButton onClick={() => router.back()} color="primary">
                 <ArrowBackIcon />
               </IconButton>

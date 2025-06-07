@@ -1,166 +1,118 @@
-/* Layout mobile-first */
+/* ./components/Styles/Header.module.css */
+
+/* Configurações básicas */
 .header {
+  background: linear-gradient(135deg, #1A1A1A 0%, #2A2A2A 100%);
   position: fixed;
   top: 0;
   left: 0;
-  width: 100%;
-  background: linear-gradient(to right, #5e5e5e, #9e9e9e);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  z-index: 1000;
-  padding: 0.5rem;
+  width: 250px;
+  height: 100vh;
+  z-index: 9999;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
 }
 
 .containerLogo {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-top: 1rem;
+  text-align: center;
+  padding: 2rem 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .logo {
-  width: 4rem;
+  width: 5rem;
+  filter: drop-shadow(0px 2px 4px #d0ff00);
 }
 
-/* Botão hamburguer (mobile-first) */
-.menuToggle {
-  background: none;
-  border: none;
-  color: white;
-  font-size: 2.5rem;
-  cursor: pointer;
-  z-index: 1000;
-  padding: 0rem;
-}
-
-.menuToggle:focus {
-  outline: none;
-}
-
-/* Menu mobile (mobile-first) */
-.mobileNav {
-  position: fixed;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100vh;
-  background-color: #5e5e5e;
-  padding-top: 60px; /* Espaço para o header */
-  transition: left 0.3s ease-in-out;
-  overflow-y: auto;
-}
-
-.mobileNav.active {
-  left: 0;
-}
-
-.mobileNav .navLinks {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  height: 70%;
-  gap: 2rem;
+/* Configurações do menu lateral */
+.navLinks {
   list-style: none;
   padding: 0;
   margin: 0;
-  font-size: 1.3rem;
-}
-
-.mobileNav .navLink {
-  display: block;
-  padding: 1rem;
-  color: #eeeeee;
-  text-align: center;
-  font-size: 1.3rem;
-  transition: color 0.3s ease;
-}
-
-.mobileNav .navLink:hover {
-  color: #ffdd56;
-}
-
-/* Navegação desktop (apenas visível em telas grandes) */
-.desktopNav {
-  display: none;
-}
-
-.desktopNav .navLinks {
-  display: flex;
-  gap: 2rem;
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-.desktopNav .navLink {
-  color: white;
-  text-decoration: none;
-  transition: color 0.3s ease;
-}
-
-.desktopNav .navLink:hover {
-  color: #ffdd56;
+  padding-top: 2rem;
 }
 
 .link {
   display: flex;
-  justify-content: start;
-  padding: 0.3rem;
-  border-radius: 0.3rem;
+  align-items: center;
+  padding: 1.5rem 2rem;
+  color: #FFFFFF;
+  text-decoration: none;
   transition: all 0.3s ease;
-  padding: 0.3rem 0.5rem;
-  width: 50%;
-  gap: 1rem;
-  color: #eeeeee;
-  cursor: pointer;
+  position: relative;
 }
 
-.activeLink {
-  box-shadow: 0 0 5px #eeeeee;
+.link:hover {
+  background: rgba(255, 255, 255, 0.05);
 }
 
+/* Estilos de ícones */
 .icon {
-  transition: color 0.3s ease;
-  cursor: pointer;
+  margin-right: 1.5rem;
+  color: #6B6B6B;
+  transition: color 0.3s;
+  width: 24px;
+  height: 24px;
 }
 
 .activeIcon {
-  color: #ffdd56;
+  color: #FFD700;
 }
 
-@media (min-width: 768px) {
+/* Estilos de item ativo */
+.activeLink {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.activeLink .icon {
+  color: #FFD700;
+}
+
+/* Efeito de sublinhado animado */
+.link::before {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: #FFD700;
+  transition: width 0.3s ease;
+}
+
+.link:hover::before,
+.activeLink::before {
+  width: 100%;
+}
+
+.menuToggle{
+  display: none;
+}
+
+/* Responsividade */
+@media (max-width: 767px) {
   .header {
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    width: 15%;
-    height: 100vh;
-    position: fixed;
+    width: 100%;
+    height: auto;
+    position: relative;
+    box-shadow: none;
+    padding: 1rem;
   }
 
   .menuToggle {
-    display: none;
-  }
-
-  .mobileNav {
-    display: none;
-  }
-
-  .desktopNav {
-    display: flex;
-    align-items: center;
-    gap: 2rem;
-  }
-  .navLinks {
-    flex-direction: column;
-  }
-  .containerLogo {
     position: absolute;
-    top: 0;
+    top: 1rem;
+    right: 1rem;
+    font-size: 1.5rem;
   }
-  .link {
+
+  .mobileNav.active {
+    transform: translateX(0);
+    left: 0;
     width: 100%;
+  }
+
+  .navLinks {
+    padding: 1rem 0;
   }
 }

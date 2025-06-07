@@ -22,11 +22,7 @@ export default function Agendamento() {
   const [agendamentos, setAgendamentos] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [filtro, setFiltro] = useState({
-    contactado: false,
-    compareceu: false,
-    faltou: false,
-  });
+  const [filtro, setFiltro] = useState(""); // Mudança aqui: filtro é uma string
 
   useEffect(() => {
     const fetchAgendamentos = async () => {
@@ -50,24 +46,23 @@ export default function Agendamento() {
 
   const handleFiltroChange = (e) => {
     const { name, checked } = e.target;
-    setFiltro({ ...filtro, [name]: checked });
+    setFiltro(checked ? name : ""); // Mudança aqui: define o filtro ou limpa
   };
 
   const agendamentosFiltrados = agendamentos.filter((agendamento) => {
-    if (!filtro.contactado && !filtro.compareceu && !filtro.faltou) {
+    if (!filtro) {
       return true; // Nenhum filtro ativo, mostrar todos
     }
-    let resultado = true;
-    if (filtro.contactado && !agendamento.contactado) {
-      resultado = false;
+    switch (filtro) {
+      case "contactado":
+        return agendamento.contactado;
+      case "compareceu":
+        return agendamento.compareceu;
+      case "faltou":
+        return agendamento.faltou;
+      default:
+        return true;
     }
-    if (filtro.compareceu && !agendamento.compareceu) {
-      resultado = false;
-    }
-    if (filtro.faltou && !agendamento.faltou) {
-      resultado = false;
-    }
-    return resultado;
   });
 
   const handleDelete = async (id) => {
@@ -142,7 +137,7 @@ export default function Agendamento() {
                 control={
                   <Checkbox
                     name="contactado"
-                    checked={filtro.contactado}
+                    checked={filtro === "contactado"} // Mudança aqui: verifica se o filtro é "contactado"
                     onChange={handleFiltroChange}
                     color="primary"
                   />
@@ -153,7 +148,7 @@ export default function Agendamento() {
                 control={
                   <Checkbox
                     name="compareceu"
-                    checked={filtro.compareceu}
+                    checked={filtro === "compareceu"} // Mudança aqui: verifica se o filtro é "compareceu"
                     onChange={handleFiltroChange}
                     color="primary"
                   />
@@ -164,7 +159,7 @@ export default function Agendamento() {
                 control={
                   <Checkbox
                     name="faltou"
-                    checked={filtro.faltou}
+                    checked={filtro === "faltou"} // Mudança aqui: verifica se o filtro é "faltou"
                     onChange={handleFiltroChange}
                     color="primary"
                   />
@@ -203,9 +198,9 @@ export default function Agendamento() {
                   }
                   secondary={
                     <div className={styles.listaBtnsContainer}>
-                      <Tooltip title="Enviar mensagem no WhatsApp">
+                      <Tooltip title="">
                         <IconButton
-                          href={`https://wa.me/55${formatPhoneNumber(agendamento.telephone)}`} 
+                          href={`https://wa.me/55${formatPhoneNumber(agendamento.telephone)}`}    
                           target="_blank"
                           rel="noopener noreferrer"
                           color="primary"

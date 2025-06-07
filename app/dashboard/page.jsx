@@ -2,7 +2,7 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
 import ProtectedRoute from "../components/ProtectedRoute";
-import styles from "../Styles/Dashboard.module.css";
+import styles from "./page.module.css"; // Atualizado para o novo arquivo de estilos
 
 export default function Dashboard() {
   const [totalSales, setTotalSales] = useState(0);
