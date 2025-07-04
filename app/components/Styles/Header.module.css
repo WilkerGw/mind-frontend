@@ -35,7 +35,7 @@
 .link {
   display: flex;
   align-items: center;
-  padding: 1.5rem 2rem;
+  padding: 1rem 2rem;
   color: #FFFFFF;
   text-decoration: none;
   transition: all 0.3s ease;
@@ -86,6 +86,10 @@
 }
 
 .menuToggle{
+  display: none;
+}
+
+.mobileNav {
   display: none;
 }
 

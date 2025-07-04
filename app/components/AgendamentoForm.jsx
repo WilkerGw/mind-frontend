@@ -1,37 +1,21 @@
-import React, { useState, useCallback } from 'react';
-import styles from '../components/Styles/FormAgendamento.module.css';
+import React, { useState, useEffect } from 'react';
+import Card from './Card';
+import styles from './styles/AgendamentoForm.module.css';
 
-const AgendamentoForm = ({ onSubmit }) => {
+const AgendamentoForm = ({ onSubmit, initialData, isSubmitting = false }) => {
   const [formData, setFormData] = useState({
-    name: '',
-    telephone: '',
-    date: '',
-    hour: '',
-    observation: ''
+    name: '', telephone: '', date: '', hour: '', observation: ''
   });
 
-  const formatTelephone = useCallback((tel) => {
-    const cleaned = ('' + tel).replace(/\D/g, '');
-    const match = cleaned.match(/^(\d{2})(\d{1})(\d{4})(\d{4})$/);
-    if (match) {
-      return `(${match[1]}) ${match[2]} ${match[3]}-${match[4]}`;
+  useEffect(() => {
+    if (initialData) {
+      setFormData(initialData);
     }
-    return tel;
-  }, []);
+  }, [initialData]);
 
   const handleChange = (e) => {
-    const { name, value, type, checked } = e.target;
-    if (name === 'telephone') {
-      setFormData({
-        ...formData,
-        [name]: formatTelephone(value)
-      });
-    } else {
-      setFormData({
-        ...formData,
-        [name]: type === 'checkbox' ? checked : value
-      });
-    }
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleSubmit = (e) => {
@@ -40,68 +24,37 @@ const AgendamentoForm = ({ onSubmit }) => {
   };
 
   return (
-    <section>
-      <form onSubmit={handleSubmit} className={styles.form}>
-        <label>
-          Nome Completo
-          <input
-            type="text"
-            name="name"
-            value={formData.name}
-            onChange={handleChange}
-            required
-            placeholder="Nome Completo"
-          />
-        </label>
-
-        <label>
-          Telefone/WhatsApp
-          <input
-            type="text"
-            name="telephone"
-            value={formData.telephone}
-            onChange={handleChange}
-            required
-            placeholder="(99) 9 9999-9999"
-          />
-        </label>
-
-        <label>
-          Data
-          <input
-            type="date"
-            name="date"
-            value={formData.date}
-            onChange={handleChange}
-            required
-          />
-        </label>
-
-        <label>
-          Hora
-          <input
-            type="time"
-            name="hour"
-            value={formData.hour}
-            onChange={handleChange}
-            required
-          />
-        </label>
-
-        <label>
-          Observação
-          <textarea
-            name="observation"
-            value={formData.observation}
-            onChange={handleChange}
-            placeholder="Digite suas observações"
-            rows={4}
-          />
-        </label>
-
-        <button type="submit">Agendar Consulta</button>
-      </form>
-    </section>
+    <form onSubmit={handleSubmit}>
+      <Card>
+        <div className={styles.grid}>
+          <div className={styles.formGroup}>
+            <label htmlFor="name">Nome Completo</label>
+            <input id="name" name="name" type="text" value={formData.name} onChange={handleChange} required />
+          </div>
+          <div className={styles.formGroup}>
+            <label htmlFor="telephone">Telefone / WhatsApp</label>
+            <input id="telephone" name="telephone" type="tel" value={formData.telephone} onChange={handleChange} required />
+          </div>
+          <div className={styles.formGroup}>
+            <label htmlFor="date">Data</label>
+            <input id="date" name="date" type="date" value={formData.date} onChange={handleChange} required />
+          </div>
+          <div className={styles.formGroup}>
+            <label htmlFor="hour">Hora</label>
+            <input id="hour" name="hour" type="time" value={formData.hour} onChange={handleChange} required />
+          </div>
+          <div className={`${styles.formGroup} ${styles.gridSpan2}`}>
+            <label htmlFor="observation">Observação</label>
+            <textarea id="observation" name="observation" value={formData.observation} onChange={handleChange} rows="3" />
+          </div>
+        </div>
+      </Card>
+      <div className={styles.submitContainer}>
+        <button type="submit" className={styles.submitButton} disabled={isSubmitting}>
+          {isSubmitting ? 'Salvando...' : 'Salvar Agendamento'}
+        </button>
+      </div>
+    </form>
   );
 };
 

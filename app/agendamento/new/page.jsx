@@ -1,35 +1,44 @@
 "use client";
-import AgendamentoForm from "../../components/AgendamentoForm";
-import { useRouter } from "next/navigation";
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
+// CAMINHOS CORRIGIDOS
+import { createAgendamento } from '../../../lib/agendamento-api';
+import AgendamentoForm from '../../components/AgendamentoForm';
+import Link from 'next/link';
+import { ArrowLeft } from 'lucide-react';
+// Este caminho está correto pois busca o CSS da pasta pai
+import styles from '../agendamento.module.css';
 
-export default function newAgendamento() {
+export default function NewAgendamentoPage() {
   const router = useRouter();
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [error, setError] = useState(null);
 
   const handleSubmit = async (data) => {
+    setIsSubmitting(true);
+    setError(null);
     try {
-      const response = await fetch("/api/agendamento", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
-      });
-      if (response.ok) {
-        router.push("/agendamento");
-      } else {
-        const error = await response.json();
-        alert(error.error);
-      }
-    } catch (error) {
-      console.error(error);
-      alert("Ocorreu um erro ao cadastrar o agendamento.");
+      await createAgendamento(data);
+      router.push('/agendamento');
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
   return (
-    <section>
-      <div className={styles.formContainer}>
-        <h1 className={styles.formTitle}>Agendar</h1>
-        <AgendamentoForm onSubmit={handleSubmit} />
+    <div>
+      <div className={styles.header}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+          <Link href="/agendamento" className={styles.actionButton}>
+            <ArrowLeft size={20} />
+          </Link>
+          <h1 className={styles.pageTitle}>Novo Agendamento</h1>
+        </div>
       </div>
-    </section>
+      {error && <p style={{ color: 'red', marginBottom: '1rem' }}>Erro: {error}</p>}
+      <AgendamentoForm onSubmit={handleSubmit} isSubmitting={isSubmitting} />
+    </div>
   );
 }

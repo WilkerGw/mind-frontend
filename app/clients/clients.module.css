@@ -1,0 +1,129 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.pageTitle {
+  font-size: 2rem;
+  font-weight: 700;
+}
+
+.newClientButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background-color: var(--primary);
+  color: var(--primary-foreground);
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  font-weight: 500;
+  transition: background-color 0.2s;
+}
+
+.newClientButton:hover {
+  background-color: color-mix(in srgb, var(--primary) 90%, black);
+}
+
+.cardHeader {
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.searchContainer {
+  position: relative;
+  max-width: 400px;
+}
+
+.searchIcon {
+  position: absolute;
+  left: 0.75rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-muted);
+  width: 20px;
+  height: 20px;
+}
+
+.searchInput {
+  width: 100%;
+  padding: 0.75rem 1rem 0.75rem 2.5rem;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background-color: var(--background);
+  font-size: 1rem;
+}
+
+.searchInput:focus {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
+.tableContainer {
+  width: 100%;
+  overflow-x: auto; /* Para rolagem horizontal em telas pequenas */
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+}
+
+.table th, .table td {
+  padding: 0.75rem 1rem;
+  text-align: left;
+  border-bottom: 1px solid var(--border);
+}
+
+.table th {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+.table td {
+  font-size: 0.875rem;
+}
+
+.statusCell, .statusCellError {
+  text-align: center;
+  padding: 2rem;
+  color: var(--text-muted);
+}
+.statusCellError {
+  color: #ef4444; /* Cor de erro */
+}
+
+.actionsCell {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.actionButton {
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 0.5rem;
+  cursor: pointer;
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.actionButton:hover {
+  background-color: var(--background);
+  color: var(--foreground);
+}
+
+.deleteButton:hover {
+  color: #ef4444;
+  border-color: #ef4444;
+}
+
+.whatsappButton:hover {
+  color: #25D366; /* Cor verde do WhatsApp */
+  border-color: #25D366;
+}

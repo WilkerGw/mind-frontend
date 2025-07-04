@@ -1,57 +1,34 @@
 "use client";
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import styles from "./page.module.css"; // Certifique-se do caminho correto
-import ProtectedRoute from "../components/ProtectedRoute";
-import {
-  Button,
-  Checkbox,
-  FormControlLabel,
-  FormGroup,
-  Typography,
-  List,
-  ListItem,
-  ListItemText,
-  IconButton,
-  Tooltip,
-} from "@mui/material";
-import WhatsAppIcon from "@mui/icons-material/WhatsApp";
-
+import { useRouter } from "next/navigation";
+import { getClients, deleteClient } from "../../lib/client-api";
+import Card from "../components/Card";
+// 1. Importar o ícone de Telefone
+import { Users, PlusCircle, Search, Edit, Trash2, Phone } from "lucide-react";
+import styles from "./clients.module.css";
 
 const formatDate = (dateString) => {
-  if (!dateString) return "Não informada";
-  try {
-    const date = new Date(dateString);
-    const day = String(date.getDate()).padStart(2, "0");
-    const month = String(date.getMonth() + 1).padStart(2, "0");
-    const year = date.getFullYear();
-    return `${day}/${month}/${year}`;
-  } catch (e) {
-    return "Data inválida";
-  }
+  if (!dateString) return "N/A";
+  const date = new Date(dateString);
+  return date.toLocaleDateString('pt-BR');
 };
 
-export default function Clients() {
+export default function ClientsPage() {
+  const router = useRouter();
   const [clients, setClients] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [searchTerm, setSearchTerm] = useState(""); // Declaração do estado searchTerm
 
   useEffect(() => {
     const fetchClients = async () => {
       try {
-        const response = await fetch("/api/clients");
-        if (!response.ok) {
-          throw new Error("Erro ao buscar clientes");
-        }
-        const data = await response.json();
-        if (Array.isArray(data)) {
-          setClients(data);
-        } else {
-          throw new Error("Resposta inválida");
-        }
-      } catch (error) {
-        setError(error.message);
+        setLoading(true);
+        const data = await getClients();
+        setClients(data);
+      } catch (err) {
+        setError(err.message);
       } finally {
         setLoading(false);
       }
@@ -59,69 +36,108 @@ export default function Clients() {
     fetchClients();
   }, []);
 
-  const formatPhoneNumber = (phoneNumber) => {
-    return phoneNumber.replace(/\D/g, "");
-  };
-
-  const handleSearchChange = (event) => {
-    setSearchTerm(event.target.value);
+  // 2. Adicionar função para limpar o número de telefone
+  const formatPhoneNumberForLink = (phone) => {
+    if (!phone) return "";
+    return phone.replace(/\D/g, ""); // Remove tudo que não for dígito
   };
 
   const filteredClients = clients.filter((client) =>
-    client.fullName.toLowerCase().includes(searchTerm.toLowerCase())
+    client.fullName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    (client.cpf && client.cpf.includes(searchTerm))
   );
+  
+  const handleEdit = (id) => {
+    router.push(`/clients/${id}`);
+  };
 
-  if (loading) return <p>Carregando...</p>;
-  if (error) return <p>{error}</p>;
+  const handleDelete = async (id, name) => {
+    if (confirm(`Tem certeza que deseja excluir "${name}"? Esta ação não pode ser desfeita.`)) {
+      try {
+        await deleteClient(id);
+        setClients(clients.filter(c => c._id !== id));
+      } catch (err) {
+        alert(`Erro ao excluir: ${err.message}`);
+      }
+    }
+  };
 
   return (
-    <ProtectedRoute>
-      <section>
-        <div className={styles.dashboard}>
-          <div className={styles.titleContainer}>
-            <h1 className={styles.title}>Clientes</h1>
-            <Link href="/clients/new">
-              <button className={styles.btnNovo}>Novo Cliente</button>
-            </Link>
+    <div>
+      <div className={styles.header}>
+        <h1 className={styles.pageTitle}>Clientes</h1>
+        <Link href="/clients/new" className={styles.newClientButton}>
+          <PlusCircle size={20} />
+          <span>Novo Cliente</span>
+        </Link>
+      </div>
+      
+      <Card>
+        <div className={styles.cardHeader}>
+          <div className={styles.searchContainer}>
+            <Search className={styles.searchIcon} />
+            <input
+              type="text"
+              placeholder="Buscar por nome ou CPF..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className={styles.searchInput}
+            />
           </div>
-          <input
-            type="text"
-            placeholder="Buscar..."
-            value={searchTerm}
-            onChange={handleSearchChange}
-            className={styles.searchBar}
-          />
-          <ul className={styles.lista}>
-            {filteredClients.map((client) => (
-              <li key={client._id} className={styles.titleLista}>
-                <div className={styles.dataAgendamento}>
-                  <p className={styles.pName}>{client.fullName}</p>
-                  <p className={styles.pCpf}>{client.cpf}</p>
-                  <p className={styles.pBirthDate}>
-                    {formatDate(client.birthDate)}
-                  </p>
-                  <p className={styles.pTelephone}>{client.phone}</p>
-                </div>
-                <div className={styles.listaBtnsContainer}>
-                  <Tooltip title="">
-                        <IconButton
-                          href={`https://wa.me/55${formatPhoneNumber(client.phone)}`} 
+        </div>
+        <div className={styles.tableContainer}>
+          <table className={styles.table}>
+            <thead>
+              <tr>
+                <th>Nome Completo</th>
+                <th>CPF</th>
+                <th>Telefone</th>
+                <th>Data de Nasc.</th>
+                <th>Ações</th>
+              </tr>
+            </thead>
+            <tbody>
+              {loading ? (
+                <tr><td colSpan="5" className={styles.statusCell}>Carregando...</td></tr>
+              ) : error ? (
+                <tr><td colSpan="5" className={styles.statusCellError}>{error}</td></tr>
+              ) : filteredClients.length > 0 ? (
+                filteredClients.map((client) => (
+                  <tr key={client._id}>
+                    <td>{client.fullName}</td>
+                    <td>{client.cpf}</td>
+                    <td>{client.phone}</td>
+                    <td>{formatDate(client.birthDate)}</td>
+                    <td>
+                      <div className={styles.actionsCell}>
+                        {/* 3. Adicionar o link/botão do WhatsApp */}
+                        <a 
+                          href={`https://wa.me/55${formatPhoneNumberForLink(client.phone)}`}
                           target="_blank"
                           rel="noopener noreferrer"
-                          color="primary"
+                          className={`${styles.actionButton} ${styles.whatsappButton}`}
+                          aria-label="Conversar no WhatsApp"
+                          title="Conversar no WhatsApp"
                         >
-                          <WhatsAppIcon />
-                        </IconButton>
-                      </Tooltip>
-                  <Link href={`/clients/${client._id}`}>
-                    <button>Detalhes</button>
-                  </Link>
-                </div>
-              </li>
-            ))}
-          </ul>
+                          <Phone size={16} />
+                        </a>
+                        <button onClick={() => handleEdit(client._id)} className={styles.actionButton} title="Editar Cliente">
+                          <Edit size={16} />
+                        </button>
+                        <button onClick={() => handleDelete(client._id, client.fullName)} className={`${styles.actionButton} ${styles.deleteButton}`} title="Excluir Cliente">
+                          <Trash2 size={16} />
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                ))
+              ) : (
+                <tr><td colSpan="5" className={styles.statusCell}>Nenhum cliente encontrado.</td></tr>
+              )}
+            </tbody>
+          </table>
         </div>
-      </section>
-    </ProtectedRoute>
+      </Card>
+    </div>
   );
 }

@@ -1,123 +1,43 @@
-/* Dashboard.module.css */
-
-.dashboard {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  min-height: 100vh;
-  background-color: #f4f4f9;
-  padding: 20px;
-  font-family: 'Arial', sans-serif;
+.pageTitle {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 2rem;
 }
 
-.statsContainer {
-  width: 100%;
-  max-width: 800px;
-  background-color: #fff;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  margin-bottom: 20px;
-  padding: 20px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+.dashboardGrid {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  gap: 1.5rem;
 }
 
-.dateContainer {
-  width: 100%;
-  text-align: right;
-  margin-bottom: 20px;
+@media (min-width: 768px) {
+  .dashboardGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
 
-.dateText {
-  font-size: 14px;
-  color: #666;
+@media (min-width: 1024px) {
+  .dashboardGrid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+  .gridSpan2 {
+    grid-column: span 2;
+  }
+  .gridSpan4 {
+    grid-column: span 4;
+  }
 }
 
-.totalPanel {
-  width: 100%;
-  background-color: #f9fafb;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-  margin-bottom: 20px;
-  padding: 15px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
+.statCardHeader { display: flex; justify-content: space-between; align-items: flex-start; padding-bottom: 0.5rem; }
+.statCardTitle { font-size: 0.875rem; font-weight: 500; color: var(--text-muted); }
+.statCardIcon { width: 20px; height: 20px; color: var(--text-muted); }
+.statCardContent { margin-top: 1rem; }
+.statCardValue { font-size: 2.25rem; font-weight: 700; letter-spacing: -0.05em; }
+.statCardDescription { font-size: 0.8rem; color: var(--text-muted); }
 
-.iconeContainer {
-  display: flex;
-  align-items: center;
-  margin-bottom: 1rem;
-}
+.chartCard { padding-bottom: 1.5rem; height: 100%; display: flex; flex-direction: column; }
+.cardTitle { font-size: 1.1rem; font-weight: 600; margin-bottom: 1rem; }
+.chartContainer { width: 100%; flex-grow: 1; min-height: 250px; }
 
-.dashIcon {
-  width: 30px;
-  height: 30px;
-  margin-right: 10px;
-}
-
-.totalTitle {
-  font-size: 18px;
-  margin: 0;
-}
-
-.totalValue {
-  text-align: right;
-}
-
-.ptotalValue {
-  font-size: 24px;
-  font-weight: bold;
-}
-
-.red {
-  color: #ff4d4d;
-}
-
-.orange {
-  color: #ffa500;
-}
-
-.green {
-  color: #4caf50;
-}
-
-.birthdayPanel {
-  width: 100%;
-  max-width: 800px;
-  background-color: #fff;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  padding: 20px;
-}
-
-.birthdayList {
-  list-style: none;
-  padding: 0;
-}
-
-.birthdayItem {
-  margin-bottom: 10px;
-  font-size: 16px;
-}
-
-.birthdayToday {
-  color: #ff4d4d;
-  font-weight: bold;
-}
-
-.birthdayPassed {
-  color: #666;
-}
-
-.birthdayUpcoming {
-  color: #4caf50;
-}
-
-.birthdayError {
-  color: #ff4d4d;
-  font-style: italic;
-}
+.statusMessage { text-align: center; padding: 4rem; color: var(--text-muted); }
+.error { color: #ef4444; }

@@ -1,418 +1,180 @@
 import React, { useState, useEffect } from "react";
 import { mask } from "remask";
+import Card from "./Card";
+import styles from "./styles/ClientForm.module.css";
 
-import styles from "../components/Styles/FormAgendamento.module.css";
+// Converte a data de YYYY-MM-DD para o formato do input (e vice-versa se necessário)
+const formatDateForInput = (dateString) => {
+  if (!dateString) return "";
+  try {
+    return new Date(dateString).toISOString().split('T')[0];
+  } catch (e) {
+    return "";
+  }
+};
 
-const ClientForm = ({ onSubmit, initialData }) => {
+const ClientForm = ({ onSubmit, initialData, isSubmitting = false }) => {
   const [formData, setFormData] = useState({
-    fullName: "",
-    cpf: "",
-    phone: "",
-    birthDate: "",
-    gender: "",
-    address: "",
-    cep: "",
-    receiptImage: "",
-    notes: "",
+    fullName: "", cpf: "", phone: "", birthDate: "", gender: "", address: "", cep: "", notes: "",
     possuiReceita: false,
-    longe: {
-      esfericoDireito: "",
-      cilindricoDireito: "",
-      eixoDireito: "",
-      esfericoEsquerdo: "",
-      cilindricoEsquerdo: "",
-      eixoEsquerdo: "",
-      adicao: "",
-    },
-    perto: {
-      esfericoDireito: "",
-      cilindricoDireito: "",
-      eixoDireito: "",
-      esfericoEsquerdo: "",
-      cilindricoEsquerdo: "",
-      eixoEsquerdo: "",
-      adicao: "",
-    },
+    longe: { esfericoDireito: "", cilindricoDireito: "", eixoDireito: "", esfericoEsquerdo: "", cilindricoEsquerdo: "", eixoEsquerdo: "", adicao: "" },
+    perto: { esfericoDireito: "", cilindricoDireito: "", eixoDireito: "", esfericoEsquerdo: "", cilindricoEsquerdo: "", eixoEsquerdo: "", adicao: "" },
     vencimentoReceita: "",
   });
 
-  const [cepLoading, setCepLoading] = useState(false);
-
   useEffect(() => {
     if (initialData) {
-      setFormData(initialData);
+      setFormData({
+        ...initialData,
+        birthDate: formatDateForInput(initialData.birthDate),
+        vencimentoReceita: formatDateForInput(initialData.vencimentoReceita),
+      });
     }
   }, [initialData]);
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
-    let newValue = value;
+    let finalValue = type === "checkbox" ? checked : value;
 
-    if (type === "checkbox") {
-      newValue = checked;
-    }
-
-    if (name === "cpf") {
-      newValue = mask(newValue, ["999.999.999-99"]);
-    } else if (name === "phone") {
-      newValue = mask(newValue, ["(99) 99999-9999"]);
-    }
-
-    setFormData((prevState) => ({
-      ...prevState,
-      [name]: newValue,
-    }));
+    if (name === "cpf") finalValue = mask(value, ["999.999.999-99"]);
+    else if (name === "phone") finalValue = mask(value, ["(99) 99999-9999"]);
+    else if (name === "cep") finalValue = mask(value, ["99999-999"]);
+    
+    setFormData((prev) => ({ ...prev, [name]: finalValue }));
   };
-
+  
   const handleNestedChange = (e) => {
     const { name, value } = e.target;
     const [parent, child] = name.split(".");
-    setFormData((prevState) => ({
-      ...prevState,
-      [parent]: {
-        ...prevState[parent],
-        [child]: value,
-      },
+    setFormData((prev) => ({
+      ...prev,
+      [parent]: { ...prev[parent], [child]: value },
     }));
-  };
-
-  const fetchAddressByCep = async (cep) => {
-    setCepLoading(true);
-    try {
-      const response = await fetch(`https://viacep.com.br/ws/${cep}/json/`);     
-      const data = await response.json();
-
-      if (data.erro) {
-        alert("CEP não encontrado.");
-      } else {
-        setFormData((prevState) => ({
-          ...prevState,
-          address: `${data.logradouro}, ${data.bairro}, ${data.localidade} - ${data.uf}`,
-        }));
-      }
-    } catch (error) {
-      console.error("Erro ao buscar CEP:", error);
-      alert("Erro ao buscar CEP.");
-    } finally {
-      setCepLoading(false);
-    }
-  };
-
-  const handleCepChange = (e) => {
-    const { value } = e.target;
-    const maskedValue = mask(value, ["99999-999"]);
-
-    setFormData((prevState) => ({
-      ...prevState,
-      cep: maskedValue,
-    }));
-
-    if (maskedValue.length === 9) {
-      fetchAddressByCep(maskedValue.replace("-", ""));
-    }
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
     onSubmit(formData);
   };
+  
+  // Componente interno para os campos de receita
+  const ReceitaFields = ({ type, data, onChange }) => (
+    <div className={styles.receitaGrid}>
+      <h4 className={styles.receitaSubtitle}>{type === 'longe' ? 'Olho Direito (OD)' : 'Olho Esquerdo (OE)'}</h4>
+       <div className={styles.inputGroup}>
+        <label>Esférico</label>
+        <input type="text" name={`${type}.esfericoDireito`} value={data.esfericoDireito} onChange={onChange} />
+      </div>
+       <div className={styles.inputGroup}>
+        <label>Cilíndrico</label>
+        <input type="text" name={`${type}.cilindricoDireito`} value={data.cilindricoDireito} onChange={onChange} />
+      </div>
+       <div className={styles.inputGroup}>
+        <label>Eixo</label>
+        <input type="text" name={`${type}.eixoDireito`} value={data.eixoDireito} onChange={onChange} />
+      </div>
+      <h4 className={styles.receitaSubtitle}>{type === 'longe' ? 'Olho Esquerdo (OE)' : 'Olho Esquerdo (OE)'}</h4>
+       <div className={styles.inputGroup}>
+        <label>Esférico</label>
+        <input type="text" name={`${type}.esfericoEsquerdo`} value={data.esfericoEsquerdo} onChange={onChange} />
+      </div>
+       <div className={styles.inputGroup}>
+        <label>Cilíndrico</label>
+        <input type="text" name={`${type}.cilindricoEsquerdo`} value={data.cilindricoEsquerdo} onChange={onChange} />
+      </div>
+       <div className={styles.inputGroup}>
+        <label>Eixo</label>
+        <input type="text" name={`${type}.eixoEsquerdo`} value={data.eixoEsquerdo} onChange={onChange} />
+      </div>
+    </div>
+  );
 
   return (
-    <section>
-      <form onSubmit={handleSubmit} className={styles.form}>
-        <label>
-          Nome Completo
-          <input
-            type="text"
-            name="fullName"
-            value={formData.fullName}
-            onChange={handleChange}
-            required
-          />
-        </label>
-        <label>
-          CPF
-          <input
-            type="text"
-            name="cpf"
-            value={formData.cpf}
-            onChange={handleChange}
-            required
-          />
-        </label>
-        <label>
-          Telefone
-          <input
-            type="text"
-            name="phone"
-            value={formData.phone}
-            onChange={handleChange}
-            required
-          />
-        </label>
-        <label>
-          Data de Nascimento
-          <input
-            type="date"
-            name="birthDate"
-            value={formData.birthDate}
-            onChange={handleChange}
-            required
-          />
-        </label>
-        <label>
-          Gênero
-          <select
-            name="gender"
-            value={formData.gender}
-            onChange={handleChange}
-            required
-          >
-            <option value="">Selecione um gênero</option>
-            <option value="Masculino">Masculino</option>
-            <option value="Feminino">Feminino</option>
-            <option value="Outro">Outro</option>
-          </select>
-        </label>
-        <label>
-          CEP
-          <input
-            type="text"
-            name="cep"
-            value={formData.cep}
-            onChange={handleCepChange}
-            required
-          />
-        </label>
-        {cepLoading && <p>Buscando endereço...</p>}
-        <label>
-          Endereço
-          <input
-            type="text"
-            name="address"
-            value={formData.address}
-            onChange={handleChange}
-            required
-          />
-        </label>
-        <label>
-          Observações
-          <textarea
-            name="notes"
-            value={formData.notes}
-            onChange={handleChange}
-          />
-        </label>
-        <label>
-          Possui Receita
-          <input
-            type="checkbox"
-            name="possuiReceita"
-            checked={formData.possuiReceita}
-            onChange={handleChange}
-          />
-        </label>
+    <form onSubmit={handleSubmit} className={styles.form}>
+      <Card>
+        <h2 className={styles.cardTitle}>Dados Pessoais</h2>
+        <div className={styles.grid}>
+          <div className={styles.gridSpan2}>
+            <label>Nome Completo</label>
+            <input type="text" name="fullName" value={formData.fullName} onChange={handleChange} required />
+          </div>
+          <div>
+            <label>CPF</label>
+            <input type="text" name="cpf" value={formData.cpf} onChange={handleChange} required />
+          </div>
+          <div>
+            <label>Telefone</label>
+            <input type="text" name="phone" value={formData.phone} onChange={handleChange} required />
+          </div>
+          <div>
+            <label>Data de Nascimento</label>
+            <input type="date" name="birthDate" value={formData.birthDate} onChange={handleChange} />
+          </div>
+          <div>
+            <label>Gênero</label>
+            <select name="gender" value={formData.gender} onChange={handleChange}>
+              <option value="">Selecione</option>
+              <option value="Masculino">Masculino</option>
+              <option value="Feminino">Feminino</option>
+            </select>
+          </div>
+        </div>
+      </Card>
+
+      <Card>
+        <h2 className={styles.cardTitle}>Endereço e Observações</h2>
+         <div className={styles.grid}>
+           <div>
+              <label>CEP</label>
+              <input type="text" name="cep" value={formData.cep} onChange={handleChange} />
+            </div>
+            <div className={styles.gridSpan2}>
+              <label>Endereço</label>
+              <input type="text" name="address" value={formData.address} onChange={handleChange} />
+            </div>
+            <div className={styles.gridSpan3}>
+              <label>Observações</label>
+              <textarea name="notes" value={formData.notes} onChange={handleChange} rows="3"></textarea>
+            </div>
+        </div>
+      </Card>
+      
+      <Card>
+         <div className={styles.checkboxContainer}>
+            <input type="checkbox" id="possuiReceita" name="possuiReceita" checked={formData.possuiReceita} onChange={handleChange} />
+            <label htmlFor="possuiReceita">Possui Receita Oftalmológica?</label>
+        </div>
+
         {formData.possuiReceita && (
-          <>
-            <div className={styles.containerLonge}>
-              <h3 className={styles.titleLonge}>LONGE</h3>
-              <div className={styles.direitoLonge}>
-                <div className={styles.labelContainer}>
-                  <label>
-                    OD Esférico
-                    <input
-                      type="text"
-                      name="longe.esfericoDireito"
-                      value={formData.longe.esfericoDireito}
-                      onChange={handleNestedChange}
-                      required
-                    />
-                  </label>
-                </div>
-                <div className={styles.labelContainer}>
-                  <label>
-                    OD Cilíndrico
-                    <input
-                      type="text"
-                      name="longe.cilindricoDireito"
-                      value={formData.longe.cilindricoDireito}
-                      onChange={handleNestedChange}
-                      required
-                    />
-                  </label>
-                </div>
-                <div className={styles.labelContainer}>
-                  <label>
-                    OD Eixo
-                    <input
-                      type="text"
-                      name="longe.eixoDireito"
-                      value={formData.longe.eixoDireito}
-                      onChange={handleNestedChange}
-                      required
-                    />
-                  </label>
-                </div>
-              </div>
-              <div className={styles.esquerdoLonge}>
-                <div className={styles.labelContainer}>
-                  <label>
-                    OE Esférico
-                    <input
-                      type="text"
-                      name="longe.esfericoEsquerdo"
-                      value={formData.longe.esfericoEsquerdo}
-                      onChange={handleNestedChange}
-                      required
-                    />
-                  </label>
-                </div>
-                <div className={styles.labelContainer}>
-                  <label>
-                    OE Cilíndrico
-                    <input
-                      type="text"
-                      name="longe.cilindricoEsquerdo"
-                      value={formData.longe.cilindricoEsquerdo}
-                      onChange={handleNestedChange}
-                      required
-                    />
-                  </label>
-                </div>
-                <div className={styles.labelContainer}>
-                  <label>
-                    OE Eixo
-                    <input
-                      type="text"
-                      name="longe.eixoEsquerdo"
-                      value={formData.longe.eixoEsquerdo}
-                      onChange={handleNestedChange}
-                      required
-                    />
-                  </label>
-                </div>
-              </div>
-              <div className={styles.labelContainer}>
-                <label>
-                  Adição
-                  <input
-                    type="text"
-                    name="longe.adicao"
-                    value={formData.longe.adicao}
-                    onChange={handleNestedChange}
-                  />
-                </label>
-              </div>
-            </div>
+          <div className={styles.receitaContainer}>
+            <h3 className={styles.sectionTitle}>Longe</h3>
+            <ReceitaFields type="longe" data={formData.longe} onChange={handleNestedChange} />
+             <div className={styles.inputGroup}>
+                <label>Adição</label>
+                <input type="text" name="longe.adicao" value={formData.longe.adicao} onChange={handleNestedChange} />
+             </div>
 
-            <div className={styles.containerPerto}>
-              <h3 className={styles.titlePerto}>PERTO</h3>
-              <div className={styles.direitoPerto}>
-                <div className={styles.labelContainer}>
-                  <label>
-                    OD Esférico
-                    <input
-                      type="text"
-                      name="perto.esfericoDireito"
-                      value={formData.perto.esfericoDireito}
-                      onChange={handleNestedChange}
-                      required
-                    />
-                  </label>
-                </div>
-                <div className={styles.labelContainer}>
-                  <label>
-                    OD Cilíndrico
-                    <input
-                      type="text"
-                      name="perto.cilindricoDireito"
-                      value={formData.perto.cilindricoDireito}
-                      onChange={handleNestedChange}
-                      required
-                    />
-                  </label>
-                </div>
-                <div className={styles.labelContainer}>
-                  <label>
-                    OD Eixo
-                    <input
-                      type="text"
-                      name="perto.eixoDireito"
-                      value={formData.perto.eixoDireito}
-                      onChange={handleNestedChange}
-                      required
-                    />
-                  </label>
-                </div>
-              </div>
-              <div className={styles.esquerdoPerto}>
-                <div className={styles.labelContainer}>
-                  <label>
-                    OE Esférico
-                    <input
-                      type="text"
-                      name="perto.esfericoEsquerdo"
-                      value={formData.perto.esfericoEsquerdo}
-                      onChange={handleNestedChange}
-                      required
-                    />
-                  </label>
-                </div>
-                <div className={styles.labelContainer}>
-                  <label>
-                    OE Cilíndrico
-                    <input
-                      type="text"
-                      name="perto.cilindricoEsquerdo"
-                      value={formData.perto.cilindricoEsquerdo}
-                      onChange={handleNestedChange}
-                      required
-                    />
-                  </label>
-                </div>
-                <div className={styles.labelContainer}>
-                  <label>
-                    OE Eixo
-                    <input
-                      type="text"
-                      name="perto.eixoEsquerdo"
-                      value={formData.perto.eixoEsquerdo}
-                      onChange={handleNestedChange}
-                      required
-                    />
-                  </label>
-                </div>
-              </div>
-              <div className={styles.labelContainer}>
-                <label>
-                  Adição
-                  <input
-                    type="text"
-                    name="perto.adicao"
-                    value={formData.perto.adicao}
-                    onChange={handleNestedChange}
-                  />
-                </label>
-              </div>
-            </div>
+            <h3 className={styles.sectionTitle}>Perto</h3>
+            <ReceitaFields type="perto" data={formData.perto} onChange={handleNestedChange} />
+             <div className={styles.inputGroup}>
+                <label>Adição</label>
+                <input type="text" name="perto.adicao" value={formData.perto.adicao} onChange={handleNestedChange} />
+             </div>
 
-            <label>
-              Vencimento da Receita
-              <input
-                type="date"
-                name="vencimentoReceita"
-                value={formData.vencimentoReceita}
-                onChange={handleChange}
-                required
-              />
-            </label>
-          </>
+            <div>
+              <label>Vencimento da Receita</label>
+              <input type="date" name="vencimentoReceita" value={formData.vencimentoReceita} onChange={handleChange} />
+            </div>
+          </div>
         )}
-        <button type="submit" className={styles.clFormButton}>
-          Enviar
+      </Card>
+      
+      <div className={styles.submitContainer}>
+        <button type="submit" className={styles.submitButton} disabled={isSubmitting}>
+          {isSubmitting ? 'Salvando...' : 'Salvar Cliente'}
         </button>
-      </form>
-    </section>
+      </div>
+    </form>
   );
 };
 

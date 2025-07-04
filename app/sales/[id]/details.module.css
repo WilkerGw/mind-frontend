@@ -1,0 +1,61 @@
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 2rem;
+}
+.pageTitle {
+  font-size: 2rem;
+  font-weight: 700;
+}
+.pageSubtitle {
+  color: var(--text-muted);
+}
+.actionButton {
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 0.5rem;
+  cursor: pointer;
+  color: var(--text-muted);
+}
+.cardTitle {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid var(--border);
+}
+.grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+}
+@media (min-width: 768px) {
+  .grid {
+    grid-template-columns: 1fr 2fr;
+  }
+}
+.itemsTable {
+  width: 100%;
+  border-collapse: collapse;
+}
+.itemsTable th, .itemsTable td {
+  padding: 0.75rem;
+  text-align: left;
+  border-bottom: 1px solid var(--border);
+}
+.totalFooter {
+  display: flex;
+  justify-content: flex-end;
+  align-items: baseline;
+  margin-top: 2rem;
+  padding: 1.5rem;
+  background-color: var(--card-background);
+  border-radius: 12px;
+}
+.totalValue {
+  font-size: 1.75rem;
+  font-weight: bold;
+  margin-left: 2rem;
+}

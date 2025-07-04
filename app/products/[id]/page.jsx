@@ -1,64 +1,71 @@
 'use client';
 import { useEffect, useState } from 'react';
-import { useParams, useRouter } from 'next/navigation';
-import styles from '../../Styles/Dashboard.module.css';
+import { useRouter, useParams } from 'next/navigation';
+// Caminhos corrigidos para voltar três níveis até a raiz
+import { getProductById, updateProduct } from '../../../lib/product-api';
+import ProductForm from '../../components/ProductForm';
+import Link from 'next/link';
+import { ArrowLeft } from 'lucide-react';
+import styles from '../products.module.css';
 
-export default function ProductDetails() {
+export default function EditProductPage() {
   const router = useRouter();
   const params = useParams();
-  const id = params?.id; // garante que id seja acessado com segurança
+  const { id } = params;
 
-  const [product, setProduct] = useState(null);
+  const [initialData, setInitialData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
-    if (!id || typeof id !== 'string') {
-      setLoading(false);
-      setError('ID do produto inválido');
-      return;
-    }
-
+    if (!id) return;
     const fetchProduct = async () => {
       try {
-        const response = await fetch(`/api/products/${id}`);
-        if (!response.ok) {
-          const errorData = await response.json();
-          throw new Error(errorData.error || 'Erro ao buscar produto');
-        }
-        const data = await response.json();
-        setProduct(data);
-      } catch (error) {
-        console.error('Erro ao buscar produto:', error);
-        setError(error.message || 'Erro desconhecido');
+        setLoading(true);
+        const data = await getProductById(id);
+        setInitialData(data);
+      } catch (err) {
+        setError(err.message);
       } finally {
         setLoading(false);
       }
     };
-
     fetchProduct();
   }, [id]);
 
-  if (loading) return <p>Carregando...</p>;
-  if (error) return <p style={{ color: 'red' }}>{error}</p>;
+  const handleSubmit = async (data) => {
+    setIsSubmitting(true);
+    setError(null);
+    try {
+      await updateProduct(id, data);
+      router.push('/products');
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+  
+  if (loading) return <div className={styles.statusCell}>Carregando produto...</div>;
+  if (error) return <div className={styles.statusCellError}>Erro: {error}</div>;
 
   return (
-    <section>
-      <div className={styles.detalhesContainer}>
-        <h1 className={styles.titleLista}>{product?.name || 'Produto'}</h1>
-        {product && (
-          <div>
-            <p><strong>Código:</strong> {product.code || 'N/A'}</p>
-            <p><strong>Tipo:</strong> {product.type || 'N/A'}</p>
-            <p><strong>Design:</strong> {product.design || 'N/A'}</p>
-            <p><strong>Material:</strong> {product.material || 'N/A'}</p>
-            <p><strong>Estoque:</strong> {product.stock ?? 'N/A'}</p>
-            <p><strong>Preço:</strong> R$ {product.price ? parseFloat(product.price).toFixed(2) : 'N/A'}</p>
-            <p><strong>Preço de Custo:</strong> R$ {product.costPrice ? parseFloat(product.costPrice).toFixed(2) : 'N/A'}</p>
-            <p><strong>Data de Criação:</strong> {product.createdAt ? new Date(product.createdAt).toLocaleDateString() : 'Não disponível'}</p>
-          </div>
-        )}
+     <div>
+      <div className={styles.header}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+          <Link href="/products" className={styles.actionButton}>
+            <ArrowLeft size={20} />
+          </Link>
+          <h1 className={styles.pageTitle}>Editar Produto</h1>
+        </div>
       </div>
-    </section>
+      {error && <p style={{ color: 'red', marginBottom: '1rem' }}>Erro ao salvar: {error}</p>}
+      <ProductForm 
+        onSubmit={handleSubmit} 
+        initialData={initialData}
+        isSubmitting={isSubmitting} 
+      />
+    </div>
   );
 }

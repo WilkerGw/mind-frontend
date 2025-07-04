@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
-import styles from '../Styles/Dashboard.module.css';
 import ProtectedRoute from '../components/ProtectedRoute';
 
 export default function Promotions() {

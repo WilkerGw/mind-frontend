@@ -1,36 +1,47 @@
 'use client';
-import ProductForm from '../../components/ProductForm';
+import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import styles from '../../components/Styles/FormAgendamento.module.css';
+// CAMINHOS CORRIGIDOS
+import { createProduct } from '../../../lib/product-api';
+import ProductForm from '../../components/ProductForm';
+import Link from 'next/link';
+import { ArrowLeft } from 'lucide-react';
+// Este caminho está correto, pois busca o CSS da pasta pai
+import styles from '../products.module.css';
 
-export default function NewProduct() {
+export default function NewProductPage() {
   const router = useRouter();
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [error, setError] = useState(null);
 
   const handleSubmit = async (data) => {
+    setIsSubmitting(true);
+    setError(null);
     try {
-      const response = await fetch('/api/products', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data),
-      });
-      if (response.ok) {
-        router.push('/products');
-      } else {
-        const error = await response.json();
-        alert(error.error);
-      }
-    } catch (error) {
-      console.error(error);
-      alert('Ocorreu um erro ao cadastrar o produto.');
+      await createProduct(data);
+      // Após o sucesso, força a atualização dos dados na próxima navegação e redireciona
+      router.refresh();
+      router.push('/products');
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
   return (
-    <section>
-      <div className={styles.formContainer}>
-        <h1 className={styles.formTitle}>Cadastrar Produto</h1>
-        <ProductForm onSubmit={handleSubmit} />
+    <div>
+      <div className={styles.header}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+          {/* A classe 'actionButton' vem do products.module.css */}
+          <Link href="/products" className={styles.actionButton}>
+            <ArrowLeft size={20} />
+          </Link>
+          <h1 className={styles.pageTitle}>Novo Produto</h1>
+        </div>
       </div>
-    </section>
+      {error && <p style={{ color: 'red', marginBottom: '1rem' }}>Erro: {error}</p>}
+      <ProductForm onSubmit={handleSubmit} isSubmitting={isSubmitting} />
+    </div>
   );
 }

@@ -1,7 +1,6 @@
 'use client';
 import { useState } from 'react'; // Adicione esta linha para importar useState
 import { useRouter } from 'next/navigation';
-import styles from '../../components/Styles/Form.module.css';
 
 export default function NewPromotion() {
   const router = useRouter();

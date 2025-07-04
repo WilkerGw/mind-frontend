@@ -1,17 +1,49 @@
+/* Definição de variáveis de cor para o tema claro (padrão) */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #f4f4f9;
+  --foreground: #111827;
+  --card-background: #ffffff;
+  --card-foreground: #111827;
+  --sidebar-background: #ffffff;
+  --text-muted: #6b7280;
+  --primary: #4f46e5;
+  --primary-foreground: #ffffff;
+  --border: #e5e7eb;
+  --shadow-color: rgba(0, 0, 0, 0.05);
 }
 
+/* Definição de variáveis para o tema escuro */
+body.dark {
+  --background: #111827;
+  --foreground: #f9fafb;
+  --card-background: #1f2937;
+  --card-foreground: #f9fafb;
+  --sidebar-background: #1f2937;
+  --text-muted: #9ca3af;
+  --primary: #6366f1;
+  --primary-foreground: #ffffff;
+  --border: #374151;
+  --shadow-color: rgba(0, 0, 0, 0.2);
+}
+
+/* Reset básico e estilos globais */
 * {
+  box-sizing: border-box;
   padding: 0;
   margin: 0;
-  box-sizing: border-box;
+}
+
+html,
+body {
+  max-width: 100vw;
+  overflow-x: hidden;
 }
 
 body {
-  font-family: sans-serif;
-  color: #5e5e5e;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  color: var(--foreground);
+  background-color: var(--background);
+  transition: color 0.2s, background-color 0.2s;
 }
 
 a {
@@ -19,17 +51,6 @@ a {
   text-decoration: none;
 }
 
-
-section {
-  display: flex;
-  align-items: center;
-  justify-content: end;
-  width: 100%;
-  height: auto;
-  background-color: #f4f4f9;
-}
-
-div {
-  width: 100%;
-  height: auto;
+ul {
+  list-style: none;
 }

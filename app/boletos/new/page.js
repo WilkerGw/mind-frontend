@@ -1,136 +1,105 @@
-'use client';
-import { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
-import styles from '../../../components/styles/Form.module.css';
+"use client";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { createInstallmentPlan } from "../../../lib/boleto-api";
+import InstallmentForm from "../../components/InstallmentForm"; // Nome atualizado
+import ManualBoletoForm from "../../components/ManualBoletoForm"; // Novo formulário
+import Link from "next/link";
+import { ArrowLeft } from "lucide-react";
+import styles from "../boletos.module.css";
 
-export default function NewBoleto() {
+export default function NewBoletoPage() {
   const router = useRouter();
-  const [clients, setClients] = useState([]);
-  const [formData, setFormData] = useState({
-    client: '',
-    parcelValue: 0,
-    dueDate: new Date().toISOString().split('T')[0], // Data atual
-    status: 'em aberto', // Status padrão
-    description: '' // Campo opcional
-  });
+  const [mode, setMode] = useState('installments'); // 'installments' ou 'manual'
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [error, setError] = useState(null);
 
-  useEffect(() => {
-    // Carregar clientes
-    const fetchClients = async () => {
-      try {
-        const response = await fetch('/api/clients');
-        const data = await response.json();
-        setClients(data);
-      } catch (error) {
-        console.error('Erro ao carregar clientes:', error);
-      }
-    };
-    fetchClients();
-  }, []);
+  // Função para o formulário de PARCELAMENTO
+  const handleInstallmentSubmit = async (formData) => {
+    setIsSubmitting(true);
+    setError(null);
+    try {
+      const { client, valorTotal, valorEntrada, numeroParcelas, dataPrimeiroVencimento } = formData;
+      const valorRestante = (parseFloat(valorTotal) || 0) - (parseFloat(valorEntrada) || 0);
+      const parcelas = parseInt(numeroParcelas, 10);
+      const valorParcela = valorRestante / parcelas;
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
+      const boletosArray = Array.from({ length: parcelas }, (_, i) => {
+        const dataVencimento = new Date(dataPrimeiroVencimento);
+        dataVencimento.setUTCHours(12,0,0,0);
+        dataVencimento.setMonth(dataVencimento.getMonth() + i);
+        return {
+          client,
+          parcelValue: valorParcela,
+          dueDate: dataVencimento.toISOString(),
+          status: 'aberto',
+          description: `Parcela ${i + 1}/${parcelas}`,
+        };
+      });
+
+      await createInstallmentPlan(boletosArray);
+      router.refresh();
+      router.push("/boletos");
+
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    // Validação de campos obrigatórios
-    if (!formData.client || !formData.dueDate || formData.parcelValue <= 0) {
-      alert('Preencha todos os campos obrigatórios!');
-      return;
-    }
+  // Função para o formulário MANUAL
+  const handleManualSubmit = async (formData) => {
+    setIsSubmitting(true);
+    setError(null);
     try {
-      const response = await fetch('/api/boletos', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData),
-      });
-      if (response.ok) {
-        router.push('/boletos');
-      } else {
-        const error = await response.json();
-        alert(error.error || 'Erro ao salvar o boleto');
-      }
-    } catch (error) {
-      console.error(error);
-      alert('Erro de conexão com o servidor');
+      // Enviamos como um array de um único item para usar a mesma função da API
+      await createInstallmentPlan([{ ...formData, status: 'aberto' }]);
+      router.refresh();
+      router.push("/boletos");
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
   return (
-    <section>
-      <div className={styles.formContainer}>
-        <h1>Cadastrar Boleto</h1>
-        <form onSubmit={handleSubmit} className={styles.form}>
-          {/* Campo Cliente */}
-          <label>
-            Cliente:
-            <select
-              name="client"
-              value={formData.client}
-              onChange={handleChange}
-              required
-            >
-              <option value="">Selecione o cliente</option>
-              {clients.map((client) => (
-                <option key={client._id} value={client._id}>
-                  {client.fullName}
-                </option>
-              ))}
-            </select>
-          </label>
-          {/* Campo Valor da Parcela */}
-          <label>
-            Valor da Parcela:
-            <input
-              type="number"
-              step="0.01"
-              name="parcelValue"
-              value={formData.parcelValue}
-              onChange={handleChange}
-              required
-            />
-          </label>
-          {/* Campo Data de Vencimento */}
-          <label>
-            Data de Vencimento:
-            <input
-              type="date"
-              name="dueDate"
-              value={formData.dueDate}
-              onChange={handleChange}
-              required
-            />
-          </label>
-          {/* Campo Status */}
-          <label>
-            Status:
-            <select
-              name="status"
-              value={formData.status}
-              onChange={handleChange}
-            >
-              <option value="em aberto">Em Aberto</option>
-              <option value="pago">Pago</option>
-              <option value="atrasado">Atrasado</option>
-            </select>
-          </label>
-          {/* Campo Descrição (opcional) */}
-          <label>
-            Descrição:
-            <textarea
-              name="description"
-              value={formData.description}
-              onChange={handleChange}
-            />
-          </label>
-          <button type="submit">Salvar</button>
-        </form>
+    <div>
+      <div className={styles.header}>
+        <h1 className={styles.pageTitle}>Novo Lançamento</h1>
       </div>
-    </section>
+       <div style={{ marginBottom: '2rem' }}>
+        <Link href="/boletos" className={styles.secondaryButton}>
+          <ArrowLeft size={20} />
+          <span>Voltar</span>
+        </Link>
+      </div>
+
+      {/* Seletor de Modo */}
+      <div className={styles.modeSelector}>
+        <button 
+          className={mode === 'installments' ? styles.activeMode : ''} 
+          onClick={() => setMode('installments')}
+        >
+          Gerar Parcelamento
+        </button>
+        <button 
+          className={mode === 'manual' ? styles.activeMode : ''} 
+          onClick={() => setMode('manual')}
+        >
+          Boleto Avulso
+        </button>
+      </div>
+
+      {error && <p style={{ color: 'red', marginBottom: '1rem' }}>Erro: {error}</p>}
+      
+      {/* Renderização Condicional do Formulário */}
+      {mode === 'installments' ? (
+        <InstallmentForm onSubmit={handleInstallmentSubmit} isSubmitting={isSubmitting} />
+      ) : (
+        <ManualBoletoForm onSubmit={handleManualSubmit} isSubmitting={isSubmitting} />
+      )}
+    </div>
   );
 }

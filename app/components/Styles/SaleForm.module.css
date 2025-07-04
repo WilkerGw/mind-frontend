@@ -1,0 +1,119 @@
+/* Adicione esta nova classe ao seu arquivo SaleForm.module.css */
+.quantityInput {
+  max-width: 80px;
+  text-align: center;
+}
+
+/* O resto do seu arquivo CSS permanece o mesmo... */
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+.grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+}
+@media (min-width: 1024px) {
+  .grid {
+    grid-template-columns: 3fr 1fr;
+  }
+}
+.mainColumn, .sidebarColumn {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+.cardTitle {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+}
+.inlineGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+}
+.formGroup label {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--text-muted);
+  display: block;
+  margin-bottom: 0.5rem;
+}
+.formGroup input, .formGroup select {
+  width: 100%;
+  padding: 0.75rem;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background-color: var(--background);
+  font-size: 1rem;
+}
+.productRowsContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+.productRow {
+  display: grid;
+  grid-template-columns: 3fr 1fr 1.5fr auto;
+  gap: 1rem;
+  align-items: center;
+}
+.addButton {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  border: 1px dashed var(--border);
+  background: none;
+  padding: 0.75rem;
+  border-radius: 8px;
+  cursor: pointer;
+  width: 100%;
+  justify-content: center;
+  margin-top: 1rem;
+  color: var(--text-muted);
+}
+.removeButton {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  padding: 0.5rem;
+}
+.removeButton:hover {
+  color: #ef4444;
+}
+.divider {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 1.5rem 0;
+}
+.totalContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  font-weight: 600;
+}
+.totalValue {
+  font-size: 1.5rem;
+}
+.submitContainer {
+  display: flex;
+  justify-content: flex-end;
+}
+.submitButton {
+  background-color: var(--primary);
+  color: var(--primary-foreground);
+  padding: 0.75rem 2rem;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+}
+.submitButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}

@@ -1,0 +1,86 @@
+.sidebar {
+  background-color: var(--sidebar-background);
+  border-right: 1px solid var(--border);
+  width: 250px;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.3s ease-in-out;
+  z-index: 1000;
+}
+
+.sidebarHeader {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  border-bottom: 1px solid var(--border);
+  height: 60px; /* Altura consistente com o header mobile */
+}
+
+.logoLink {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.logoIcon {
+  color: var(--primary);
+  width: 28px;
+  height: 28px;
+}
+
+.logoText {
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+.nav {
+  padding: 1rem;
+  overflow-y: auto; /* Adiciona scroll se houver muitos links */
+  flex-grow: 1;
+}
+
+.navLink {
+  display: flex;
+  align-items: center;
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  margin-bottom: 0.25rem;
+  color: var(--text-muted);
+  font-weight: 500;
+  transition: background-color 0.2s, color 0.2s;
+}
+
+.navLink:hover {
+  background-color: var(--background);
+  color: var(--foreground);
+}
+
+.navLink.active {
+  background-color: var(--primary);
+  color: var(--primary-foreground);
+}
+
+.navIcon {
+  width: 20px;
+  height: 20px;
+}
+
+.navText {
+  margin-left: 1rem;
+}
+
+/* Estilos para Mobile */
+@media (max-width: 1024px) {
+  .sidebar {
+    transform: translateX(-100%);
+  }
+  .sidebar.mobileOpen {
+    transform: translateX(0);
+    box-shadow: 5px 0 15px var(--shadow-color);
+  }
+}

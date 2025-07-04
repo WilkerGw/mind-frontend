@@ -1,31 +1,34 @@
-/* eslint-disable @next/next/no-img-element */
-// my-nextjs-auth-app/app/auth/login/page.js
 "use client";
 
 import { signIn } from "next-auth/react";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 import styles from "./page.module.css";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
   const router = useRouter();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
+    setError("");
+
     const result = await signIn("credentials", {
       redirect: false,
       email,
       password,
-      callbackUrl: "/",
     });
 
-    console.log("SignIn Result:", result); // Adicione este console.log
+    setLoading(false);
 
     if (result.error) {
-      alert(result.error);
-    } else {
+      setError("Usuário ou senha inválidos. Tente novamente.");
+    } else if (result.ok) {
       router.push("/dashboard");
     }
   };
@@ -33,30 +36,44 @@ export default function LoginPage() {
   return (
     <section className={styles.loginSection}>
       <div className={styles.loginContainer}>
-      <img src="/images/logo-cinza.png" alt="logo imagem" className={styles.logoLogin} />
+        <Image
+          src="/images/logo-cinza.png"
+          alt="Logo da Ótica"
+          width={150}
+          height={50}
+          priority
+          className={styles.logoLogin}
+        />
         <form onSubmit={handleSubmit} className={styles.form}>
           <div>
-            <label>Usuário:</label>
+            <label htmlFor="email">Usuário:</label>
             <input
+              id="email"
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
               className={styles.input}
+              placeholder="seuemail@exemplo.com"
             />
           </div>
           <div>
-            <label>Senha:</label>
+            <label htmlFor="password">Senha:</label>
             <input
+              id="password"
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
               className={styles.input}
+              placeholder="********"
             />
           </div>
-          <button type="submit" className={styles.button}>
-            Login
+          
+          {error && <p className={styles.errorMessage}>{error}</p>}
+          
+          <button type="submit" className={styles.button} disabled={loading}>
+            {loading ? "Entrando..." : "Login"}
           </button>
         </form>
       </div>

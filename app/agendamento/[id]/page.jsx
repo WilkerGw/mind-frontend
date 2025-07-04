@@ -1,36 +1,42 @@
 "use client";
+import { useEffect, useState } from 'react';
+import { useRouter, useParams } from 'next/navigation';
+// Caminhos corrigidos para voltar três níveis até a raiz
+import { getAgendamentoById, updateAgendamento } from '../../../lib/agendamento-api';
+import Card from '../../components/Card';
+import Link from 'next/link';
+import { ArrowLeft, Phone, Calendar, Clock, MessageSquare } from 'lucide-react';
+import styles from './details.module.css';
 
-import { useEffect, useState } from "react";
-import { useRouter, useParams } from "next/navigation";
-import Link from "next/link";
-import styles from "./page.module.css";
+const formatDate = (dateString) => {
+  if (!dateString) return "N/A";
+  // Usar toLocaleDateString para respeitar o fuso horário local e evitar problemas de "um dia a menos"
+  return new Date(dateString).toLocaleDateString('pt-BR', { timeZone: 'UTC', day: '2-digit', month: 'long', year: 'numeric' });
+};
 
-export default function AgendamentoDetails() {
+const formatPhoneNumberForLink = (phone) => {
+  if (!phone) return "";
+  return phone.replace(/\D/g, "");
+};
+
+export default function AgendamentoDetailsPage() {
   const router = useRouter();
   const params = useParams();
-  const id = params.id;
-  const [agendamento, setAgendamento] = useState({});
+  const { id } = params;
+
+  const [agendamento, setAgendamento] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    if (!id) {
-      setLoading(false);
-      setError("ID do agendamento não encontrado");
-      return;
-    }
+    if (!id) return;
     const fetchAgendamento = async () => {
       try {
-        const response = await fetch(`/api/agendamento/${id}`);
-        if (!response.ok) {
-          const errorData = await response.text();
-          throw new Error(errorData || "Erro ao buscar agendamento");
-        }
-        const data = await response.json();
+        setLoading(true);
+        const data = await getAgendamentoById(id);
         setAgendamento(data);
-      } catch (error) {
-        console.error(error);
-        setError(error.message);
+      } catch (err) {
+        setError(err.message);
       } finally {
         setLoading(false);
       }
@@ -38,100 +44,78 @@ export default function AgendamentoDetails() {
     fetchAgendamento();
   }, [id]);
 
-  const handleCheckboxChange = async (e) => {
+  const handleStatusChange = async (e) => {
     const { name, checked } = e.target;
+    // Cria um objeto apenas com os campos que serão alterados
+    const updatedStatus = { [name]: checked };
+
+    // Se o novo status for 'compareceu' ou 'faltou', desmarca o outro para evitar inconsistência
+    if (name === 'compareceu' && checked) {
+      updatedStatus.faltou = false;
+    } else if (name === 'faltou' && checked) {
+      updatedStatus.compareceu = false;
+    }
+
     try {
-      const response = await fetch(`/api/agendamento/${id}`, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ [name]: checked }),
-      });
-      if (response.ok) {
-        const updatedAgendamento = await response.json();
-        setAgendamento(updatedAgendamento);
-      } else {
-        const errorData = await response.text();
-        throw new Error(errorData || "Erro ao atualizar agendamento");
-      }
-    } catch (error) {
-      console.error(error);
-      alert(error.message);
+      // Atualiza o estado local primeiro para uma resposta visual instantânea
+      setAgendamento(prev => ({ ...prev, ...updatedStatus }));
+      // Envia a atualização para o backend
+      await updateAgendamento(id, updatedStatus);
+    } catch (err) {
+      alert(`Erro ao atualizar status: ${err.message}`);
+      // Reverte a mudança visual em caso de erro
+      setAgendamento(agendamento);
     }
   };
 
-  if (loading) return <p className={styles.loading}>Carregando...</p>;
-  if (error) return <p className={styles.error}>{error}</p>;
-
-  const formatDate = (dateString) => {
-    const date = new Date(dateString);
-    const dia = String(date.getUTCDate()).padStart(2, "0");
-    const mes = String(date.getUTCMonth() + 1).padStart(2, "0");
-    const ano = date.getUTCFullYear();
-    return `${dia}/${mes}/${ano}`;
-  };
+  if (loading) return <div className={styles.statusMessage}>Carregando agendamento...</div>;
+  if (error) return <div className={styles.statusMessageError}>Erro: {error}</div>;
 
   return (
-    <section className={styles.container}>
-      <div className={styles.detalhesContainer}>
-        <h1 className={styles.title}>{agendamento.name}</h1>
-        <div className={styles.infoContainer}>
-          <div className={styles.detalhesAgendamento}>
-            <p>
-              <span className={styles.label}>Telefone/WhatsApp: </span>
-              {agendamento.telephone}
-            </p>
-            <p>
-              <span className={styles.label}>Data: </span>
-              {formatDate(agendamento.date)}
-            </p>
-            <p>
-              <span className={styles.label}>Hora: </span>
-              {agendamento.hour}
-            </p>
-            <p>
-              <span className={styles.label}>Observação: </span>
-              {agendamento.observation || "Nenhuma observação"}
-            </p>
-          </div>
-          <div className={styles.checkboxContainer}>
-            <div className={styles.checkboxGroup}>
-              <label className={styles.checkboxLabel}>
-                Contactado
-                <input
-                  type="checkbox"
-                  name="contactado"
-                  checked={agendamento.contactado || false}
-                  onChange={handleCheckboxChange}
-                />
-                <span className={styles.checkboxCheck}></span>
-              </label>
-              <label className={styles.checkboxLabel}>
-                Compareceu
-                <input
-                  type="checkbox"
-                  name="compareceu"
-                  checked={agendamento.compareceu || false}
-                  onChange={handleCheckboxChange}
-                />
-                <span className={styles.checkboxCheck}></span>
-              </label>
-              <label className={styles.checkboxLabel}>
-                Faltou
-                <input
-                  type="checkbox"
-                  name="faltou"
-                  checked={agendamento.faltou || false}
-                  onChange={handleCheckboxChange}
-                />
-                <span className={styles.checkboxCheck}></span>
-              </label>
-            </div>
-          </div>
-          <Link href="/agendamento">
-            <button className={styles.backButton}>Voltar</button>
+    <div>
+      <div className={styles.header}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+          <Link href="/agendamento" className={styles.actionButton}>
+            <ArrowLeft size={20} />
           </Link>
+          <div>
+            <h1 className={styles.pageTitle}>{agendamento.name}</h1>
+            <p className={styles.pageSubtitle}>Detalhes e status do agendamento</p>
+          </div>
         </div>
       </div>
-    </section>
+      
+      <div className={styles.detailsGrid}>
+        <Card className={styles.infoCard}>
+          <h2 className={styles.cardTitle}>Informações do Contato</h2>
+          <div className={styles.infoItem}><Phone size={16}/> <span>{agendamento.telephone}</span></div>
+          <div className={styles.infoItem}><Calendar size={16}/> <span>{formatDate(agendamento.date)}</span></div>
+          <div className={styles.infoItem}><Clock size={16}/> <span>{agendamento.hour}</span></div>
+          <div className={styles.infoItem}><MessageSquare size={16}/> <span>{agendamento.observation || 'Nenhuma observação.'}</span></div>
+        </Card>
+
+        <Card className={styles.statusCard}>
+          <h2 className={styles.cardTitle}>Atualizar Status</h2>
+          <div className={styles.checkboxGroup}>
+            <label className={styles.checkboxLabel}>
+              <input type="checkbox" name="contactado" checked={agendamento.contactado || false} onChange={handleStatusChange} />
+              Contactado
+            </label>
+            <label className={styles.checkboxLabel}>
+              <input type="checkbox" name="compareceu" checked={agendamento.compareceu || false} onChange={handleStatusChange} />
+              Compareceu
+            </label>
+            <label className={styles.checkboxLabel}>
+              <input type="checkbox" name="faltou" checked={agendamento.faltou || false} onChange={handleStatusChange} />
+              Faltou
+            </label>
+          </div>
+          <a href={`https://wa.me/55${formatPhoneNumberForLink(agendamento.telephone)}`} target="_blank" rel="noopener noreferrer" className={styles.whatsappButton}>
+            <Phone size={16} />
+            Lembrar via WhatsApp
+          </a>
+        </Card>
+      </div>
+    </div>
   );
 }

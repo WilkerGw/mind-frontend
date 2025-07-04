@@ -1,15 +1,15 @@
-// my-nextjs-auth-app/app/layout.js
 'use client';
 
 import { SessionProvider } from 'next-auth/react';
+import AppLayout from './components/AppLayout'; // Importamos nosso novo componente
 import './globals.css';
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en">
+    <html lang="pt-BR">
       <body>
         <SessionProvider>
-          {children}
+          <AppLayout>{children}</AppLayout>
         </SessionProvider>
       </body>
     </html>

@@ -1,46 +1,42 @@
 "use client";
-import ClientForm from "../../components/ClientForm";
-import { useRouter } from "next/navigation";
-import styles from "./page.module.css";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { createClient } from "../../../lib/client-api"; // Caminho atualizado
+import ClientForm from "../../components/ClientForm"; // Caminho atualizado
+import Link from "next/link";
+import { ArrowLeft } from "lucide-react";
+import styles from "../clients.module.css";
 
-export default function NewClient() {
+export default function NewClientPage() {
   const router = useRouter();
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitError, setSubmitError] = useState(null);
+  const [error, setError] = useState(null);
 
   const handleSubmit = async (data) => {
     setIsSubmitting(true);
-    setSubmitError(null);
+    setError(null);
     try {
-      const response = await fetch("/api/clients", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
-      });
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.error || `Erro ${response.status} ao salvar cliente.`);
-      }
+      await createClient(data);
       router.push("/clients");
-    } catch (error) {
-      setSubmitError(error.message);
+    } catch (err) {
+      setError(err.message);
     } finally {
       setIsSubmitting(false);
     }
   };
 
   return (
-    <section>
-      <div className={styles.formContainer}>
-        <button onClick={() => router.back()} className={styles.btnVoltar}>
-          Voltar
-        </button>
-        <h1 className={styles.formTitle}>Novo Cliente</h1>
-        {submitError && <p className={styles.errorMessage}>{submitError}</p>}
-        <ClientForm onSubmit={handleSubmit} />
-        {isSubmitting && <p>Salvando...</p>}
+    <div>
+      <div className={styles.header}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+          <Link href="/clients" className={styles.actionButton}>
+            <ArrowLeft size={20} />
+          </Link>
+          <h1 className={styles.pageTitle}>Novo Cliente</h1>
+        </div>
       </div>
-    </section>
+      {error && <p style={{ color: 'red', marginBottom: '1rem' }}>Erro: {error}</p>}
+      <ClientForm onSubmit={handleSubmit} isSubmitting={isSubmitting} />
+    </div>
   );
 }

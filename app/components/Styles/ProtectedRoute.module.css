@@ -3,17 +3,17 @@
   position: fixed;
   bottom: 1rem;
   right: 1rem;
-  background-color: #ff4d4f; /* Cor vermelha vibrante */
-  color: white; /* Texto branco */
-  border: none; /* Sem borda */
-  padding: 10px 20px; /* Espaçamento interno */
-  font-size: 16px; /* Tamanho da fonte */
-  font-weight: bold; /* Negrito */
-  border-radius: 5px; /* Borda arredondada */
-  cursor: pointer; /* Cursor do mouse como ponteiro */
-  transition: background-color 0.3s ease; /* Transição suave de cor */
+  background-color: #ff4d4f;
+  color: white;
+  border: none;
+  padding: 10px 20px; 
+  font-size: 16px; 
+  font-weight: bold; 
+  border-radius: 5px; 
+  cursor: pointer; 
+  transition: background-color 0.3s ease; 
 }
 
 .logoutBtn:hover {
-  background-color: #ff1919; /* Cor mais escura ao passar o mouse */
+  background-color: #ff1919;
 }

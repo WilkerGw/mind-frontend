@@ -1,0 +1,69 @@
+.infoCard {
+  display: flex;
+  flex-direction: column;
+}
+
+.cardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.cardTitle {
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.cardIcon {
+  width: 20px;
+  height: 20px;
+  color: var(--text-muted);
+}
+
+.listContainer {
+  flex-grow: 1; /* Faz a lista ocupar o espaço disponível */
+  overflow-y: auto; /* Adiciona scroll se a lista for muito grande */
+  max-height: 250px; /* Limita a altura máxima */
+}
+
+.list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.listItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.9rem;
+}
+
+.itemName {
+  font-weight: 500;
+  color: var(--foreground);
+}
+
+.itemDate {
+  font-weight: 500;
+  color: var(--primary);
+  background-color: color-mix(in srgb, var(--primary) 15%, transparent);
+  padding: 0.25rem 0.5rem;
+  border-radius: 6px;
+}
+
+.emptyMessage {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  min-height: 100px;
+  color: var(--text-muted);
+  font-style: italic;
+}
