@@ -3,7 +3,6 @@ import { mask } from "remask";
 import Card from "./Card";
 import styles from "./styles/ClientForm.module.css";
 
-// Converte a data de YYYY-MM-DD para o formato do input (e vice-versa se necessário)
 const formatDateForInput = (dateString) => {
   if (!dateString) return "";
   try {
