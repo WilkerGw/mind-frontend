@@ -1,6 +1,7 @@
+// app/components/AgendamentoForm.jsx
 import React, { useState, useEffect } from 'react';
 import Card from './Card';
-import styles from './styles/AgendamentoForm.module.css';
+import styles from './Styles/AgendamentoForm.module.css'; // CORRIGIDO: de './styles/' para './Styles/'
 
 const AgendamentoForm = ({ onSubmit, initialData, isSubmitting = false }) => {
   const [formData, setFormData] = useState({
@@ -18,11 +19,8 @@ const AgendamentoForm = ({ onSubmit, initialData, isSubmitting = false }) => {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  // A função que lida com o envio do formulário
   const handleSubmit = (e) => {
-    // A LINHA MAIS IMPORTANTE: Impede o recarregamento da página
-    e.preventDefault(); 
-    // Chama a função que veio da página pai para enviar os dados para a API
+    e.preventDefault();
     onSubmit(formData);
   };
 
