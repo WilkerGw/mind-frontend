@@ -18,8 +18,11 @@ const AgendamentoForm = ({ onSubmit, initialData, isSubmitting = false }) => {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
+  // A função que lida com o envio do formulário
   const handleSubmit = (e) => {
-    e.preventDefault();
+    // A LINHA MAIS IMPORTANTE: Impede o recarregamento da página
+    e.preventDefault(); 
+    // Chama a função que veio da página pai para enviar os dados para a API
     onSubmit(formData);
   };
 

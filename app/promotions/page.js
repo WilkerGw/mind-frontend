@@ -1,8 +1,11 @@
+// app/promotions/page.js
 'use client';
 
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
-import ProtectedRoute from '../components/ProtectedRoute';
+// Remova a importação do ProtectedRoute se ainda estiver aqui
+// import ProtectedRoute from '../components/ProtectedRoute'; 
+import styles from './promotions.module.css'; // Certifique-se de importar seus estilos
 
 export default function Promotions() {
   const [promotions, setPromotions] = useState([]); // Inicializa como array vazio
@@ -12,7 +15,7 @@ export default function Promotions() {
   useEffect(() => {
     const fetchPromotions = async () => {
       try {
-        const response = await fetch('/api/promotions');
+        const response = await fetch('/api/promotions'); 
         if (!response.ok) {
           throw new Error('Erro ao buscar promoções');
         }
@@ -36,25 +39,24 @@ export default function Promotions() {
   if (error) return <p>{error}</p>;
 
   return (
-    <ProtectedRoute>
-      <section>
-        <div className={styles.dashboard}>
-          <div className={styles.titleContainer}>
-            <h1 className={styles.title}>Lista de Promoções</h1>
-            <Link href="/promotions/new">
-              <button>Nova Promoção</button>
-            </Link>
-          </div>
-          <ul className={styles.lista}>
-            {promotions.map((promotion) => (
-              <li key={promotion._id} className={styles.titleLista}>
-                {promotion.name} - {promotion.type}
-                {/* Adicione mais campos conforme necessário */}
-              </li>
-            ))}
-          </ul>
+    // Remova o componente ProtectedRoute que envolvia o conteúdo
+    <section>
+      <div className={styles.dashboard}> 
+        <div className={styles.titleContainer}>
+          <h1 className={styles.title}>Lista de Promoções</h1>
+          <Link href="/promotions/new">
+            <button>Nova Promoção</button>
+          </Link>
         </div>
-      </section>
-    </ProtectedRoute>
+        <ul className={styles.lista}>
+          {promotions.map((promotion) => (
+            <li key={promotion._id} className={styles.titleLista}>
+              {promotion.name} - {promotion.type}
+              {/* Adicione mais campos conforme necessário */}
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
   );
 }

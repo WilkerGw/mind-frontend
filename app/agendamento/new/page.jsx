@@ -6,7 +6,6 @@ import { createAgendamento } from '../../../lib/agendamento-api';
 import AgendamentoForm from '../../components/AgendamentoForm';
 import Link from 'next/link';
 import { ArrowLeft } from 'lucide-react';
-// Este caminho está correto pois busca o CSS da pasta pai
 import styles from '../agendamento.module.css';
 
 export default function NewAgendamentoPage() {
@@ -19,6 +18,7 @@ export default function NewAgendamentoPage() {
     setError(null);
     try {
       await createAgendamento(data);
+      router.refresh(); // Garante que a lista de agendamentos será atualizada
       router.push('/agendamento');
     } catch (err) {
       setError(err.message);

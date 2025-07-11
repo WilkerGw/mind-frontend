@@ -1,15 +1,27 @@
+// app/api/clients-birthday/route.js
 import axios from 'axios';
 import { NextResponse } from 'next/server';
+import { getServerSession } from "next-auth";
+import { authOptions } from '../../../pages/api/auth/[...nextauth]';
+
+const API_URL = process.env.BACKEND_API_URL || 'http://localhost:5000/api';
 
 export async function GET() {
+  const session = await getServerSession(authOptions);
+  if (!session) {
+    return new Response(JSON.stringify({ error: 'Não autenticado.' }), { status: 401 });
+  }
+
   try {
-    const response = await axios.get('http://localhost:5000/api/clients/birthday/monthly');
+    const response = await axios.get(`${API_URL}/clients/birthday/monthly`, {
+      headers: { Authorization: `Bearer ${session.id}` }
+    });
     return NextResponse.json(response.data);
   } catch (error) {
-    console.error("Erro ao buscar aniversariantes:", error.message);
+    console.error("Erro ao buscar aniversariantes (API Route):", error.message);
     return NextResponse.json(
-      { error: "Erro ao carregar aniversariantes do mês" },
-      { status: 500 }
+      { error: error.response?.data?.error || "Erro ao carregar aniversariantes do mês" },
+      { status: error.response?.status || 500 }
     );
   }
 }

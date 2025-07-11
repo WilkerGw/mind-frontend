@@ -1,3 +1,5 @@
+/* app/dashboard/layout.module.css */
+
 .layoutContainer {
   display: flex;
 }
@@ -19,6 +21,27 @@
 
 .overlay {
   display: none;
+}
+
+/* Estilo para o botão de logout */
+.logoutBtn {
+  position: fixed;
+  bottom: 1rem;
+  right: 1rem;
+  background-color: #ff4d4f; /* Um vermelho para indicar logout */
+  color: white;
+  border: none;
+  padding: 10px 20px; 
+  font-size: 1rem; /* Alterado para 1rem para ser consistente com outros botões */
+  font-weight: 500; /* Alterado para 500 */
+  border-radius: 8px; /* Alterado para 8px para consistência */
+  cursor: pointer; 
+  transition: background-color 0.3s ease; 
+  z-index: 1000; /* Garante que o botão apareça acima de outros elementos */
+}
+
+.logoutBtn:hover {
+  background-color: #e03838; /* Um vermelho mais escuro no hover */
 }
 
 /* Media Query para telas menores (tablets e celulares) */
