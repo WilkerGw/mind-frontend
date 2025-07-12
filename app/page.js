@@ -37,7 +37,7 @@ export default function LoginPage() {
     <section className={styles.loginSection}>
       <div className={styles.loginContainer}>
         <Image
-          src="/images/logo-cinza.png"
+          src="/images/logo-amarela.png"
           alt="Logo da Ótica"
           width={150}
           height={50}
