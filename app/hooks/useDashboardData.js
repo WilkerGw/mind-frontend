@@ -20,12 +20,12 @@ export const useDashboardData = () => {
     setError(null);
     try {
       // Estas chamadas agora irão para as Next.js API Routes
-      const clientsRes = await fetch(`${API_URL}/clients`);
-      const productsRes = await fetch(`${API_URL}/products`);
-      const salesRes = await fetch(`${API_URL}/sales`);
-      const agendamentosRes = await fetch(`${API_URL}/agendamento`); // Ajuste se for outro endpoint no backend
-      const boletosRes = await fetch(`${API_URL}/boletos/upcoming`); // Exemplo de endpoint específico
-      const birthdaysRes = await fetch(`${API_URL}/clients-birthday`);
+      const clientsRes = await fetch(`${API_URL}/api/clients`);
+      const productsRes = await fetch(`${API_URL}/api/products`);
+      const salesRes = await fetch(`${API_URL}/api/sales`);
+      const agendamentosRes = await fetch(`${API_URL}/api/agendamento`); // Ajuste se for outro endpoint no backend
+      const boletosRes = await fetch(`${API_URL}/api/boletos/upcoming`); // Exemplo de endpoint específico
+      const birthdaysRes = await fetch(`${API_URL}/api/clients-birthday`);
 
       const [clientsData, productsData, salesData, agendamentosData, boletosData, birthdaysData] = await Promise.all([
         clientsRes.ok ? clientsRes.json() : Promise.reject(`Clients: ${clientsRes.status}`),

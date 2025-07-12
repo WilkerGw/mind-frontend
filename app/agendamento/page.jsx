@@ -43,7 +43,7 @@ export default function AgendamentoPage() {
   );
   
   const handleDetails = (id) => {
-    router.push(`/agendamento/${id}`);
+    router.push(`/api/agendamento/${id}`);
   };
 
   const handleDelete = async (id, name) => {
