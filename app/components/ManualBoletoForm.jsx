@@ -3,7 +3,7 @@ import { getClients } from '../../lib/client-api';
 import Card from './Card';
 import SearchableSelect from './ui/SearchableSelect';
 // CAMINHO CORRIGIDO: reutilizando o estilo do formulário de parcelamento para manter a consistência.
-import styles from './styles/InstallmentForm.module.css'; 
+import styles from './InstallmentForm.module.css'; 
 
 const ManualBoletoForm = ({ onSubmit, isSubmitting }) => {
   const [formData, setFormData] = useState({
