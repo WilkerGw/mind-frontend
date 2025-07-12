@@ -14,7 +14,7 @@ export async function GET(request) {
   }
 
   try {
-    const response = await axios.get(`${BACKEND_API_URL}/sales`, {
+    const response = await axios.get(`${BACKEND_API_URL}/api/sales`, {
       headers: { Authorization: `Bearer ${session.id}` }
     });
     return NextResponse.json(response.data);
@@ -36,7 +36,7 @@ export async function POST(request) {
 
   const data = await request.json();
   try {
-    const response = await axios.post(`${BACKEND_API_URL}/sales`, data, {
+    const response = await axios.post(`${BACKEND_API_URL}/api/sales`, data, {
       headers: { Authorization: `Bearer ${session.id}` }
     });
     return NextResponse.json(response.data, { status: 201 });

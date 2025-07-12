@@ -14,7 +14,7 @@ export async function GET(request) {
   }
 
   try {
-    const response = await axios.get(`${BACKEND_API_URL}/boletos/upcoming`, { // Verifique se o endpoint no seu backend é '/boletos/upcoming'
+    const response = await axios.get(`${BACKEND_API_URL}/api/boletos/upcoming`, { // Verifique se o endpoint no seu backend é '/boletos/upcoming'
       headers: { Authorization: `Bearer ${session.id}` }
     });
     return NextResponse.json(response.data);

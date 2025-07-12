@@ -15,7 +15,7 @@ export async function GET(request, { params }) {
 
   const { id } = params;
   try {
-    const response = await axios.get(`${BACKEND_API_URL}/products/${id}`, {
+    const response = await axios.get(`${BACKEND_API_URL}/api/products/${id}`, {
       headers: { Authorization: `Bearer ${session.id}` }
     });
     return NextResponse.json(response.data);
@@ -38,7 +38,7 @@ export async function PUT(request, { params }) {
   const { id } = params;
   const data = await request.json();
   try {
-    const response = await axios.put(`${BACKEND_API_URL}/products/${id}`, data, {
+    const response = await axios.put(`${BACKEND_API_URL}/api/products/${id}`, data, {
       headers: { Authorization: `Bearer ${session.id}` }
     });
     return NextResponse.json(response.data);
@@ -60,7 +60,7 @@ export async function DELETE(request, { params }) {
 
   const { id } = params;
   try {
-    await axios.delete(`${BACKEND_API_URL}/products/${id}`, {
+    await axios.delete(`${BACKEND_API_URL}/api/products/${id}`, {
       headers: { Authorization: `Bearer ${session.id}` }
     });
     return new Response(null, { status: 204 });

@@ -14,7 +14,7 @@ export async function GET(request) {
   }
 
   try {
-    const response = await axios.get(`${BACKEND_API_URL}/agendamentos`, { // Verifique se o endpoint no seu backend é '/agendamentos'
+    const response = await axios.get(`${BACKEND_API_URL}/api/agendamentos`, { // Verifique se o endpoint no seu backend é '/agendamentos'
       headers: { Authorization: `Bearer ${session.id}` }
     });
     return NextResponse.json(response.data);
