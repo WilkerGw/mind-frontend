@@ -36,7 +36,7 @@ export async function POST(request) {
 
   const data = await request.json();
   try {
-    const response = await axios.post(`${BACKEND_API_URL}/agendamentos`, data, { // Verifique se o endpoint no seu backend é '/agendamentos'
+    const response = await axios.post(`${BACKEND_API_URL}/api/agendamentos`, data, { // Verifique se o endpoint no seu backend é '/agendamentos'
       headers: { Authorization: `Bearer ${session.id}` }
     });
     return NextResponse.json(response.data, { status: 201 });
