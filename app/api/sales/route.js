@@ -4,7 +4,7 @@ import { NextResponse } from 'next/server';
 import { getServerSession } from "next-auth";
 import { authOptions } from '../../../pages/api/auth/[...nextauth]'; // Ajuste o caminho se necessário
 
-const BACKEND_API_URL = process.env.BACKEND_API_URL;
+const BACKEND_API_URL = process.env.NEXT_PUBLIC_API_URL;
 
 // GET /api/sales
 export async function GET(request) {
