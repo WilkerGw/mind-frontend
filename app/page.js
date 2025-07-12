@@ -46,7 +46,7 @@ export default function LoginPage() {
         />
         <form onSubmit={handleSubmit} className={styles.form}>
           <div>
-            <label htmlFor="email">Usuário:</label>
+            <label htmlFor="email" className={styles.label}>Usuário:</label>
             <input
               id="email"
               type="email"
@@ -58,7 +58,7 @@ export default function LoginPage() {
             />
           </div>
           <div>
-            <label htmlFor="password">Senha:</label>
+            <label htmlFor="password" className={styles.label}>Senha:</label>
             <input
               id="password"
               type="password"

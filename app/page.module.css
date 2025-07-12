@@ -1,72 +1,129 @@
+/* frontend/app/login/page.module.css */
 .loginSection {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  height: 100vh;
-  background: linear-gradient(to right, #5e5e5e, #9e9e9e);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    min-height: 100vh; /* Usa min-height para melhor adaptação a conteúdos maiores */
+    background: linear-gradient(135deg, #1a1a1a 0%, #333333 100%); /* Gradiente escuro e moderno */
+    color: #f0f0f0; /* Cor do texto claro para fundo escuro */
+    font-family: 'Arial', sans-serif; /* Fonte moderna */
 }
 
 .loginContainer {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  background-color: #eeeeee;
-  padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: rgba(40, 40, 40, 0.8); /* Fundo escuro levemente transparente */
+    border-radius: 12px; /* Cantos mais arredondados */
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.7); /* Sombra mais profunda e suave */
+    padding: 3rem 2.5rem; /* Aumento do padding */
+    width: 100%;
+    max-width: 420px; /* Aumento da largura máxima para um formulário ligeiramente maior */
+    box-sizing: border-box; /* Inclui o padding no cálculo da largura */
+    backdrop-filter: blur(5px); /* Efeito de vidro fosco sutil */
+    -webkit-backdrop-filter: blur(5px); /* Para Safari */
+    border: 1px solid rgba(255, 255, 255, 0.1); /* Borda sutil */
 }
 
 .title {
-  text-align: center;
+    text-align: center;
+    color: #e0e0e0;
+    margin-bottom: 1.5rem; /* Margem adicionada */
+    font-size: 2rem; /* Título maior */
+    font-weight: 600; /* Levemente mais negrito */
 }
 
 .form {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
 }
 
 .form div {
-  display: flex;
-  flex-direction: column;
-  margin-bottom: 15px;
-  width: 100%;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px; /* Aumento da margem entre os campos */
+    width: 100%;
 }
 
 .label {
-  margin-bottom: 5px;
+    margin-bottom: 8px; /* Aumento da margem para o label */
+    font-weight: 500;
+    color: #c0c0c0;
+    font-size: 0.95rem;
 }
 
 .input {
-  padding: 8px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+    padding: 12px 15px; /* Aumento do padding */
+    border: 1px solid #555; /* Borda mais escura */
+    border-radius: 6px; /* Inputs levemente mais arredondados */
+    background-color: #2a2a2a; /* Fundo escuro para input */
+    color: #f0f0f0; /* Texto claro no input */
+    font-size: 1rem;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.input::placeholder {
+    color: #888;
+}
+
+.input:focus {
+    border-color: #60a5fa; /* Borda azul no foco */
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.3); /* Brilho azul sutil */
 }
 
 .button {
-  padding: 10px;
-  background: linear-gradient(to right, #5e5e5e, #9e9e9e);
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: all 0.3s ease-in-out;
+    padding: 12px 20px; /* Aumento do padding */
+    background: linear-gradient(45deg, #60a5fa, #3b82f6); /* Gradiente azul vibrante */
+    color: white;
+    border: none;
+    border-radius: 8px; /* Botão mais arredondado */
+    cursor: pointer;
+    font-size: 1.1rem; /* Fonte maior */
+    font-weight: 600;
+    transition: all 0.3s ease-in-out;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); /* Sombra sutil no botão */
 }
 
 .button:hover {
-  background: linear-gradient(to right, #9e9e9e, #5e5e5e);
+    background: linear-gradient(45deg, #3b82f6, #60a5fa); /* Inverte o gradiente ou o escurece */
+    transform: translateY(-2px); /* Efeito de leve levantamento */
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3); /* Sombra aprimorada no hover */
+}
+
+.button:active {
+    transform: translateY(0); /* Efeito de pressionar */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+}
+
+.button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    background: linear-gradient(45deg, #555, #777); /* Fica cinza quando desabilitado */
+    transform: none;
+    box-shadow: none;
 }
 
 .logoLogin {
-  width: 10rem;
-  margin-bottom: 2rem;
+    width: 120px; /* Largura ajustada para se adequar à estética geral */
+    height: auto; /* Mantém a proporção */
+    margin-bottom: 2.5rem; /* Aumento da margem */
 }
 
-@media screen and (min-width: 768px) {
-  .loginContainer {
-    width: 400px;
-  }
+.errorMessage {
+    color: #ef4444; /* Vermelho para erros */
+    text-align: center;
+    margin-bottom: 15px;
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+@media screen and (max-width: 767px) {
+    .loginContainer {
+        margin: 20px; /* Adiciona margem em telas menores */
+        padding: 2.5rem 1.5rem; /* Ajusta o padding para dispositivos móveis */
+    }
 }
