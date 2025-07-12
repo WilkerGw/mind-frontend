@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Card from './Card';
-import styles from './styles/ProductForm.module.css';
+import styles from './ProductForm.module.css';
 
 const ProductForm = ({ onSubmit, initialData, isSubmitting = false }) => {
   const [formData, setFormData] = useState({

@@ -4,7 +4,7 @@ import Card from './Card';
 import SearchableSelect from './ui/SearchableSelect';
 // A LINHA MAIS IMPORTANTE: Garanta que esta linha exista!
 // Ela conecta o seu componente ao arquivo de estilos dele.
-import styles from './styles/InstallmentForm.module.css';
+import styles from './InstallmentForm.module.css';
 
 const InstallmentForm = ({ onSubmit, isSubmitting }) => {
   const [formData, setFormData] = useState({

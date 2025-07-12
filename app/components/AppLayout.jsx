@@ -5,7 +5,7 @@ import { usePathname, useRouter } from 'next/navigation';
 import { useSession } from 'next-auth/react';
 import { useEffect } from 'react'; // Adicione esta linha para importar o useEffect
 import Header from './Header';
-import styles from './Styles/Layout.module.css';
+import styles from './Layout.module.css';
 
 // Rotas que NÃO devem ter o Header ou NÃO precisam de autenticação
 const noHeaderRoutes = ['/']; // Apenas a página de login não precisa de Header ou autenticação para ser acessada.

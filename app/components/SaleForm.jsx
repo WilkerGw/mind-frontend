@@ -4,7 +4,7 @@ import { getProducts } from '../../lib/product-api';
 import Card from './Card';
 import SearchableSelect from './ui/SearchableSelect'; // 1. Importar o novo componente
 import { Plus, Trash2 } from 'lucide-react';
-import styles from './styles/SaleForm.module.css';
+import styles from './SaleForm.module.css';
 
 const SaleForm = ({ onSubmit, isSubmitting }) => {
   const [formData, setFormData] = useState({

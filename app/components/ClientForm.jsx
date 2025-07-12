@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { mask } from "remask";
 import Card from "./Card";
-import styles from "./styles/ClientForm.module.css";
+import styles from "./ClientForm.module.css";
 
 const formatDateForInput = (dateString) => {
   if (!dateString) return "";

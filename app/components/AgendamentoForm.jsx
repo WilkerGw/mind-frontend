@@ -1,7 +1,7 @@
 // app/components/AgendamentoForm.jsx
 import React, { useState, useEffect } from 'react';
 import Card from './Card';
-import styles from './Styles/AgendamentoForm.module.css'; // CORRIGIDO: de './styles/' para './Styles/'
+import styles from './AgendamentoForm.module.css'; // CAMINHO CORRIGIDO/';
 
 const AgendamentoForm = ({ onSubmit, initialData, isSubmitting = false }) => {
   const [formData, setFormData] = useState({

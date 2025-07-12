@@ -4,7 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
-import styles from "./styles/Header.module.css"; // Certifique-se que o caminho do CSS está correto
+import styles from "./Header.module.css"; // Certifique-se que o caminho do CSS está correto
 
 // 1. Importar TODOS os ícones da 'lucide-react'
 import { 

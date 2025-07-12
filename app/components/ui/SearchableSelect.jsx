@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import styles from './styles/SearchableSelect.module.css';
+import styles from './SearchableSelect.module.css';
 import { ChevronDown } from 'lucide-react';
 
 const SearchableSelect = ({ options, value, onChange, placeholder, displayKey, searchKeys }) => {

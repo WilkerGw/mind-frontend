@@ -4,7 +4,7 @@
 import { useSession, signOut } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
-import styles from '../components/Styles/ProtectedRoute.module.css';
+import styles from './ProtectedRoute.module.css';
 import Header from './Header';
 
 export default function ProtectedRoute({ children }) {

@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Eye, LayoutDashboard, Users, Package, ShoppingCart, Ticket, FileText, Calendar } from "lucide-react";
-import styles from "./styles/Sidebar.module.css";
+import styles from "./Sidebar.module.css";
 
 const navLinks = [
   { href: "/dashboard", text: "Dashboard", icon: LayoutDashboard },

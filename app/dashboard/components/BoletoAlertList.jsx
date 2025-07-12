@@ -1,7 +1,7 @@
 "use client";
 import { useState, useEffect } from 'react';
 import Card from '../../components/Card';
-import styles from './styles/BoletoAlertList.module.css';
+import styles from './BoletoAlertList.module.css';
 
 const formatCurrency = (value) => new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(value || 0);
 
