@@ -14,7 +14,8 @@ export async function GET(request) {
   }
 
   try {
-    const response = await axios.get(`${BACKEND_API_URL}/api/clients/birthday`, {
+    // CORREÇÃO: Adicionado '/monthly' à URL
+    const response = await axios.get(`${BACKEND_API_URL}/api/clients/birthday/monthly`, { 
       headers: { Authorization: `Bearer ${session.id}` }
     });
     return NextResponse.json(response.data);
