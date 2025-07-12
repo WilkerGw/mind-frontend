@@ -1,5 +1,5 @@
 // app/hooks/useDashboardData.js
-import { useState, useEffect, useCallback } => 'react';
+import { useState, useEffect, useCallback } from 'react'; // LINHA CORRIGIDA
 
 // API_URL deve apontar para as suas próprias API Routes do Next.js, não para o backend direto.
 // Se process.env.NEXT_PUBLIC_API_URL estiver configurado para a URL do SEU BACKEND,
@@ -36,7 +36,7 @@ export const useDashboardData = () => {
       const salesRes = await fetch(`${API_URL}/api/sales`); // Chamar sua API Route do Next.js
       const agendamentosRes = await fetch(`${API_URL}/api/agendamento`); // Chamar sua API Route do Next.js
       const boletosRes = await fetch(`${API_URL}/api/boletos/upcoming`); // Chamar sua API Route do Next.js
-      // CORREÇÃO AQUI: A rota da API do Next.js para aniversariantes é /api/clients-birthday
+      // CORREÇÃO: A rota da API do Next.js para aniversariantes é /api/clients-birthday
       const birthdaysRes = await fetch(`${API_URL}/api/clients-birthday`); 
 
       const [clientsData, productsData, salesData, agendamentosData, boletosData, birthdaysData] = await Promise.all([
