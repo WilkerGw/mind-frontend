@@ -1,42 +1,24 @@
 "use client";
-import { useState, useEffect } from 'react';
 import Card from '../../components/Card';
 import { CalendarClock } from 'lucide-react';
-import { getTodaysAppointments } from '../../../lib/agendamento-api';
 import styles from './InfoList.module.css'; 
-const UpcomingAppointments = () => {
-  const [appointments, setAppointments] = useState([]);
-  const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    async function fetchData() {
-      try {
-        const data = await getTodaysAppointments();
-        setAppointments(data || []);
-      } catch (error) {
-        console.error("Erro ao buscar agendamentos do dia:", error);
-      } finally {
-        setLoading(false);
-      }
-    }
-    fetchData();
-  }, []);
-
+const UpcomingAppointments = ({ appointments, loading }) => {
   return (
     <Card className={styles.infoCard}>
-       <div className={styles.cardHeader}>
+      <div className={styles.cardHeader}>
         <h3 className={styles.cardTitle}>Agendamentos de Hoje</h3>
         <CalendarClock className={styles.cardIcon} />
       </div>
-       <div className={styles.listContainer}>
+      <div className={styles.listContainer}>
         {loading ? (
           <p className={styles.emptyMessage}>Carregando...</p>
-        ) : appointments.length > 0 ? (
+        ) : appointments && appointments.length > 0 ? (
           <ul className={styles.list}>
-            {appointments.map(ag => (
-              <li key={ag._id} className={styles.listItem}>
-                <span className={styles.itemName}>{ag.name}</span>
-                <span className={styles.itemDate}>{ag.hour}</span>
+            {appointments.map((ag, index) => (
+              <li key={ag._id || ag.id || index} className={styles.listItem}>
+                <span className={styles.itemName}>{ag.client?.fullName || ag.name || 'Nome Indisponível'}</span>
+                <span className={styles.itemDate}>{ag.hour || 'Hora Indisponível'}</span>
               </li>
             ))}
           </ul>

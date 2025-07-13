@@ -1,29 +1,30 @@
 import NextAuth from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
-
+import { verifyUserCredentials } from '../../../lib/auth-api';
 
 export const authOptions = { 
   providers: [
     CredentialsProvider({
       name: 'Credentials',
       credentials: {
-        email: { label: 'Email', type: 'email', placeholder: 'email@example.com' },
+        email: { label: 'Email', type: 'email' },
         password: { label: 'Password', type: 'password' }
       },
       async authorize(credentials, req) {
+        if (!credentials) {
+          return null;
+        }
 
-        const hardcodedUsers = [
-          { id: '1', name: 'Nilton Jr', email: 'njbil2005@hotmail.com', password: 'maggiesol2025' },
-          { id: '2', name: 'Wilker Martins', email: 'jane@example.com', password: 'maggiesol1992' },
-          { id: '3', name: 'Rafael Santos', email: 'rafa@gmail.com', password: 'safadadazl2025' },
-        ];
-        const user = hardcodedUsers.find(u => u.email === credentials.email && u.password === credentials.password);
+        try {
+          const user = await verifyUserCredentials(credentials.email, credentials.password);
 
-        if (user) {
-
-          return user;
-        } else {
-          return null; 
+          if (user && user.id) {
+            return user;
+          }
+          return null;
+        } catch (error) {
+          console.error("Authorization error:", error);
+          throw new Error(error.message || 'Erro de autenticação.');
         }
       }
     })
@@ -35,12 +36,18 @@ export const authOptions = {
     jwt: async ({ token, user }) => {
       if (user) {
         token.id = user.id;
-
+        token.name = user.name;
+        token.email = user.email;
       }
       return token;
     },
     session: async ({ session, token }) => {
       if (token) {
+        session.user = {
+            id: token.id,
+            name: token.name,
+            email: token.email,
+        };
         session.id = token.id;
       }
       return session;
@@ -48,9 +55,8 @@ export const authOptions = {
   },
   pages: {
     signIn: '/', 
-    error: '/auth/error', 
+    error: '/',
   },
-
   secret: process.env.NEXTAUTH_SECRET,
 };
 

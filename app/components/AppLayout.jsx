@@ -6,40 +6,48 @@ import { useEffect } from 'react';
 import Header from './Header';
 import styles from './Layout.module.css';
 
-const noHeaderRoutes = ['/'];
+const publicPaths = ['/', '/register'];
 
 export default function AppLayout({ children }) {
   const pathname = usePathname();
   const router = useRouter();
   const { data: session, status } = useSession();
 
-  const showHeader = !noHeaderRoutes.includes(pathname);
-  const isProtectedRoute = pathname !== '/';
+  const isPublicPath = publicPaths.includes(pathname);
 
   useEffect(() => {
-    if (isProtectedRoute && status === 'unauthenticated') {
-      router.push('/');
-    }
-  }, [status, router, isProtectedRoute, pathname]);
+    if (status === 'loading') return;
 
-  if (isProtectedRoute && status === 'loading') {
+    if (!isPublicPath && status === 'unauthenticated') {
+      router.push('/');
+    } 
+    else if (isPublicPath && status === 'authenticated' && pathname === '/') {
+        router.push('/dashboard');
+    }
+  }, [status, router, isPublicPath, pathname]);
+
+  if (isPublicPath) {
+    return <>{children}</>;
+  }
+
+  if (status === 'loading') {
     return (
       <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh', fontSize: '1.5rem', color: 'var(--text-muted)' }}>
-        Carregando...
+        A carregar...
       </div>
     );
   }
 
-  if (isProtectedRoute && !session) {
-    return null;
+  if (session) {
+    return (
+      <div className={styles.layoutWithHeader}>
+        <Header />
+        <main className={styles.mainContent}>
+          {children}
+        </main>
+      </div>
+    );
   }
 
-  return (
-    <div className={showHeader ? styles.layoutWithHeader : styles.layoutWithoutHeader}>
-      {showHeader && <Header />}
-      <main className={showHeader ? styles.mainContent : styles.fullPageContent}>
-        {children}
-      </main>
-    </div>
-  );
+  return null;
 }

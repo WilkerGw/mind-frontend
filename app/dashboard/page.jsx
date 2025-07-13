@@ -6,15 +6,22 @@ import StatCard from './components/StatCard';
 import SalesChart from './components/SalesChart';
 import BirthdayList from './components/BirthdayList';
 import BoletoAlertList from './components/BoletoAlertList';
-import { getOverdueBoletos, getDueSoonBoletos } from '../../lib/boleto-api';
-import { getTodaysAppointments } from '../../lib/agendamento-api'; 
 import UpcomingAppointments from './components/UpcomingAppointments';
-
 
 const formatCurrency = (value) => new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(value || 0);
 
 export default function Dashboard() {
-  const { dailyTotal, monthlyTotal, birthdayClients, loading, error } = useDashboardData();
+  const { 
+    dailyTotal, 
+    monthlyTotal, 
+    birthdayClients,
+    overdueBoletos,
+    dueSoonBoletos,
+    todaysAppointments,
+    salesHistory,
+    loading, 
+    error 
+  } = useDashboardData();
 
   if (loading) return <div className={styles.statusMessage}>Carregando Dashboard...</div>;
   if (error) return <div className={`${styles.statusMessage} ${styles.error}`}>{error}</div>;
@@ -30,7 +37,7 @@ export default function Dashboard() {
           icon={DollarSign}
           description="Total vendido na data de hoje."
         />
-         <StatCard 
+          <StatCard 
           title="Vendas do Mês"
           value={formatCurrency(monthlyTotal)}
           icon={Wallet}
@@ -38,26 +45,28 @@ export default function Dashboard() {
         />
         
         <div className={styles.gridSpan2}>
-           <BoletoAlertList
+            <BoletoAlertList
               title="Boletos Vencidos"
-              fetcher={getOverdueBoletos}
+              boletos={overdueBoletos}
               type="overdue"
+              loading={loading}
             />
         </div>
         <div className={styles.gridSpan2}>
           <BoletoAlertList
               title="Vencem nos Próximos 7 Dias"
-              fetcher={getDueSoonBoletos}
+              boletos={dueSoonBoletos}
               type="due-soon"
+              loading={loading}
             />
         </div>
 
         <div className={styles.gridSpan4}>
-          <SalesChart />
+          <SalesChart data={salesHistory} />
         </div>
         
         <div className={styles.gridSpan2}>
-            <UpcomingAppointments />
+            <UpcomingAppointments appointments={todaysAppointments} loading={loading} />
         </div>
         <div className={styles.gridSpan2}>
             <BirthdayList clients={birthdayClients} />

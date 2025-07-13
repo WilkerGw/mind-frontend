@@ -1,14 +1,18 @@
-import { useState, useEffect, useCallback } from 'react'; 
-const API_URL = process.env.NEXT_PUBLIC_FRONTEND_API_BASE_URL || ''; 
+import { useState, useEffect, useCallback } from 'react';
+import { getSalesHistory, getDailySales, getMonthlySales } from '../../lib/sale-api';
+import { getMonthlyBirthdays } from '../../lib/client-api';
+import { getOverdueBoletos, getDueSoonBoletos } from '../../lib/boleto-api';
+import { getTodaysAppointments } from '../../lib/agendamento-api';
 
 export const useDashboardData = () => {
   const [data, setData] = useState({
-    totalClients: 0,
-    totalProducts: 0,
-    totalSales: 0,
-    totalAgendamentos: 0,
-    upcomingBoletos: [],
-    birthdays: []
+    dailyTotal: 0,
+    monthlyTotal: 0,
+    birthdayClients: [],
+    overdueBoletos: [],
+    dueSoonBoletos: [],
+    todaysAppointments: [],
+    salesHistory: [],
   });
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -17,34 +21,63 @@ export const useDashboardData = () => {
     setLoading(true);
     setError(null);
     try {
-
-      const clientsRes = await fetch(`${API_URL}/api/clients`); 
-      const productsRes = await fetch(`${API_URL}/api/products`); 
-      const salesRes = await fetch(`${API_URL}/api/sales`); 
-      const agendamentosRes = await fetch(`${API_URL}/api/agendamento`); 
-      const boletosRes = await fetch(`${API_URL}/api/boletos/upcoming`); 
-      const birthdaysRes = await fetch(`${API_URL}/api/clients-birthday`); 
-
-      const [clientsData, productsData, salesData, agendamentosData, boletosData, birthdaysData] = await Promise.all([
-        clientsRes.ok ? clientsRes.json() : Promise.reject(`Clients: ${clientsRes.status}`),
-        productsRes.ok ? productsRes.json() : Promise.reject(`Products: ${productsRes.status}`),
-        salesRes.ok ? salesRes.json() : Promise.reject(`Sales: ${salesRes.status}`),
-        agendamentosRes.ok ? agendamentosRes.json() : Promise.reject(`Agendamentos: ${agendamentosRes.status}`),
-        boletosRes.ok ? boletosRes.json() : Promise.reject(`Boletos: ${boletosRes.status}`),
-        birthdaysRes.ok ? birthdaysRes.json() : Promise.reject(`Birthdays: ${birthdaysRes.status}`)
+      const [
+        dailySalesResponse,
+        monthlySalesResponse,
+        salesHistoryResponse,
+        birthdaysResponse,
+        overdueResponse,
+        dueSoonResponse,
+        todaysAppointmentsResponse,
+      ] = await Promise.all([
+        getDailySales(),
+        getMonthlySales(),
+        getSalesHistory(),
+        getMonthlyBirthdays(),
+        getOverdueBoletos(),
+        getDueSoonBoletos(),
+        getTodaysAppointments(),
       ]);
 
+      const dailyTotal = dailySalesResponse?.dailyTotal || 0;
+      const monthlyTotal = monthlySalesResponse?.monthlyTotal || 0;
+
+      let salesArray = Array.isArray(salesHistoryResponse)
+        ? salesHistoryResponse
+        : salesHistoryResponse?.sales || salesHistoryResponse?.history || [];
+
+      if (!Array.isArray(salesArray)) {
+        console.error("Dados inesperados da API de histórico de vendas:", salesHistoryResponse);
+        salesArray = [];
+      }
+      
+      const formattedHistory = salesArray.map(item => ({
+        name: new Date(item.day).toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit' }),
+        Total: item.sales,
+      }));
+
+      let todaysAppointmentsArray = Array.isArray(todaysAppointmentsResponse)
+        ? todaysAppointmentsResponse
+        : todaysAppointmentsResponse?.appointments || [];
+
+      if (!Array.isArray(todaysAppointmentsArray)) {
+        console.error("Dados inesperados da API de agendamentos de hoje:", todaysAppointmentsResponse);
+        todaysAppointmentsArray = [];
+      }
+
       setData({
-        totalClients: clientsData.length, 
-        totalProducts: productsData.length, 
-        totalSales: salesData.length, 
-        totalAgendamentos: agendamentosData.length, 
-        upcomingBoletos: boletosData,
-        birthdays: birthdaysData
+        dailyTotal,
+        monthlyTotal,
+        birthdayClients: birthdaysResponse || [], 
+        overdueBoletos: overdueResponse || [],
+        dueSoonBoletos: dueSoonResponse || [],
+        todaysAppointments: todaysAppointmentsArray,
+        salesHistory: formattedHistory,
       });
+
     } catch (err) {
       console.error("Erro ao carregar dados do dashboard:", err);
-      setError("Não foi possível carregar os dados do dashboard.");
+      setError(err.message || "Não foi possível carregar os dados do dashboard.");
     } finally {
       setLoading(false);
     }
@@ -54,5 +87,5 @@ export const useDashboardData = () => {
     fetchData();
   }, [fetchData]);
 
-  return { data, loading, error, refreshData: fetchData };
+  return { ...data, loading, error, refreshData: fetchData };
 };

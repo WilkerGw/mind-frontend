@@ -1,5 +1,4 @@
 "use client";
-import { useState, useEffect } from 'react';
 import Card from '../../components/Card';
 import styles from './BoletoAlertList.module.css';
 
@@ -11,7 +10,7 @@ const formatRelativeDate = (dateString) => {
   const dataVencimento = new Date(dateString);
   dataVencimento.setHours(0, 0, 0, 0);
 
-  const diffTime = dataVencimento - hoje;
+  const diffTime = dataVencimento.getTime() - hoje.getTime();
   const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
 
   if (diffDays < 0) {
@@ -23,24 +22,7 @@ const formatRelativeDate = (dateString) => {
   return `Vence em ${diffDays} dia(s)`;
 };
 
-const BoletoAlertList = ({ title, fetcher, type }) => {
-  const [boletos, setBoletos] = useState([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    async function fetchData() {
-      try {
-        const data = await fetcher();
-        setBoletos(data || []);
-      } catch (error) {
-        console.error(`Erro ao buscar ${title}:`, error);
-      } finally {
-        setLoading(false);
-      }
-    }
-    fetchData();
-  }, [fetcher, title]);
-
+const BoletoAlertList = ({ title, boletos, type, loading }) => {
   const cardClass = type === 'overdue' ? styles.overdueCard : styles.dueSoonCard;
 
   return (
@@ -49,12 +31,12 @@ const BoletoAlertList = ({ title, fetcher, type }) => {
       <div className={styles.listContainer}>
         {loading ? (
           <p className={styles.emptyMessage}>Carregando...</p>
-        ) : boletos.length > 0 ? (
+        ) : boletos && boletos.length > 0 ? (
           <ul className={styles.list}>
             {boletos.map(boleto => (
               <li key={boleto._id} className={styles.listItem}>
                 <div className={styles.itemInfo}>
-                  <span className={styles.itemName}>{boleto.client.fullName}</span>
+                  <span className={styles.itemName}>{boleto.client?.fullName || 'Cliente não encontrado'}</span>
                   <span className={styles.itemValue}>{formatCurrency(boleto.parcelValue)}</span>
                 </div>
                 <span className={styles.itemDate}>{formatRelativeDate(boleto.dueDate)}</span>

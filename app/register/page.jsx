@@ -1,13 +1,15 @@
+// app/register/page.jsx
 "use client";
 
-import { signIn } from "next-auth/react";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 import Image from "next/image";
-import Link from "next/link"; 
-import styles from "./page.module.css";
+import { registerUser } from "../../lib/auth-api";
+import styles from "../page.module.css";
 
-export default function LoginPage() {
+export default function RegisterPage() {
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -19,18 +21,14 @@ export default function LoginPage() {
     setLoading(true);
     setError("");
 
-    const result = await signIn("credentials", {
-      redirect: false,
-      email,
-      password,
-    });
-
-    setLoading(false);
-
-    if (result.error) {
-      setError("Utilizador ou senha inválidos. Tente novamente.");
-    } else if (result.ok) {
-      router.push("/dashboard");
+    try {
+      await registerUser({ name, email, password });
+      alert("Utilizador registado com sucesso! Por favor, faça o login.");
+      router.push("/");
+    } catch (err) {
+      setError(err.message || "Falha ao registar. Tente novamente.");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -40,15 +38,28 @@ export default function LoginPage() {
         <Image
           src="/images/logo-amarela.png"
           alt="Logo da Ótica"
-          width={150}
+          width={120}
           height={50}
           priority
           className={styles.logoLogin}
           style={{ height: 'auto' }}
         />
+        <h2 style={{ marginBottom: '1.5rem', color: '#e0e0e0' }}>Criar Nova Conta</h2>
         <form onSubmit={handleSubmit} className={styles.form}>
           <div>
-            <label htmlFor="email" className={styles.label}>Utilizador:</label>
+            <label htmlFor="name" className={styles.label}>Nome:</label>
+            <input
+              id="name"
+              type="text"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              required
+              className={styles.input}
+              placeholder="Seu nome completo"
+            />
+          </div>
+          <div>
+            <label htmlFor="email" className={styles.label}>Email:</label>
             <input
               id="email"
               type="email"
@@ -75,13 +86,13 @@ export default function LoginPage() {
           {error && <p className={styles.errorMessage}>{error}</p>}
           
           <button type="submit" className={styles.button} disabled={loading}>
-            {loading ? "A entrar..." : "Login"}
+            {loading ? "A registar..." : "Registar"}
           </button>
         </form>
         <p style={{ marginTop: '1.5rem', fontSize: '0.9rem' }}>
-          Não tem uma conta?{" "}
-          <Link href="/register" style={{ color: '#60a5fa', textDecoration: 'underline' }}>
-            Registe-se aqui
+          Já tem uma conta?{" "}
+          <Link href="/" style={{ color: '#60a5fa', textDecoration: 'underline' }}>
+            Faça o login aqui
           </Link>
         </p>
       </div>

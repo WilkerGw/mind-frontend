@@ -5,14 +5,14 @@ import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 import styles from "./Header.module.css";
-import { 
+import {
   LayoutDashboard,
   Users,
   Package,
   ShoppingCart,
   Gift,
   FileText,
-  Calendar
+  Calendar,
 } from "lucide-react";
 
 const navLinks = [
@@ -32,7 +32,7 @@ export default function Header() {
   const closeMenu = () => setIsMenuOpen(false);
 
   const isActive = (href) => {
-    if (href === '/dashboard') return pathname === href;
+    if (href === "/dashboard") return pathname === href;
     return pathname.startsWith(href);
   };
 
@@ -47,25 +47,35 @@ export default function Header() {
               width={80}
               height={55}
               className={styles.logo}
+              style={{ height: "auto" }}
             />
           </Link>
         </div>
 
-        <button className={styles.menuToggle} onClick={toggleMenu} aria-label="Abrir menu">
+        <button
+          className={styles.menuToggle}
+          onClick={toggleMenu}
+          aria-label="Abrir menu"
+        >
           {isMenuOpen ? "×" : "☰"}
         </button>
-        
-        <nav className={`${styles.navContainer} ${isMenuOpen ? styles.active : ""}`}>
+
+        <nav
+          className={`${styles.navContainer} ${isMenuOpen ? styles.active : ""}`}
+        >
           <ul className={styles.navLinks}>
             {navLinks.map((link) => (
-                <li key={link.href}>
-                  <Link href={link.href} onClick={closeMenu} className={`${styles.link} ${isActive(link.href) ? styles.activeLink : ""}`}>
-                    <link.icon size={20} className={styles.icon} />
-                    <span>{link.text}</span>
-                  </Link>
-                </li>
-              )
-            )}
+              <li key={link.href}>
+                <Link
+                  href={link.href}
+                  onClick={closeMenu}
+                  className={`${styles.link} ${isActive(link.href) ? styles.activeLink : ""}`}
+                >
+                  <link.icon size={20} className={styles.icon} />
+                  <span>{link.text}</span>
+                </Link>
+              </li>
+            ))}
           </ul>
         </nav>
       </header>
