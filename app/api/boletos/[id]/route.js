@@ -61,4 +61,11 @@ export async function DELETE(request, { params }) {
     });
     return new Response(null, { status: 204 });
   } catch (error) {
-    console.
+    // Bloco corrigido
+    console.error(`Erro ao deletar boleto ${id} (API Route):`, error.message);
+    return NextResponse.json(
+      { error: error.response?.data?.error || error.message },
+      { status: error.response?.status || 500 }
+    );
+  }
+}
