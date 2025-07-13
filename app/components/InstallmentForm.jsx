@@ -2,8 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { getClients } from '../../lib/client-api';
 import Card from './Card';
 import SearchableSelect from './ui/SearchableSelect';
-// A LINHA MAIS IMPORTANTE: Garanta que esta linha exista!
-// Ela conecta o seu componente ao arquivo de estilos dele.
 import styles from './InstallmentForm.module.css';
 
 const InstallmentForm = ({ onSubmit, isSubmitting }) => {

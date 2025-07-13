@@ -1,12 +1,10 @@
-// app/api/boletos/upcoming/route.js
 import axios from 'axios';
 import { NextResponse } from 'next/server';
 import { getServerSession } from "next-auth";
-import { authOptions } from '../../../../pages/api/auth/[...nextauth]'; // Ajuste o caminho se necessário
+import { authOptions } from '../../../../pages/api/auth/[...nextauth]';
 
 const BACKEND_API_URL = process.env.NEXT_PUBLIC_API_URL;
 
-// GET /api/boletos/upcoming
 export async function GET(request) {
   const session = await getServerSession(authOptions);
   if (!session) {
@@ -14,7 +12,7 @@ export async function GET(request) {
   }
 
   try {
-    const response = await axios.get(`${BACKEND_API_URL}/api/boletos/upcoming`, { // Verifique se o endpoint no seu backend é '/boletos/upcoming'
+    const response = await axios.get(`${BACKEND_API_URL}/api/boletos/upcoming`, {
       headers: { Authorization: `Bearer ${session.id}` }
     });
     return NextResponse.json(response.data);

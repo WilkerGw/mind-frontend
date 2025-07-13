@@ -1,14 +1,11 @@
-// app/promotions/page.js
 'use client';
 
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
-// Remova a importação do ProtectedRoute se ainda estiver aqui
-// import ProtectedRoute from '../components/ProtectedRoute'; 
-import styles from './promotions.module.css'; // Certifique-se de importar seus estilos
+import styles from './promotions.module.css'; 
 
 export default function Promotions() {
-  const [promotions, setPromotions] = useState([]); // Inicializa como array vazio
+  const [promotions, setPromotions] = useState([]); 
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -39,7 +36,6 @@ export default function Promotions() {
   if (error) return <p>{error}</p>;
 
   return (
-    // Remova o componente ProtectedRoute que envolvia o conteúdo
     <section>
       <div className={styles.dashboard}> 
         <div className={styles.titleContainer}>
@@ -52,7 +48,6 @@ export default function Promotions() {
           {promotions.map((promotion) => (
             <li key={promotion._id} className={styles.titleLista}>
               {promotion.name} - {promotion.type}
-              {/* Adicione mais campos conforme necessário */}
             </li>
           ))}
         </ul>

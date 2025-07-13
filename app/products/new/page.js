@@ -1,12 +1,10 @@
 'use client';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-// CAMINHOS CORRIGIDOS
 import { createProduct } from '../../../lib/product-api';
 import ProductForm from '../../components/ProductForm';
 import Link from 'next/link';
 import { ArrowLeft } from 'lucide-react';
-// Este caminho está correto, pois busca o CSS da pasta pai
 import styles from '../products.module.css';
 
 export default function NewProductPage() {
@@ -19,7 +17,6 @@ export default function NewProductPage() {
     setError(null);
     try {
       await createProduct(data);
-      // Após o sucesso, força a atualização dos dados na próxima navegação e redireciona
       router.refresh();
       router.push('/products');
     } catch (err) {
@@ -33,7 +30,6 @@ export default function NewProductPage() {
     <div>
       <div className={styles.header}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-          {/* A classe 'actionButton' vem do products.module.css */}
           <Link href="/products" className={styles.actionButton}>
             <ArrowLeft size={20} />
           </Link>

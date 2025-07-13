@@ -4,9 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
-import styles from "./Header.module.css"; // Certifique-se que o caminho do CSS está correto
-
-// 1. Importar TODOS os ícones da 'lucide-react'
+import styles from "./Header.module.css";
 import { 
   LayoutDashboard,
   Users,
@@ -17,7 +15,6 @@ import {
   Calendar
 } from "lucide-react";
 
-// 2. Mapear os links usando os novos ícones
 const navLinks = [
   { href: "/dashboard", text: "Dashboard", icon: LayoutDashboard },
   { href: "/clients", text: "Clientes", icon: Users },
@@ -35,7 +32,6 @@ export default function Header() {
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
   const closeMenu = () => setIsMenuOpen(false);
 
-  // Determina se um link é "ativo". Também considera sub-rotas.
   const isActive = (href) => {
     if (href === '/dashboard') return pathname === href;
     return pathname.startsWith(href);

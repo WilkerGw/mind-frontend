@@ -1,8 +1,7 @@
-// app/layout.js
 'use client';
 
 import { SessionProvider } from 'next-auth/react';
-import AppLayout from './components/AppLayout'; // Importamos nosso novo componente
+import AppLayout from './components/AppLayout'; 
 import './globals.css';
 
 export default function RootLayout({ children }) {
@@ -10,7 +9,6 @@ export default function RootLayout({ children }) {
     <html lang="pt-BR">
       <body>
         <SessionProvider>
-          {/* AppLayout agora gerencia a proteção globalmente */}
           <AppLayout>{children}</AppLayout>
         </SessionProvider>
       </body>

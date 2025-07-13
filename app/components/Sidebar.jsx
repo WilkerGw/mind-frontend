@@ -38,7 +38,7 @@ export default function Sidebar({ isMobileMenuOpen, closeMobileMenu }) {
               <Link
                 href={link.href}
                 className={`${styles.navLink} ${isActive(link.href) ? styles.active : ""}`}
-                onClick={closeMobileMenu} // Fecha o menu ao clicar em um link no mobile
+                onClick={closeMobileMenu}
               >
                 <link.icon className={styles.navIcon} />
                 <span className={styles.navText}>{link.text}</span>

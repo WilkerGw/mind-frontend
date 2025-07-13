@@ -2,7 +2,7 @@ import Card from "../../components/Card";
 import styles from '../page.module.css';
 
 const StatCard = ({ title, value, icon, description }) => {
-  const Icon = icon; // Permite usar o componente do ícone passado como prop
+  const Icon = icon; 
   return (
     <Card>
       <div className={styles.statCardHeader}>

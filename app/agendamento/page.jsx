@@ -4,14 +4,20 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { getAgendamentos, deleteAgendamento } from "../../lib/agendamento-api";
 import Card from "../components/Card";
-import { Calendar, PlusCircle, Search, Edit, Trash2, Phone } from "lucide-react";
+import {
+  Calendar,
+  PlusCircle,
+  Search,
+  Edit,
+  Trash2,
+  Phone,
+} from "lucide-react";
 import styles from "./agendamento.module.css";
 
 const formatDate = (dateString) => {
   if (!dateString) return "N/A";
   const date = new Date(dateString);
-  // Usar toLocaleDateString para respeitar o fuso horário local
-  return date.toLocaleDateString('pt-BR', { timeZone: 'UTC' });
+  return date.toLocaleDateString("pt-BR", { timeZone: "UTC" });
 };
 
 export default function AgendamentoPage() {
@@ -26,7 +32,6 @@ export default function AgendamentoPage() {
       try {
         setLoading(true);
         const data = await getAgendamentos();
-        // Ordena os agendamentos por data, do mais recente para o mais antigo
         data.sort((a, b) => new Date(b.date) - new Date(a.date));
         setAgendamentos(data);
       } catch (err) {
@@ -41,16 +46,16 @@ export default function AgendamentoPage() {
   const filteredAgendamentos = agendamentos.filter((agendamento) =>
     agendamento.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
-  
+
   const handleDetails = (id) => {
-    router.push(`/api/agendamento/${id}`);
+    router.push(`/agendamento/${id}`);
   };
 
   const handleDelete = async (id, name) => {
     if (confirm(`Tem certeza que deseja excluir o agendamento de "${name}"?`)) {
       try {
         await deleteAgendamento(id);
-        setAgendamentos(agendamentos.filter(a => a._id !== id));
+        setAgendamentos(agendamentos.filter((a) => a._id !== id));
       } catch (err) {
         alert(`Erro ao excluir: ${err.message}`);
       }
@@ -58,10 +63,25 @@ export default function AgendamentoPage() {
   };
 
   const getStatus = (agendamento) => {
-    if (agendamento.compareceu) return <span className={`${styles.statusBadge} ${styles.compareceu}`}>Compareceu</span>;
-    if (agendamento.faltou) return <span className={`${styles.statusBadge} ${styles.faltou}`}>Faltou</span>;
-    if (agendamento.contactado) return <span className={`${styles.statusBadge} ${styles.contactado}`}>Contactado</span>;
-    return <span className={`${styles.statusBadge} ${styles.aberto}`}>Aberto</span>;
+    if (agendamento.compareceu)
+      return (
+        <span className={`${styles.statusBadge} ${styles.compareceu}`}>
+          Compareceu
+        </span>
+      );
+    if (agendamento.faltou)
+      return (
+        <span className={`${styles.statusBadge} ${styles.faltou}`}>Faltou</span>
+      );
+    if (agendamento.contactado)
+      return (
+        <span className={`${styles.statusBadge} ${styles.contactado}`}>
+          Contactado
+        </span>
+      );
+    return (
+      <span className={`${styles.statusBadge} ${styles.aberto}`}>Aberto</span>
+    );
   };
 
   return (
@@ -73,7 +93,7 @@ export default function AgendamentoPage() {
           <span>Novo Agendamento</span>
         </Link>
       </div>
-      
+
       <Card>
         <div className={styles.cardHeader}>
           <div className={styles.searchContainer}>
@@ -101,9 +121,17 @@ export default function AgendamentoPage() {
             </thead>
             <tbody>
               {loading ? (
-                <tr><td colSpan="6" className={styles.statusCell}>Carregando...</td></tr>
+                <tr>
+                  <td colSpan="6" className={styles.statusCell}>
+                    Carregando...
+                  </td>
+                </tr>
               ) : error ? (
-                <tr><td colSpan="6" className={styles.statusCellError}>{error}</td></tr>
+                <tr>
+                  <td colSpan="6" className={styles.statusCellError}>
+                    {error}
+                  </td>
+                </tr>
               ) : filteredAgendamentos.length > 0 ? (
                 filteredAgendamentos.map((ag) => (
                   <tr key={ag._id}>
@@ -114,10 +142,18 @@ export default function AgendamentoPage() {
                     <td>{getStatus(ag)}</td>
                     <td>
                       <div className={styles.actionsCell}>
-                        <button onClick={() => handleDetails(ag._id)} className={styles.actionButton} title="Detalhes do Agendamento">
+                        <button
+                          onClick={() => handleDetails(ag._id)}
+                          className={styles.actionButton}
+                          title="Detalhes do Agendamento"
+                        >
                           <Edit size={16} />
                         </button>
-                        <button onClick={() => handleDelete(ag._id, ag.name)} className={`${styles.actionButton} ${styles.deleteButton}`} title="Excluir Agendamento">
+                        <button
+                          onClick={() => handleDelete(ag._id, ag.name)}
+                          className={`${styles.actionButton} ${styles.deleteButton}`}
+                          title="Excluir Agendamento"
+                        >
                           <Trash2 size={16} />
                         </button>
                       </div>
@@ -125,7 +161,11 @@ export default function AgendamentoPage() {
                   </tr>
                 ))
               ) : (
-                <tr><td colSpan="6" className={styles.statusCell}>Nenhum agendamento encontrado.</td></tr>
+                <tr>
+                  <td colSpan="6" className={styles.statusCell}>
+                    Nenhum agendamento encontrado.
+                  </td>
+                </tr>
               )}
             </tbody>
           </table>

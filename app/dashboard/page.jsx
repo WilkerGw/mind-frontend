@@ -7,7 +7,7 @@ import SalesChart from './components/SalesChart';
 import BirthdayList from './components/BirthdayList';
 import BoletoAlertList from './components/BoletoAlertList';
 import { getOverdueBoletos, getDueSoonBoletos } from '../../lib/boleto-api';
-import { getTodaysAppointments } from '../../lib/agendamento-api'; // Assumindo que você criou este
+import { getTodaysAppointments } from '../../lib/agendamento-api'; 
 import UpcomingAppointments from './components/UpcomingAppointments';
 
 

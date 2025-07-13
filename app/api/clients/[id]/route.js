@@ -1,19 +1,17 @@
-// app/api/clients/[id]/route.js
 import axios from 'axios';
 import { NextResponse } from 'next/server';
 import { getServerSession } from "next-auth";
-import { authOptions } from '../../../../pages/api/auth/[...nextauth]'; // Ajuste o caminho se necessário
+import { authOptions } from '../../../../pages/api/auth/[...nextauth]';
 
 const BACKEND_API_URL = process.env.NEXT_PUBLIC_API_URL;
 
-// GET /api/clients/[id]
 export async function GET(request, { params }) {
   const session = await getServerSession(authOptions);
   if (!session) {
     return new Response(JSON.stringify({ error: 'Não autenticado.' }), { status: 401 });
   }
 
-  const { id } = params; // Obtém o ID da URL
+  const { id } = params;
   try {
     const response = await axios.get(`${BACKEND_API_URL}/api/clients/${id}`, {
       headers: { Authorization: `Bearer ${session.id}` }
@@ -28,7 +26,6 @@ export async function GET(request, { params }) {
   }
 }
 
-// PUT /api/clients/[id]
 export async function PUT(request, { params }) {
   const session = await getServerSession(authOptions);
   if (!session) {
@@ -51,7 +48,6 @@ export async function PUT(request, { params }) {
   }
 }
 
-// DELETE /api/clients/[id]
 export async function DELETE(request, { params }) {
   const session = await getServerSession(authOptions);
   if (!session) {
@@ -63,7 +59,7 @@ export async function DELETE(request, { params }) {
     await axios.delete(`${BACKEND_API_URL}/api/clients/${id}`, {
       headers: { Authorization: `Bearer ${session.id}` }
     });
-    return new Response(null, { status: 204 }); // No Content
+    return new Response(null, { status: 204 });
   } catch (error) {
     console.error(`Erro ao deletar cliente ${id} (API Route):`, error.message);
     return NextResponse.json(

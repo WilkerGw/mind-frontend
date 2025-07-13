@@ -1,6 +1,4 @@
 /* ./components/Styles/Header.module.css */
-
-/* Configurações básicas */
 .header {
   background: linear-gradient(135deg, #1A1A1A 0%, #2A2A2A 100%);
   position: fixed;
@@ -23,8 +21,6 @@
   width: 5rem;
   filter: drop-shadow(0px 2px 4px #d0ff00);
 }
-
-/* Configurações do menu lateral */
 .navLinks {
   list-style: none;
   padding: 0;
@@ -45,8 +41,6 @@
 .link:hover {
   background: rgba(255, 255, 255, 0.05);
 }
-
-/* Estilos de ícones */
 .icon {
   margin-right: 1.5rem;
   color: #6B6B6B;
@@ -58,8 +52,6 @@
 .activeIcon {
   color: #FFD700;
 }
-
-/* Estilos de item ativo */
 .activeLink {
   background: rgba(255, 255, 255, 0.1);
 }
@@ -67,8 +59,6 @@
 .activeLink .icon {
   color: #FFD700;
 }
-
-/* Efeito de sublinhado animado */
 .link::before {
   content: '';
   position: absolute;
@@ -92,8 +82,6 @@
 .mobileNav {
   display: none;
 }
-
-/* Responsividade */
 @media (max-width: 767px) {
   .header {
     width: 100%;

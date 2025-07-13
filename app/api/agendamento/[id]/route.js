@@ -1,12 +1,10 @@
-// app/api/agendamento/[id]/route.js
 import axios from 'axios';
 import { NextResponse } from 'next/server';
 import { getServerSession } from "next-auth";
-import { authOptions } from '../../../../pages/api/auth/[...nextauth]'; // Ajuste o caminho se necessário
+import { authOptions } from '../../../../pages/api/auth/[...nextauth]';
 
 const BACKEND_API_URL = process.env.NEXT_PUBLIC_API_URL;
 
-// GET /api/agendamento/[id]
 export async function GET(request, { params }) {
   const session = await getServerSession(authOptions);
   if (!session) {
@@ -15,7 +13,6 @@ export async function GET(request, { params }) {
 
   const { id } = params;
   try {
-    // CORREÇÃO: 'agendamentos' para 'agendamento'
     const response = await axios.get(`${BACKEND_API_URL}/api/agendamento/${id}`, { 
       headers: { Authorization: `Bearer ${session.id}` }
     });
@@ -29,7 +26,6 @@ export async function GET(request, { params }) {
   }
 }
 
-// PUT /api/agendamento/[id]
 export async function PUT(request, { params }) {
   const session = await getServerSession(authOptions);
   if (!session) {
@@ -39,7 +35,6 @@ export async function PUT(request, { params }) {
   const { id } = params;
   const data = await request.json();
   try {
-    // CORREÇÃO: 'agendamentos' para 'agendamento'
     const response = await axios.put(`${BACKEND_API_URL}/api/agendamento/${id}`, data, { 
       headers: { Authorization: `Bearer ${session.id}` }
     });
@@ -53,7 +48,6 @@ export async function PUT(request, { params }) {
   }
 }
 
-// DELETE /api/agendamento/[id]
 export async function DELETE(request, { params }) {
   const session = await getServerSession(authOptions);
   if (!session) {
@@ -62,7 +56,6 @@ export async function DELETE(request, { params }) {
 
   const { id } = params;
   try {
-    // CORREÇÃO: 'agendamentos' para 'agendamento'
     await axios.delete(`${BACKEND_API_URL}/api/agendamento/${id}`, { 
       headers: { Authorization: `Bearer ${session.id}` }
     });

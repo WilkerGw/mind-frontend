@@ -1,7 +1,6 @@
 "use client";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-// CAMINHOS CORRIGIDOS
 import { createSale } from "../../../lib/sale-api";
 import SaleForm from "../../components/SaleForm";
 import Link from "next/link";

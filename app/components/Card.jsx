@@ -1,8 +1,6 @@
-// app/components/Card.jsx
-import styles from './Card.module.css'; // CORRIGIDO: de './styles/' para './Styles/'
+import styles from './Card.module.css';
 
 export default function Card({ children, className }) {
-  // Combina classes passadas como prop com as classes do módulo
   const combinedClassName = `${styles.card} ${className || ''}`;
   
   return (

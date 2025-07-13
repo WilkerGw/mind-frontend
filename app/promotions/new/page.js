@@ -1,5 +1,5 @@
 'use client';
-import { useState } from 'react'; // Adicione esta linha para importar useState
+import { useState } from 'react'; 
 import { useRouter } from 'next/navigation';
 
 export default function NewPromotion() {
@@ -44,7 +44,6 @@ export default function NewPromotion() {
       <div className={styles.formContainer}>
         <h1>Cadastrar Promoção</h1>
         <form onSubmit={handleSubmit} className={styles.form}>
-          {/* Campos do formulário */}
           <label>
             Nome:
             <input type="text" name="name" value={formData.name} onChange={handleChange} />

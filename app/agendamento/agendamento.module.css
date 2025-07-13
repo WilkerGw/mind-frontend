@@ -124,7 +124,6 @@
   border-color: #ef4444;
 }
 
-/* Estilos para os Badges de Status */
 .statusBadge {
   padding: 0.25rem 0.75rem;
   border-radius: 9999px;
@@ -134,18 +133,18 @@
 }
 
 .aberto {
-  background-color: #dbeafe; /* blue-100 */
-  color: #1e40af; /* blue-800 */
+  background-color: #dbeafe;
+  color: #1e40af;
 }
 .contactado {
-  background-color: #fef3c7; /* amber-100 */
-  color: #92400e; /* amber-800 */
+  background-color: #fef3c7;
+  color: #92400e;
 }
 .compareceu {
-  background-color: #dcfce7; /* green-100 */
-  color: #166534; /* green-800 */
+  background-color: #dcfce7;
+  color: #166534;
 }
 .faltou {
-  background-color: #fee2e2; /* red-100 */
-  color: #991b1b; /* red-800 */
+  background-color: #fee2e2;
+  color: #991b1b;
 }

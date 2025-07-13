@@ -1,8 +1,8 @@
 "use client";
 import { useEffect, useState } from "react";
 import { useRouter, useParams } from "next/navigation";
-import { getClientById, updateClient } from "../../../lib/client-api"; // Caminho atualizado
-import ClientForm from "../../components/ClientForm"; // Caminho atualizado
+import { getClientById, updateClient } from "../../../lib/client-api";
+import ClientForm from "../../components/ClientForm";
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 import styles from "../clients.module.css";

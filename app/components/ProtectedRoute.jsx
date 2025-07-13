@@ -1,4 +1,3 @@
-// my-nextjs-auth-app/app/components/ProtectedRoute.js
 'use client';
 
 import { useSession, signOut } from 'next-auth/react';
@@ -30,7 +29,6 @@ export default function ProtectedRoute({ children }) {
     signOut({ callbackUrl: 'http://localhost:3000/' })
       .then((res) => {
         console.log('SignOut Result:', res);
-        // Limpar cookies manualmente se necessário
         document.cookie = 'next-auth.session-token=; Max-Age=-99999999; Path=/;';
         document.cookie = 'next-auth.csrf-token=; Max-Age=-99999999; Path=/;';
       })
@@ -41,7 +39,7 @@ export default function ProtectedRoute({ children }) {
 
   return (
     <>
-    <Header/>
+      <Header/>
       {children}
       <button onClick={handleSignOut} className={styles.logoutBtn}>Logout</button>
     </>

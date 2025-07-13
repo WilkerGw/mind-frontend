@@ -59,7 +59,6 @@ export default function BoletosPage() {
   };
   
   const groupedAndSortedBoletos = useMemo(() => {
-    // A filtragem inicial continua a mesma
     const filtered = allBoletos
       .filter(b => statusFilter === 'todos' ? true : b.status === statusFilter)
       .filter(b => (b.client?.fullName || '').toLowerCase().includes(searchTerm.toLowerCase()));
@@ -80,9 +79,6 @@ export default function BoletosPage() {
       return acc;
     }, {});
 
-    // ==================================================================
-    // NOVA LÓGICA DE ORDENAÇÃO
-    // ==================================================================
     const getMonthDate = (monthYearStr) => {
         const [monthName, year] = monthYearStr.split(' de ');
         const monthIndex = ['janeiro', 'fevereiro', 'março', 'abril', 'maio', 'junho', 'julho', 'agosto', 'setembro', 'outubro', 'novembro', 'dezembro'].indexOf(monthName.toLowerCase());
@@ -92,24 +88,18 @@ export default function BoletosPage() {
     let sortedMonthKeys = Object.keys(grouped);
 
     if (statusFilter === 'todos') {
-      // Se o filtro for 'Todos', aplica a nova regra de ordenação
       sortedMonthKeys.sort((keyA, keyB) => {
         const groupA = grouped[keyA];
         const groupB = grouped[keyB];
-
-        // Verifica se o mês está 100% pago
         const isACompleted = groupA.total > 0 && groupA.pago >= groupA.total;
         const isBCompleted = groupB.total > 0 && groupB.pago >= groupB.total;
 
-        // Regra 1: Meses completos vão para o final
         if (isACompleted && !isBCompleted) return 1;
         if (!isACompleted && isBCompleted) return -1;
         
-        // Regra 2: Se ambos têm o mesmo status de 'completo', ordena por data
         return getMonthDate(keyA) - getMonthDate(keyB);
       });
     } else {
-      // Lógica de ordenação antiga para os outros filtros
       sortedMonthKeys.sort((a, b) => getMonthDate(a) - getMonthDate(b));
 
       const currentMonthKey = new Date().toLocaleDateString('pt-BR', { month: 'long', year: 'numeric'});
@@ -124,7 +114,6 @@ export default function BoletosPage() {
   }, [allBoletos, statusFilter, searchTerm]);
 
   return (
-    // O JSX da renderização continua o mesmo
     <div>
       <div className={styles.header}>
         <h1 className={styles.pageTitle}>Controle de Boletos</h1>

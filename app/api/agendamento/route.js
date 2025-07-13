@@ -1,12 +1,10 @@
-// app/api/agendamento/route.js
 import axios from 'axios';
 import { NextResponse } from 'next/server';
 import { getServerSession } from "next-auth";
-import { authOptions } from '../../../pages/api/auth/[...nextauth]'; // Ajuste o caminho se necessário
+import { authOptions } from '../../../pages/api/auth/[...nextauth]';
 
 const BACKEND_API_URL = process.env.NEXT_PUBLIC_API_URL;
 
-// GET /api/agendamento
 export async function GET(request) {
   const session = await getServerSession(authOptions);
   if (!session) {
@@ -14,7 +12,6 @@ export async function GET(request) {
   }
 
   try {
-    // CORREÇÃO: 'agendamentos' para 'agendamento'
     const response = await axios.get(`${BACKEND_API_URL}/api/agendamento`, { 
       headers: { Authorization: `Bearer ${session.id}` }
     });
@@ -28,7 +25,6 @@ export async function GET(request) {
   }
 }
 
-// POST /api/agendamento
 export async function POST(request) {
   const session = await getServerSession(authOptions);
   if (!session) {
@@ -37,7 +33,6 @@ export async function POST(request) {
 
   const data = await request.json();
   try {
-    // CORREÇÃO: 'agendamentos' para 'agendamento'
     const response = await axios.post(`${BACKEND_API_URL}/api/agendamento`, data, { 
       headers: { Authorization: `Bearer ${session.id}` }
     });

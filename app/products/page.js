@@ -2,12 +2,11 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { getProducts, deleteProduct } from "../../lib/product-api"; // Caminho relativo
-import Card from "../components/Card"; // Caminho relativo
+import { getProducts, deleteProduct } from "../../lib/product-api"; 
+import Card from "../components/Card";
 import { Package, PlusCircle, Search, Edit, Trash2 } from "lucide-react";
-import styles from "./products.module.css"; // Novo arquivo de estilo
+import styles from "./products.module.css"; 
 
-// Formata o valor para moeda brasileira
 const formatCurrency = (value) => {
   if (typeof value !== 'number') {
     return "R$ 0,00";

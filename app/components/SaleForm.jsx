@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { getClients } from '../../lib/client-api';
 import { getProducts } from '../../lib/product-api';
 import Card from './Card';
-import SearchableSelect from './ui/SearchableSelect'; // 1. Importar o novo componente
+import SearchableSelect from './ui/SearchableSelect';
 import { Plus, Trash2 } from 'lucide-react';
 import styles from './SaleForm.module.css';
 
@@ -55,7 +55,6 @@ const SaleForm = ({ onSubmit, isSubmitting }) => {
       product[field] = value;
     }
     
-    // Garante que a quantidade seja no mínimo 1
     if (product.quantity < 1) {
       product.quantity = 1;
     }
@@ -91,7 +90,6 @@ const SaleForm = ({ onSubmit, isSubmitting }) => {
             <div className={styles.inlineGrid}>
               <div className={styles.formGroup}>
                 <label htmlFor="client">Cliente</label>
-                {/* 2. Substituir o <select> de cliente pelo novo componente */}
                 <SearchableSelect
                   options={allClients}
                   value={formData.client}
@@ -112,7 +110,6 @@ const SaleForm = ({ onSubmit, isSubmitting }) => {
             <div className={styles.productRowsContainer}>
               {formData.products.map((p, index) => (
                 <div key={index} className={styles.productRow}>
-                  {/* 3. Substituir o <select> de produto pelo novo componente */}
                   <SearchableSelect
                     options={allProducts}
                     value={p.product}

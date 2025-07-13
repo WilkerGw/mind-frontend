@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { getSales, deleteSale } from "../../lib/sale-api";
 import Card from "../components/Card";
 import { ShoppingCart, PlusCircle, Search, Eye, Trash2 } from "lucide-react";
-import styles from "./sales.module.css"; // Novo arquivo de estilo
+import styles from "./sales.module.css"; 
 
 const formatDate = (dateString) => {
   if (!dateString) return "N/A";

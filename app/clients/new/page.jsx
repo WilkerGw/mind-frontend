@@ -1,8 +1,8 @@
 "use client";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { createClient } from "../../../lib/client-api"; // Caminho atualizado
-import ClientForm from "../../components/ClientForm"; // Caminho atualizado
+import { createClient } from "../../../lib/client-api";
+import ClientForm from "../../components/ClientForm";
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 import styles from "../clients.module.css";
@@ -18,7 +18,7 @@ export default function NewClientPage() {
     try {
       await createClient(data);
       router.push("/clients");
-    } catch (err) {
+    } catch (err) { 
       setError(err.message);
     } finally {
       setIsSubmitting(false);

@@ -1,7 +1,6 @@
 'use client';
 import { useEffect, useState } from 'react';
 import { useRouter, useParams } from 'next/navigation';
-// Caminhos corrigidos para voltar três níveis até a raiz
 import { getProductById, updateProduct } from '../../../lib/product-api';
 import ProductForm from '../../components/ProductForm';
 import Link from 'next/link';

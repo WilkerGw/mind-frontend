@@ -1,6 +1,6 @@
 import Card from '../../components/Card';
 import { Gift } from 'lucide-react';
-import styles from './InfoList.module.css'; // Usaremos um estilo compartilhado
+import styles from './InfoList.module.css';
 
 const formatDate = (dateString) => {
   if (!dateString) return "";

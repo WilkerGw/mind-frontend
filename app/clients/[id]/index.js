@@ -1,5 +1,5 @@
 import dynamic from 'next/dynamic';
-import Loading from '../../../components/Loading'; // Componente de loading personalizado
+import Loading from '../../../components/Loading'; 
 
 const ClientDetails = dynamic(() => import('./page'), {
   loading: () => <Loading />,

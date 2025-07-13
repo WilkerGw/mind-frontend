@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { getClients } from '../../lib/client-api';
 import Card from './Card';
 import SearchableSelect from './ui/SearchableSelect';
-// CAMINHO CORRIGIDO: reutilizando o estilo do formulário de parcelamento para manter a consistência.
 import styles from './InstallmentForm.module.css'; 
 
 const ManualBoletoForm = ({ onSubmit, isSubmitting }) => {
@@ -39,7 +38,6 @@ const ManualBoletoForm = ({ onSubmit, isSubmitting }) => {
   return (
     <form onSubmit={handleSubmit}>
       <Card>
-        {/* A classe 'formGrid' agora virá do InstallmentForm.module.css */}
         <div className={styles.formGrid}>
           <div className={`${styles.formGroup} ${styles.gridSpan3}`}>
             <label htmlFor="client-manual">Cliente</label>

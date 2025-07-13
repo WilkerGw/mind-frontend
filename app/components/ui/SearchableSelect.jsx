@@ -7,7 +7,6 @@ const SearchableSelect = ({ options, value, onChange, placeholder, displayKey, s
   const [isOpen, setIsOpen] = useState(false);
   const wrapperRef = useRef(null);
 
-  // Quando um valor é selecionado de fora, atualiza o texto do input
   useEffect(() => {
     if (value) {
       const selectedOption = options.find(option => option._id === value);
@@ -17,7 +16,6 @@ const SearchableSelect = ({ options, value, onChange, placeholder, displayKey, s
     }
   }, [value, options, displayKey]);
 
-  // Lógica para fechar o dropdown ao clicar fora
   useEffect(() => {
     function handleClickOutside(event) {
       if (wrapperRef.current && !wrapperRef.current.contains(event.target)) {
@@ -41,7 +39,6 @@ const SearchableSelect = ({ options, value, onChange, placeholder, displayKey, s
 
   const filteredOptions = options.filter(option => {
     const searchTerm = inputValue.toLowerCase();
-    // Procura o termo em todas as chaves especificadas em `searchKeys`
     return searchKeys.some(key => 
       String(option[key]).toLowerCase().includes(searchTerm)
     );
@@ -66,7 +63,6 @@ const SearchableSelect = ({ options, value, onChange, placeholder, displayKey, s
             filteredOptions.map(option => (
               <li key={option._id} onClick={() => handleSelectOption(option)} className={styles.optionItem}>
                 {option[displayKey]} 
-                {/* Mostra o CPF ou código como um detalhe extra */}
                 <span className={styles.optionDetail}>{option[searchKeys[1]]}</span>
               </li>
             ))

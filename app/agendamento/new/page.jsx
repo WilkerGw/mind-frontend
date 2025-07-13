@@ -1,7 +1,6 @@
 "use client";
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-// CAMINHOS CORRIGIDOS
 import { createAgendamento } from '../../../lib/agendamento-api';
 import AgendamentoForm from '../../components/AgendamentoForm';
 import Link from 'next/link';
@@ -18,7 +17,7 @@ export default function NewAgendamentoPage() {
     setError(null);
     try {
       await createAgendamento(data);
-      router.refresh(); // Garante que a lista de agendamentos será atualizada
+      router.refresh(); 
       router.push('/agendamento');
     } catch (err) {
       setError(err.message);

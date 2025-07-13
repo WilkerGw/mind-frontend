@@ -3,8 +3,7 @@ import { useState, useEffect } from 'react';
 import Card from '../../components/Card';
 import { CalendarClock } from 'lucide-react';
 import { getTodaysAppointments } from '../../../lib/agendamento-api';
-import styles from './InfoList.module.css'; // Reutilizando o mesmo estilo
-
+import styles from './InfoList.module.css'; 
 const UpcomingAppointments = () => {
   const [appointments, setAppointments] = useState([]);
   const [loading, setLoading] = useState(true);

@@ -4,7 +4,6 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { getClients, deleteClient } from "../../lib/client-api";
 import Card from "../components/Card";
-// 1. Importar o ícone de Telefone
 import { Users, PlusCircle, Search, Edit, Trash2, Phone } from "lucide-react";
 import styles from "./clients.module.css";
 
@@ -36,10 +35,9 @@ export default function ClientsPage() {
     fetchClients();
   }, []);
 
-  // 2. Adicionar função para limpar o número de telefone
   const formatPhoneNumberForLink = (phone) => {
     if (!phone) return "";
-    return phone.replace(/\D/g, ""); // Remove tudo que não for dígito
+    return phone.replace(/\D/g, "");
   };
 
   const filteredClients = clients.filter((client) =>
@@ -110,7 +108,6 @@ export default function ClientsPage() {
                     <td>{formatDate(client.birthDate)}</td>
                     <td>
                       <div className={styles.actionsCell}>
-                        {/* 3. Adicionar o link/botão do WhatsApp */}
                         <a 
                           href={`https://wa.me/55${formatPhoneNumberForLink(client.phone)}`}
                           target="_blank"

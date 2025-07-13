@@ -56,7 +56,6 @@ const ClientForm = ({ onSubmit, initialData, isSubmitting = false }) => {
     onSubmit(formData);
   };
   
-  // Componente interno para os campos de receita
   const ReceitaFields = ({ type, data, onChange }) => (
     <div className={styles.receitaGrid}>
       <h4 className={styles.receitaSubtitle}>{type === 'longe' ? 'Olho Direito (OD)' : 'Olho Esquerdo (OE)'}</h4>
@@ -124,24 +123,24 @@ const ClientForm = ({ onSubmit, initialData, isSubmitting = false }) => {
         <h2 className={styles.cardTitle}>Endereço e Observações</h2>
          <div className={styles.grid}>
            <div>
-              <label>CEP</label>
-              <input type="text" name="cep" value={formData.cep} onChange={handleChange} />
-            </div>
-            <div className={styles.gridSpan2}>
-              <label>Endereço</label>
-              <input type="text" name="address" value={formData.address} onChange={handleChange} />
-            </div>
-            <div className={styles.gridSpan3}>
-              <label>Observações</label>
-              <textarea name="notes" value={formData.notes} onChange={handleChange} rows="3"></textarea>
-            </div>
-        </div>
+             <label>CEP</label>
+             <input type="text" name="cep" value={formData.cep} onChange={handleChange} />
+           </div>
+           <div className={styles.gridSpan2}>
+             <label>Endereço</label>
+             <input type="text" name="address" value={formData.address} onChange={handleChange} />
+           </div>
+           <div className={styles.gridSpan3}>
+             <label>Observações</label>
+             <textarea name="notes" value={formData.notes} onChange={handleChange} rows="3"></textarea>
+           </div>
+         </div>
       </Card>
       
       <Card>
-         <div className={styles.checkboxContainer}>
-            <input type="checkbox" id="possuiReceita" name="possuiReceita" checked={formData.possuiReceita} onChange={handleChange} />
-            <label htmlFor="possuiReceita">Possui Receita Oftalmológica?</label>
+        <div className={styles.checkboxContainer}>
+           <input type="checkbox" id="possuiReceita" name="possuiReceita" checked={formData.possuiReceita} onChange={handleChange} />
+           <label htmlFor="possuiReceita">Possui Receita Oftalmológica?</label>
         </div>
 
         {formData.possuiReceita && (
@@ -149,15 +148,15 @@ const ClientForm = ({ onSubmit, initialData, isSubmitting = false }) => {
             <h3 className={styles.sectionTitle}>Longe</h3>
             <ReceitaFields type="longe" data={formData.longe} onChange={handleNestedChange} />
              <div className={styles.inputGroup}>
-                <label>Adição</label>
-                <input type="text" name="longe.adicao" value={formData.longe.adicao} onChange={handleNestedChange} />
+               <label>Adição</label>
+               <input type="text" name="longe.adicao" value={formData.longe.adicao} onChange={handleNestedChange} />
              </div>
 
             <h3 className={styles.sectionTitle}>Perto</h3>
             <ReceitaFields type="perto" data={formData.perto} onChange={handleNestedChange} />
              <div className={styles.inputGroup}>
-                <label>Adição</label>
-                <input type="text" name="perto.adicao" value={formData.perto.adicao} onChange={handleNestedChange} />
+               <label>Adição</label>
+               <input type="text" name="perto.adicao" value={formData.perto.adicao} onChange={handleNestedChange} />
              </div>
 
             <div>

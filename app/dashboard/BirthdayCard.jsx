@@ -5,7 +5,6 @@ const BirthdayItem = ({ client }) => {
   const birthDate = new Date(client.birthDate);
   const today = new Date();
   
-  // Normaliza as datas para ignorar a hora e o ano, facilitando a comparação
   const birthDayMonth = new Date(today.getFullYear(), birthDate.getMonth(), birthDate.getDate());
   const todayDayMonth = new Date(today.getFullYear(), today.getMonth(), today.getDate());
 
@@ -28,7 +27,6 @@ const BirthdayItem = ({ client }) => {
 };
 
 const BirthdayCard = ({ clients }) => {
-  // Ordena os clientes pelo dia do aniversário no mês atual
   const sortedClients = [...clients].sort((a, b) => new Date(a.birthDate).getDate() - new Date(b.birthDate).getDate());
 
   return (

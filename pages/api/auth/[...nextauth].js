@@ -15,7 +15,7 @@ export const authOptions = {
         const hardcodedUsers = [
           { id: '1', name: 'Nilton Jr', email: 'njbil2005@hotmail.com', password: 'maggiesol2025' },
           { id: '2', name: 'Wilker Martins', email: 'jane@example.com', password: 'maggiesol1992' },
-          { id: '3', name: 'Alice Johnson', email: 'alice@example.com', password: 'password3' },
+          { id: '3', name: 'Rafael Santos', email: 'rafa@gmail.com', password: 'safadadazl2025' },
         ];
         const user = hardcodedUsers.find(u => u.email === credentials.email && u.password === credentials.password);
 

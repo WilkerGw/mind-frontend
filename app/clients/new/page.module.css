@@ -70,8 +70,6 @@
   color: #666;
   cursor: not-allowed;
 }
-
-/* Estilos específicos para campos de data/hora */
 .form input[type="date"],
 .form input[type="time"] {
   padding: 12px;

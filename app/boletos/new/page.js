@@ -2,19 +2,18 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { createInstallmentPlan } from "../../../lib/boleto-api";
-import InstallmentForm from "../../components/InstallmentForm"; // Nome atualizado
-import ManualBoletoForm from "../../components/ManualBoletoForm"; // Novo formulário
+import InstallmentForm from "../../components/InstallmentForm";
+import ManualBoletoForm from "../../components/ManualBoletoForm";
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 import styles from "../boletos.module.css";
 
 export default function NewBoletoPage() {
   const router = useRouter();
-  const [mode, setMode] = useState('installments'); // 'installments' ou 'manual'
+  const [mode, setMode] = useState('installments');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState(null);
 
-  // Função para o formulário de PARCELAMENTO
   const handleInstallmentSubmit = async (formData) => {
     setIsSubmitting(true);
     setError(null);
@@ -48,12 +47,10 @@ export default function NewBoletoPage() {
     }
   };
 
-  // Função para o formulário MANUAL
   const handleManualSubmit = async (formData) => {
     setIsSubmitting(true);
     setError(null);
     try {
-      // Enviamos como um array de um único item para usar a mesma função da API
       await createInstallmentPlan([{ ...formData, status: 'aberto' }]);
       router.refresh();
       router.push("/boletos");
@@ -76,7 +73,6 @@ export default function NewBoletoPage() {
         </Link>
       </div>
 
-      {/* Seletor de Modo */}
       <div className={styles.modeSelector}>
         <button 
           className={mode === 'installments' ? styles.activeMode : ''} 
@@ -94,7 +90,6 @@ export default function NewBoletoPage() {
 
       {error && <p style={{ color: 'red', marginBottom: '1rem' }}>Erro: {error}</p>}
       
-      {/* Renderização Condicional do Formulário */}
       {mode === 'installments' ? (
         <InstallmentForm onSubmit={handleInstallmentSubmit} isSubmitting={isSubmitting} />
       ) : (

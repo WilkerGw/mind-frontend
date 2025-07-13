@@ -5,13 +5,13 @@
   border-left-width: 4px;
 }
 .overdueCard {
-  border-left-color: #ef4444; /* red-500 */
+  border-left-color: #ef4444;
 }
 .overdueCard .cardTitle {
   color: #ef4444;
 }
 .dueSoonCard {
-  border-left-color: #f59e0b; /* amber-500 */
+  border-left-color: #f59e0b;
 }
 .dueSoonCard .cardTitle {
   color: #f59e0b;

@@ -1,12 +1,10 @@
-// wilkergw/mind-frontend/Mind-Frontend-5c68cca67683d981247db90f3be88be51b58d40f/app/api/sales/history/route.js
 import axios from 'axios';
 import { NextResponse } from 'next/server';
 import { getServerSession } from "next-auth";
-import { authOptions } from '../../../../pages/api/auth/[...nextauth]'; // Ajuste o caminho se necessário
+import { authOptions } from '../../../../pages/api/auth/[...nextauth]';
 
 const BACKEND_API_URL = process.env.NEXT_PUBLIC_API_URL;
 
-// GET /api/sales/history
 export async function GET(request) {
   const session = await getServerSession(authOptions);
   if (!session) {

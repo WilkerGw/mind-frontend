@@ -1,10 +1,7 @@
-/* Adicione esta nova classe ao seu arquivo SaleForm.module.css */
 .quantityInput {
   max-width: 80px;
   text-align: center;
 }
-
-/* O resto do seu arquivo CSS permanece o mesmo... */
 .form {
   display: flex;
   flex-direction: column;

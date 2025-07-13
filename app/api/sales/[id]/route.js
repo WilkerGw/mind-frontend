@@ -1,12 +1,10 @@
-// app/api/sales/[id]/route.js
 import axios from 'axios';
 import { NextResponse } from 'next/server';
 import { getServerSession } from "next-auth";
-import { authOptions } from '../../../../pages/api/auth/[...nextauth]'; // Ajuste o caminho se necessário
+import { authOptions } from '../../../../pages/api/auth/[...nextauth]';
 
 const BACKEND_API_URL = process.env.NEXT_PUBLIC_API_URL;
 
-// GET /api/sales/[id]
 export async function GET(request, { params }) {
   const session = await getServerSession(authOptions);
   if (!session) {
@@ -28,7 +26,6 @@ export async function GET(request, { params }) {
   }
 }
 
-// PUT /api/sales/[id]
 export async function PUT(request, { params }) {
   const session = await getServerSession(authOptions);
   if (!session) {
@@ -51,7 +48,6 @@ export async function PUT(request, { params }) {
   }
 }
 
-// DELETE /api/sales/[id]
 export async function DELETE(request, { params }) {
   const session = await getServerSession(authOptions);
   if (!session) {

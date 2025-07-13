@@ -62,7 +62,7 @@
 
 .tableContainer {
   width: 100%;
-  overflow-x: auto; /* Para rolagem horizontal em telas pequenas */
+  overflow-x: auto;
 }
 
 .table {
@@ -94,7 +94,7 @@
   color: var(--text-muted);
 }
 .statusCellError {
-  color: #ef4444; /* Cor de erro */
+  color: #ef4444;
 }
 
 .actionsCell {
@@ -124,6 +124,6 @@
 }
 
 .whatsappButton:hover {
-  color: #25D366; /* Cor verde do WhatsApp */
+  color: #25D366;
   border-color: #25D366;
 }

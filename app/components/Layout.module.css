@@ -1,17 +1,15 @@
-/* Layout para páginas com o Header (menu lateral) */
 .layoutWithHeader {
   display: flex;
 }
 
 .mainContent {
-  margin-left: 250px; /* Largura do menu lateral */
+  margin-left: 250px;
   width: calc(100% - 250px);
   padding: 2rem;
   background-color: #f4f4f9;
   min-height: 100vh;
 }
 
-/* Layout para páginas sem o Header (como o login) */
 .layoutWithoutHeader {
   width: 100%;
   height: 100%;
@@ -22,8 +20,6 @@
   height: 100%;
 }
 
-
-/* Ajustes para telas menores */
 @media (max-width: 767px) {
   .layoutWithHeader {
     flex-direction: column;

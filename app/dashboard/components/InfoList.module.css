@@ -24,9 +24,9 @@
 }
 
 .listContainer {
-  flex-grow: 1; /* Faz a lista ocupar o espaço disponível */
-  overflow-y: auto; /* Adiciona scroll se a lista for muito grande */
-  max-height: 250px; /* Limita a altura máxima */
+  flex-grow: 1;
+  overflow-y: auto;
+  max-height: 250px;
 }
 
 .list {

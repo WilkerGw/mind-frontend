@@ -1,7 +1,6 @@
 "use client";
 import { useEffect, useState } from 'react';
 import { useRouter, useParams } from 'next/navigation';
-// Caminhos corrigidos para voltar três níveis até a raiz
 import { getAgendamentoById, updateAgendamento } from '../../../lib/agendamento-api';
 import Card from '../../components/Card';
 import Link from 'next/link';
@@ -10,7 +9,6 @@ import styles from './details.module.css';
 
 const formatDate = (dateString) => {
   if (!dateString) return "N/A";
-  // Usar toLocaleDateString para respeitar o fuso horário local e evitar problemas de "um dia a menos"
   return new Date(dateString).toLocaleDateString('pt-BR', { timeZone: 'UTC', day: '2-digit', month: 'long', year: 'numeric' });
 };
 
@@ -46,10 +44,8 @@ export default function AgendamentoDetailsPage() {
 
   const handleStatusChange = async (e) => {
     const { name, checked } = e.target;
-    // Cria um objeto apenas com os campos que serão alterados
     const updatedStatus = { [name]: checked };
 
-    // Se o novo status for 'compareceu' ou 'faltou', desmarca o outro para evitar inconsistência
     if (name === 'compareceu' && checked) {
       updatedStatus.faltou = false;
     } else if (name === 'faltou' && checked) {
@@ -57,13 +53,10 @@ export default function AgendamentoDetailsPage() {
     }
 
     try {
-      // Atualiza o estado local primeiro para uma resposta visual instantânea
       setAgendamento(prev => ({ ...prev, ...updatedStatus }));
-      // Envia a atualização para o backend
       await updateAgendamento(id, updatedStatus);
     } catch (err) {
       alert(`Erro ao atualizar status: ${err.message}`);
-      // Reverte a mudança visual em caso de erro
       setAgendamento(agendamento);
     }
   };

@@ -18,7 +18,7 @@
   justify-content: center;
   padding: 1.5rem;
   border-bottom: 1px solid var(--border);
-  height: 60px; /* Altura consistente com o header mobile */
+  height: 60px;
 }
 
 .logoLink {
@@ -40,7 +40,7 @@
 
 .nav {
   padding: 1rem;
-  overflow-y: auto; /* Adiciona scroll se houver muitos links */
+  overflow-y: auto;
   flex-grow: 1;
 }
 
@@ -74,7 +74,6 @@
   margin-left: 1rem;
 }
 
-/* Estilos para Mobile */
 @media (max-width: 1024px) {
   .sidebar {
     transform: translateX(-100%);

@@ -10,7 +10,6 @@ const StatCard = ({ title, value, iconSrc, colorClass }) => {
       </div>
       <div className={styles.totalValue}>
         <p className={`${styles.ptotalValue} ${styles[colorClass] || ''}`}>
-          {/* Formata o número como moeda brasileira (Real) */}
           {new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(value)}
         </p>
       </div>
