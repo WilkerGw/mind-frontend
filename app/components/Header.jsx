@@ -20,7 +20,6 @@ const navLinks = [
   { href: "/clients", text: "Clientes", icon: Users },
   { href: "/products", text: "Produtos", icon: Package },
   { href: "/sales", text: "Vendas", icon: ShoppingCart },
-  { href: "/promotions", text: "Promoções", icon: Gift },
   { href: "/boletos", text: "Boletos", icon: FileText },
   { href: "/agendamento", text: "Agendamentos", icon: Calendar },
 ];
