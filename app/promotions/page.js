@@ -36,7 +36,7 @@ export default function Promotions() {
   if (error) return <p>{error}</p>;
 
   return (
-    <section>
+    <section className={styles.promotions}>
       <div className={styles.dashboard}> 
         <div className={styles.titleContainer}>
           <h1 className={styles.title}>Lista de Promoções</h1>
