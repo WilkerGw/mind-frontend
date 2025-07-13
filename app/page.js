@@ -78,7 +78,7 @@ export default function LoginPage() {
             {loading ? "A entrar..." : "Login"}
           </button>
         </form>
-        <p style={{ marginTop: '1.5rem', fontSize: '0.9rem' }}>
+        <p style={{ marginTop: '1.5rem', fontSize: '0.9rem', display: 'none' }}>
           Não tem uma conta?{" "}
           <Link href="/register" style={{ color: '#60a5fa', textDecoration: 'underline' }}>
             Registe-se aqui
